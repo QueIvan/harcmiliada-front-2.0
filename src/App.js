@@ -105,11 +105,7 @@ function App() {
 				<CssBaseline />
 				<Router>
 					<Routes>
-						<Route
-							exact
-							path="/dashboard"
-							element={<Dashboard loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Pulpit" />}
-						/>
+						<Route exact path="/" element={<Dashboard loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Pulpit" />} />
 						<Route
 							exact
 							path="/dashboard/questions"
