@@ -77,13 +77,6 @@ export default function QuestionsList(props) {
 				],
 			},
 		],
-		contextMenu: {
-			config: { includeEmpty: false },
-			buttons: [
-				{ id: "edit", label: "Edytuj", icon: faEdit, editorPath: "questions" },
-				{ id: "delete", label: "Usuń", icon: faTrashAlt, handle: deleteQuestion },
-			],
-		},
 	};
 
 	useEffect(() => {

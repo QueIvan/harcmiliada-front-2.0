@@ -60,15 +60,6 @@ export default function GamesList(props) {
 				],
 			},
 		],
-		contextMenu: {
-			config: { includeEmpty: false },
-			buttons: [
-				{ id: "board", label: "Przejdź do tablicy", icon: faChalkboard },
-				{ id: "console", label: "Otwórz konsole", icon: faNetworkWired },
-				{ id: "edit", label: "Edytuj", icon: faEdit, editorPath: "games" },
-				{ id: "delete", label: "Usuń", icon: faTrashAlt, handle: deleteGame },
-			],
-		},
 	};
 
 	useEffect(() => {

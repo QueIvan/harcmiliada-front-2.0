@@ -8,7 +8,7 @@ import { moveToLink } from "../../../utils/Anchors";
 import HeaderButton from "../Drawer/HeaderButton";
 
 export default function Row(props) {
-	const { type, visible, config, name, contextId, defaultValue, valueHandler, selected, onSelect, data, navigation, onDiscard, onSave, onRowClick } = props;
+	const { type, visible, config, name, defaultValue, valueHandler, selected, onSelect, data, navigation, onDiscard, onSave, onRowClick } = props;
 	const [expanded, setExpanded] = React.useState(false);
 
 	useEffect(() => {
@@ -38,7 +38,6 @@ export default function Row(props) {
 					}
 					sx={{
 						"&>.MuiTableCell-root": { color: "#f1f1f1", borderBottom: "1px solid #292929" },
-						backgroundColor: contextId === data.id ? "rgba(0, 0, 0, 0.15)" : "transparent",
 					}}
 				>
 					<TableCell align="center" padding="checkbox">

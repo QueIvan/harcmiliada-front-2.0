@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import {
 	Grid as MuiGrid,
-	Menu,
-	MenuItem,
 	TableHead as MuiTableHead,
-	Typography,
 	Typography as MuiTypography,
 	Paper,
-	ListItemIcon,
 	TableContainer as MuiTableContainer,
 	Table as MuiTable,
 	TableBody,
@@ -24,7 +20,6 @@ import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
 import { styled } from "@mui/material/styles";
 import { faCheckSquare, faSquare, faMinusSquare } from "@fortawesome/free-regular-svg-icons";
-import { moveToLink } from "../../../utils/Anchors";
 import EmptyPlaceholder from "./EmptyPlaceholder";
 
 const HeaderSkeleton = styled(MuiSkeleton, { shouldForwardProp: (props) => props !== "headerPlacement" })(({ theme, headerPlacement }) => ({
@@ -41,10 +36,6 @@ const TableSkeleton = styled(MuiSkeleton, { shouldForwardProp: (props) => props 
 	height: editor ? "475px" : header ? "402px" : "698px",
 	marginBottom: theme.spacing(2),
 	borderRadius: "8px",
-}));
-
-const StyledMenu = styled(Menu)(({ theme }) => ({
-	...theme.menu,
 }));
 
 const ComponentGrid = styled(MuiGrid)(({ theme }) => ({
@@ -140,27 +131,12 @@ export default function Table(props) {
 		onDiscard,
 		userId,
 	} = props;
-	const [contextMenu, setContextMenu] = React.useState(null);
-	const [contextId, setContextId] = React.useState(null);
 	const [selectedRows, setSelectedRows] = React.useState([]);
 	const [emptyRows, setEmptyRows] = React.useState(0);
 	const [page, setPage] = React.useState(0);
 	const tableCells = props.tableConfig.cells || [];
-	const menu = props.tableConfig.contextMenu || null;
 	const rowsPerPage = small ? 7 : header ? 5 : 10;
 	const nav = useNavigate();
-
-	const handleContextMenu = (event) => {
-		let checks = [event.target.classList.contains("MuiTableCell-root"), !event.target.classList.contains("MuiTableCell-head")];
-		if (!menu.config.includeEmpty) {
-			checks.push(!event.target.attributes.emptyRow);
-		}
-		if (checks.every((check) => check === true)) {
-			event.preventDefault();
-			setContextId(!menu.config.includeEmpty ? event.target.parentElement.attributes["data-id"].value : null);
-			setContextMenu(contextMenu === null ? { mouseX: event.clientX - 2, mouseY: event.clientY - 4 } : null);
-		}
-	};
 
 	const deleteHandler = () => {
 		fetch(`${process.env.REACT_APP_API_URL}/${apiPath}/multiple/${userId}`, {
@@ -183,11 +159,6 @@ export default function Table(props) {
 
 	const handleSelectAllRows = () => {
 		setSelectedRows(selectedRows.length === loopOn.length ? [] : loopOn.map((item) => item.id));
-	};
-
-	const handleClose = () => {
-		setContextMenu(null);
-		setContextId(null);
 	};
 
 	const preparePageForLoad = (data) => {
@@ -216,8 +187,6 @@ export default function Table(props) {
 
 			setSelectedRows([]);
 		}
-
-		handleClose();
 	};
 
 	useEffect(() => {
@@ -240,105 +209,74 @@ export default function Table(props) {
 				<React.Fragment>
 					{header ? <TableHeader headerPlacement={headerPlacement}>{tableHeader}</TableHeader> : null}
 					<TablePaper>
-						<div onContextMenu={menu ? handleContextMenu : null}>
-							<TableContainer>
-								<TableComponent aria-labelledby="tableTitle">
-									<TableHead>
-										<TableRow>
-											<TableCell padding="checkbox" align="center">
-												<Checkbox
-													onClick={handleSelectAllRows}
-													checked={selectedRows.length === loopOn.length && loopOn.length > 0}
-													indeterminate={selectedRows.length > 0 && selectedRows.length < loopOn.length}
-													icon={loopOn.length > 0 ? <ColoredIcon whiten="true" icon={faSquare} /> : <div />}
-													checkedIcon={<ColoredIcon icon={faCheckSquare} />}
-													indeterminateIcon={<ColoredIcon icon={faMinusSquare} />}
-												/>
-											</TableCell>
-											{tableCells.map((cell) => (
-												<TextTableCell
-													key={cell.id}
-													align={typeof cell.align === "object" ? cell.align.header : cell.align}
-													disablePadding={cell.disablePadding}
-												>
-													{cell.label}
-												</TextTableCell>
-											))}
-										</TableRow>
-									</TableHead>
-
-									<TableBody sx={{ position: "relative" }}>
-										{loopOn.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-											return !(row.type && row.type === "empty") ? (
-												<Row
-													selected={selectedRows.includes(row.id)}
-													onSelect={handleSelectedRows}
-													contextId={contextId}
-													onRowClick={handleRowClick}
-													key={row.id}
-													data={row}
-													navigation={nav}
-													config={tableCells}
-												/>
-											) : (
-												<Row
-													type="editor"
-													defaultValue={{ content: row?.content, score: row?.score }}
-													valueHandler={(e, target) => {
-														tableValueHandler(e, target);
-													}}
-													key={row.id}
-													visible={row.id}
-													onSave={onSave}
-													onDiscard={onDiscard}
-													config={tableCells}
-													emptySize={emptySize}
-												/>
-											);
-										})}
-										{emptyRows > 0 && !removeEmpty && (
-											<TableRow
-												style={{
-													height: emptySize * emptyRows,
-												}}
+						<TableContainer>
+							<TableComponent aria-labelledby="tableTitle">
+								<TableHead>
+									<TableRow>
+										<TableCell padding="checkbox" align="center">
+											<Checkbox
+												onClick={handleSelectAllRows}
+												checked={selectedRows.length === loopOn.length && loopOn.length > 0}
+												indeterminate={selectedRows.length > 0 && selectedRows.length < loopOn.length}
+												icon={loopOn.length > 0 ? <ColoredIcon whiten="true" icon={faSquare} /> : <div />}
+												checkedIcon={<ColoredIcon icon={faCheckSquare} />}
+												indeterminateIcon={<ColoredIcon icon={faMinusSquare} />}
+											/>
+										</TableCell>
+										{tableCells.map((cell) => (
+											<TextTableCell
+												key={cell.id}
+												align={typeof cell.align === "object" ? cell.align.header : cell.align}
+												disablePadding={cell.disablePadding}
 											>
-												<TableCell emptyrow="true" colSpan={tableCells.length + 1}>
-													{loopOn.length === 0 && !emptyPlaceholder && <EmptyPlaceholder small={small} header={header} />}
-												</TableCell>
-											</TableRow>
-										)}
-									</TableBody>
-								</TableComponent>
-							</TableContainer>
-							{menu ? (
-								<StyledMenu
-									open={contextMenu !== null}
-									onClose={handleClose}
-									anchorReference="anchorPosition"
-									anchorPosition={contextMenu !== null ? { top: contextMenu.mouseY, left: contextMenu.mouseX } : undefined}
-								>
-									{menu.buttons.map((item) => (
-										<MenuItem
-											key={item.id}
-											onClick={
-												item.editorPath
-													? () => moveToLink(`/${item.editorPath}/${contextId}`, nav)
-													: item.id === "delete"
-													? () => item.handle(contextId)
-													: item.id === "move"
-													? () => correction()
-													: null
-											}
+												{cell.label}
+											</TextTableCell>
+										))}
+									</TableRow>
+								</TableHead>
+
+								<TableBody sx={{ position: "relative" }}>
+									{loopOn.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+										return !(row.type && row.type === "empty") ? (
+											<Row
+												selected={selectedRows.includes(row.id)}
+												onSelect={handleSelectedRows}
+												onRowClick={handleRowClick}
+												key={row.id}
+												data={row}
+												navigation={nav}
+												config={tableCells}
+											/>
+										) : (
+											<Row
+												type="editor"
+												defaultValue={{ content: row?.content, score: row?.score }}
+												valueHandler={(e, target) => {
+													tableValueHandler(e, target);
+												}}
+												key={row.id}
+												visible={row.id}
+												onSave={onSave}
+												onDiscard={onDiscard}
+												config={tableCells}
+												emptySize={emptySize}
+											/>
+										);
+									})}
+									{emptyRows > 0 && !removeEmpty && (
+										<TableRow
+											style={{
+												height: emptySize * emptyRows,
+											}}
 										>
-											<ListItemIcon>
-												<FontAwesomeIcon size="sm" icon={item.icon} />
-											</ListItemIcon>
-											<Typography variant="inherit">{item.label}</Typography>
-										</MenuItem>
-									))}
-								</StyledMenu>
-							) : null}
-						</div>
+											<TableCell emptyrow="true" colSpan={tableCells.length + 1}>
+												{loopOn.length === 0 && !emptyPlaceholder && <EmptyPlaceholder small={small} header={header} />}
+											</TableCell>
+										</TableRow>
+									)}
+								</TableBody>
+							</TableComponent>
+						</TableContainer>
 						<TablePagination
 							rowsPerPageOptions={[]}
 							component="div"

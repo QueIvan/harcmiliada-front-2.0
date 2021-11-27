@@ -145,7 +145,8 @@ export default function Pagination(props) {
 							onClick={
 								addHandler
 									? addHandler
-									: () => {
+									: (e) => {
+											e.target.blur();
 											setCurrentlyLoading("create");
 									  }
 							}
