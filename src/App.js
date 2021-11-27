@@ -1,6 +1,6 @@
 import { CssBaseline, Slide } from "@mui/material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Games from "./components/Game/Games";
@@ -108,25 +108,21 @@ function App() {
 						<Route exact path="/" element={<Dashboard loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Pulpit" />} />
 						<Route
 							exact
-							path="/dashboard/questions"
+							path="/questions"
 							element={<Questions loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Pytania" />}
 						/>
 						<Route
-							path="/dashboard/questions/:id"
+							path="/questions/:id"
 							element={<QuestionEditor loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Edytor pytań" />}
 						/>
+						<Route exact path="/games" element={<Games loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Gry" />} />
 						<Route
-							exact
-							path="/dashboard/games"
-							element={<Games loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Gry" />}
-						/>
-						<Route
-							path="/dashboard/games/:id"
+							path="/games/:id"
 							element={<GameEditor loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Edytor gier" />}
 						/>
 						<Route
 							exact
-							path="/dashboard/games/:id/console"
+							path="/games/:id/console"
 							element={<Console loggedOut={!isAuthenticated} loading={isLoading} userId={user?.sub} title="Konsola gry" />}
 						/>
 					</Routes>
