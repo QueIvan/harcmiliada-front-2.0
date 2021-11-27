@@ -63,7 +63,7 @@ export default function Creator(props) {
 
 	useEffect(() => {
 		handleDatabaseCall();
-	}, []); //eslint-disable-line
+	}, [userId]); //eslint-disable-line
 
 	return (
 		<Dialog PaperComponent={Paper} open={open}>

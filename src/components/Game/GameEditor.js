@@ -110,7 +110,7 @@ export default function GameEditor(props) {
 
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
-		if (activeData === null && libData === null) {
+		if (activeData === null && libData === null && userId) {
 			fetch(`${process.env.REACT_APP_API_URL}/games/${gameId.id}/${userId}`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
@@ -126,7 +126,7 @@ export default function GameEditor(props) {
 				.then((data) => sortAndSave(data, setLibData, "createdAt"))
 				.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 		}
-	}, [activeData, libData]); // eslint-disable-line
+	}, [activeData, libData, userId]); // eslint-disable-line
 
 	return (
 		<Drawer

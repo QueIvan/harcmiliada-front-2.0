@@ -8,7 +8,7 @@ export default function Dashboard(props) {
 
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
-	}, []); //eslint-disable-line
+	}, [userId]); //eslint-disable-line
 
 	return (
 		<Drawer header="Pulpit" loggedOut={loggedOut} loading={loading} userId={userId}>

@@ -227,7 +227,7 @@ export default function Table(props) {
 		if (loopOn) {
 			preparePageForLoad(loopOn);
 		}
-	}, [loopOn, moveData]); //eslint-disable-line
+	}, [loopOn, moveData, userId]); //eslint-disable-line
 
 	return (
 		<ComponentGrid container item xs={small ? 5 : 12}>

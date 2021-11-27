@@ -94,7 +94,7 @@ export default function QuestionsList(props) {
 			.then((resp) => resp.json())
 			.then((data) => sortAndSave(data, setUserQuestions, "createdAt"))
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
-	}, [reload]); //eslint-disable-line
+	}, [reload, userId]); //eslint-disable-line
 
 	return (
 		<Table

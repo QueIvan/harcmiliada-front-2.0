@@ -322,7 +322,7 @@ export default function Drawer(props) {
 		if (!loggedOut && !loading) {
 			fetchGroups();
 		}
-	}, [loggedOut, loading]); //eslint-disable-line
+	}, [loggedOut, loading, userId]); //eslint-disable-line
 
 	return (
 		<DrawerContainer container>

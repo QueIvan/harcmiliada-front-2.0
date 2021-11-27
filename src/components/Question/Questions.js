@@ -7,7 +7,7 @@ export default function Questions(props) {
 
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
-	}, []); //eslint-disable-line
+	}, [userId]); //eslint-disable-line
 
 	return (
 		<Drawer header="Lista pytań" loggedOut={loggedOut} loading={loading} userId={userId}>

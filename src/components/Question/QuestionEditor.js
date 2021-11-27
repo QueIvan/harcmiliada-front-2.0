@@ -143,7 +143,7 @@ export default function QuestionEditor(props) {
 			.then((resp) => resp.json())
 			.then((data) => sortAndSave(data, setCurrentQuestion, "score", "answers"))
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
-	}, []); // eslint-disable-line
+	}, [userId]); // eslint-disable-line
 
 	return (
 		<Drawer

@@ -79,7 +79,7 @@ export default function GamesList(props) {
 			.then((resp) => resp.json())
 			.then((data) => sortAndSave(data, setUserGames, "createdAt"))
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
-	}, []); //eslint-disable-line
+	}, [userId]); //eslint-disable-line
 
 	return (
 		<Table
