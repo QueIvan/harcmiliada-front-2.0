@@ -71,7 +71,7 @@ export default function Row(props) {
 											onClick={
 												option.editorPath
 													? () => {
-															moveToLink(`/dashboard/${option.editorPath}/${data.id}`, navigation);
+															moveToLink(`/${option.editorPath}/${data.id}`, navigation);
 													  }
 													: option.id === "delete"
 													? () => option.handle(data.id)

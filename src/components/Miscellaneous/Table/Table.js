@@ -322,7 +322,7 @@ export default function Table(props) {
 											key={item.id}
 											onClick={
 												item.editorPath
-													? () => moveToLink(`/dashboard/${item.editorPath}/${contextId}`, nav)
+													? () => moveToLink(`/${item.editorPath}/${contextId}`, nav)
 													: item.id === "delete"
 													? () => item.handle(contextId)
 													: item.id === "move"

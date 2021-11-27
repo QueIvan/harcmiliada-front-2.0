@@ -1,6 +1,6 @@
 import { CssBaseline, Slide } from "@mui/material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Games from "./components/Game/Games";

@@ -130,7 +130,7 @@ export default function QuestionEditor(props) {
 			body: JSON.stringify(currentQuestion),
 		})
 			.then((resp) => resp.json())
-			.then(() => nav("/dashboard/questions"))
+			.then(() => nav("/questions"))
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 	};
 

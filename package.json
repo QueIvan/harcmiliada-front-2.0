@@ -2,7 +2,6 @@
 	"name": "harcmiliada-front-2.0",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "/dashboard",
 	"dependencies": {
 		"@auth0/auth0-react": "^1.8.0",
 		"@emotion/react": "^11.6.0",

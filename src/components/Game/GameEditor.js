@@ -77,7 +77,7 @@ export default function GameEditor(props) {
 			body: JSON.stringify(activeData),
 		})
 			.then((resp) => resp.json())
-			.then(() => nav("/dashboard/games"))
+			.then(() => nav("/games"))
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 	};
 

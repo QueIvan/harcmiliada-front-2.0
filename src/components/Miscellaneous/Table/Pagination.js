@@ -83,7 +83,7 @@ export default function Pagination(props) {
 		})
 			.then((resp) => resp.json())
 			.then((json) => {
-				nav(`/dashboard/${apiPath}/${json.id}`);
+				nav(`/${apiPath}/${json.id}`);
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 	};

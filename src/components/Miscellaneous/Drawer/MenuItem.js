@@ -34,7 +34,7 @@ export default function MenuItem(props) {
 	const { icon, label, open, correction, href, loggedOut } = props;
 	const nav = useNavigate();
 	let resolvedPath = useResolvedPath(href);
-	let match = useMatch(`${resolvedPath.pathname !== "/dashboard" ? `${resolvedPath.pathname}/*` : resolvedPath.pathname}`);
+	let match = useMatch(`${resolvedPath.pathname !== "/" ? `${resolvedPath.pathname}/*` : resolvedPath.pathname}`);
 
 	return (
 		<Tooltip disableInteractive={true} title={!open && !loggedOut ? label : ""} arrow placement="right">

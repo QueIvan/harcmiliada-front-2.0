@@ -343,9 +343,9 @@ export default function Drawer(props) {
 			<Grid container item xs={12}>
 				<SideDrawer open={loggedOut ? false : drawerOpen} container item>
 					<MenuContainer container item>
-						<MenuItem loggedOut={loggedOut} icon={faTachometerAlt} label="Pulpit" open={drawerOpen} href="/dashboard" />
-						<MenuItem loggedOut={loggedOut} icon={faGamepad} label="Gry" open={drawerOpen} href="/dashboard/games" />
-						<MenuItem loggedOut={loggedOut} icon={faClipboardList} label="Pytania" correction="3px" open={drawerOpen} href="/dashboard/questions" />
+						<MenuItem loggedOut={loggedOut} icon={faTachometerAlt} label="Pulpit" open={drawerOpen} href="/" />
+						<MenuItem loggedOut={loggedOut} icon={faGamepad} label="Gry" open={drawerOpen} href="/games" />
+						<MenuItem loggedOut={loggedOut} icon={faClipboardList} label="Pytania" correction="3px" open={drawerOpen} href="/questions" />
 					</MenuContainer>
 				</SideDrawer>
 				<ContentContainer container item sx={{ height: loading ? "100%" : "fit-content" }}>
@@ -442,7 +442,7 @@ export default function Drawer(props) {
 					</ListItemIcon>
 					<Typography variant="inherit">Grupy</Typography>
 				</MuiMenuItem>
-				<MuiMenuItem onClick={() => logout({ returnTo: `${window.location.origin}/dashboard` })}>
+				<MuiMenuItem onClick={() => logout({ returnTo: `${window.location.origin}` })}>
 					<ListItemIcon>
 						<FontAwesomeIcon size="xs" icon={faSignOutAlt} />
 					</ListItemIcon>
