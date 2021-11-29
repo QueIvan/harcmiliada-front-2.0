@@ -464,15 +464,17 @@ export default function Drawer(props) {
 				<DialogContent
 					tabIndex={-1}
 					sx={{
-						...(userGroups?.length === 0 && {
-							display: "flex",
-							alignItems: "center",
-						}),
+						...(!userGroups || userGroups?.length === 0
+							? {
+									display: "flex",
+									alignItems: "center",
+							  }
+							: null),
 						minHeight: "192px",
 					}}
 				>
 					{userGroups && userGroups?.length > 0 ? (
-						userGroups.map((group, index) => (
+						userGroups.map((group) => (
 							<Grid key={group.id} container sx={{ borderBottom: "1px solid #292929", padding: "16px" }}>
 								<Grid item xs="auto" sx={{ display: "flex", alignItems: "center" }}>
 									<Typography variant="h6" sx={{ color: "#ffffff", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
