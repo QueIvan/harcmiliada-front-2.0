@@ -45,7 +45,7 @@ export default function QuestionEditor(props) {
 	const [backupData, setBackupData] = React.useState(null);
 	const [saving, setSaving] = React.useState(false);
 	const nav = useNavigate();
-	const { title, loggedOut, userId, loading } = props;
+	const { title, userId } = props;
 
 	const setCurrentQuestionContent = (e, target) => {
 		if (currentQuestion.answers.find((answer) => answer?.type === "empty")) {
@@ -147,8 +147,6 @@ export default function QuestionEditor(props) {
 
 	return (
 		<Drawer
-			loggedOut={loggedOut}
-			loading={loading}
 			userId={userId}
 			header="Edytuj pytanie"
 			editor={{ name: currentQuestion?.content, handler: changeQuestionContent }}

@@ -67,7 +67,7 @@ export default function GameEditor(props) {
 	const [moveData, setMoveData] = React.useState();
 	const [saving, setSaving] = React.useState(false);
 	const nav = useNavigate();
-	const { title, loggedOut, userId } = props;
+	const { title, userId } = props;
 
 	const checkStatus = () => {
 		setSaving(true);
@@ -130,7 +130,6 @@ export default function GameEditor(props) {
 
 	return (
 		<Drawer
-			loggedOut={loggedOut}
 			userId={userId}
 			header={`Edytuj grę`}
 			editor={{ name: activeData?.name, handler: changeGameName }}
@@ -144,7 +143,7 @@ export default function GameEditor(props) {
 				apiPath="questions"
 				tableConfig={tableConfig}
 				emptySize="57"
-				loopOn={activeData ? activeData.questions : null}
+				loopOn={activeData ? activeData?.questions : null}
 				moveData={moveData}
 				removeDelete
 				removeCreate

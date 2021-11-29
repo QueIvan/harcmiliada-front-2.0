@@ -5,20 +5,18 @@ import { styled } from "@mui/material/styles";
 import { moveToLink } from "../../../utils/Anchors";
 import { useMatch, useNavigate, useResolvedPath } from "react-router";
 
-const MenuItemGrid = styled(MuiGrid, { shouldForwardProp: (props) => props !== "active" && props !== "loggedOut" })(({ theme, active, loggedOut }) => ({
+const MenuItemGrid = styled(MuiGrid, { shouldForwardProp: (props) => props !== "active" })(({ theme, active }) => ({
 	width: "100%",
 	height: "fit-content",
 	backgroundColor: active ? "#304236" : "transparent",
 	borderRadius: "8px",
 	alignItems: "center",
 	marginBottom: "8px",
-	cursor: loggedOut ? "default" : "pointer",
+	cursor: "pointer",
 	transition:
 		"background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, width 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, margin 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 	"&>*": { color: "#ffffff" },
-	...(!loggedOut && {
-		"&:hover": { backgroundColor: "#304236" },
-	}),
+	"&:hover": { backgroundColor: "#304236" },
 }));
 
 const MenuItemCollapse = styled(MuiCollapse)(({ theme }) => ({
@@ -31,14 +29,14 @@ const CorrectionIcon = styled(FontAwesomeIcon, { shouldForwardProp: (props) => p
 }));
 
 export default function MenuItem(props) {
-	const { icon, label, open, correction, href, loggedOut } = props;
+	const { icon, label, open, correction, href } = props;
 	const nav = useNavigate();
 	let resolvedPath = useResolvedPath(href);
 	let match = useMatch(`${resolvedPath.pathname !== "/" ? `${resolvedPath.pathname}/*` : resolvedPath.pathname}`);
 
 	return (
-		<Tooltip disableInteractive={true} title={!open && !loggedOut ? label : ""} arrow placement="right">
-			<MenuItemGrid active={loggedOut ? false : match} loggedOut={loggedOut} container item onClick={loggedOut ? null : () => moveToLink(href, nav)}>
+		<Tooltip disableInteractive={true} title={!open ? label : ""} arrow placement="right">
+			<MenuItemGrid active={match} container item onClick={() => moveToLink(href, nav)}>
 				<Grid item p={2}>
 					<CorrectionIcon correction={correction} icon={icon} />
 				</Grid>

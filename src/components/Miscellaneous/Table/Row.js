@@ -88,7 +88,7 @@ export default function Row(props) {
 					))}
 				</TableRow>
 			) : (
-				<TableRow>
+				<TableRow key="empty">
 					<TableCell colSpan={config.length + 1} align="center" padding="none" sx={{ border: "none" }}>
 						<Collapse in={expanded} sx={{ width: "100%", "&>*": { color: "#f1f1f1", borderBottom: "1px solid #292929" } }}>
 							<Grid container sx={{ alignItems: "center" }}>
