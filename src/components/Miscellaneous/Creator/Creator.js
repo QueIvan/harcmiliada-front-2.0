@@ -63,6 +63,9 @@ export default function Creator(props) {
 
 	useEffect(() => {
 		handleDatabaseCall();
+		return () => {
+			setCreator(null);
+		};
 	}, [userId]); //eslint-disable-line
 
 	return (

@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import Drawer from "../Miscellaneous/Drawer/Drawer";
 
 export default function Console(props) {
-	const { title, loggedOut, loading, userId } = props;
+	const { title, userId } = props;
 	const id = useParams().id;
 
 	useEffect(() => {
@@ -13,8 +13,6 @@ export default function Console(props) {
 
 	return (
 		<Drawer
-			loggedOut={loggedOut}
-			loading={loading}
 			userId={userId}
 			header={`Panel kontrolny`}
 			headerOptions={

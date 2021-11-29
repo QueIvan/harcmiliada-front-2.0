@@ -17,7 +17,6 @@ import {
 	DialogTitle as MuiDialogTitle,
 	DialogContent as MuiDialogContent,
 	DialogActions as MuiDialogActions,
-	DialogContentText,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,7 +28,6 @@ import {
 	faUserShield,
 	faUser,
 	faPencilAlt,
-	faSignInAlt,
 	faUsers,
 	faPlus,
 	faCopy,
@@ -47,7 +45,6 @@ import Cookies from "universal-cookie";
 import MenuItem from "./MenuItem";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
-import Loading from "./Loading";
 import HeaderButton from "./HeaderButton";
 
 const ContentContainer = styled(MuiGrid)(({ theme }) => ({
@@ -67,8 +64,7 @@ const ContentContainer = styled(MuiGrid)(({ theme }) => ({
 const DrawerContainer = styled(MuiGrid)(({ theme }) => ({
 	height: "100vh",
 	width: "100vw",
-	backgroundImage:
-		"url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1920' height='1080' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1014%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='url(%23SvgjsLinearGradient1015)'%3e%3c/rect%3e%3cpath d='M0 0L197.91 0L0 133.78z' fill='rgba(255%2c 255%2c 255%2c .1)'%3e%3c/path%3e%3cpath d='M0 133.78L197.91 0L768.39 0L0 154.34z' fill='rgba(255%2c 255%2c 255%2c .075)'%3e%3c/path%3e%3cpath d='M0 154.34L768.39 0L1085.46 0L0 292.20000000000005z' fill='rgba(255%2c 255%2c 255%2c .05)'%3e%3c/path%3e%3cpath d='M0 292.20000000000005L1085.46 0L1264.6100000000001 0L0 448.57000000000005z' fill='rgba(255%2c 255%2c 255%2c .025)'%3e%3c/path%3e%3cpath d='M1440 560L1032.58 560L1440 473.3z' fill='rgba(0%2c 0%2c 0%2c .1)'%3e%3c/path%3e%3cpath d='M1440 473.3L1032.58 560L980.06 560L1440 215.8z' fill='rgba(0%2c 0%2c 0%2c .075)'%3e%3c/path%3e%3cpath d='M1440 215.8L980.06 560L676.66 560L1440 140.69z' fill='rgba(0%2c 0%2c 0%2c .05)'%3e%3c/path%3e%3cpath d='M1440 140.69L676.6600000000001 560L333.9500000000001 560L1440 112.03z' fill='rgba(0%2c 0%2c 0%2c .025)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1014'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='15.28%25' y1='-39.29%25' x2='84.72%25' y2='139.29%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1015'%3e%3cstop stop-color='rgba(60%2c 83%2c 68%2c 1)' offset='0'%3e%3c/stop%3e%3cstop stop-color='rgba(60%2c 83%2c 68%2c 1)' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e\")",
+	backgroundImage: theme.background.image,
 }));
 
 const NavBar = styled(MuiGrid)(({ theme }) => ({
@@ -172,8 +168,8 @@ const DialogActions = styled(MuiDialogActions)(({ theme }) => ({
 export default function Drawer(props) {
 	const { enqueueSnackbar } = useSnackbar();
 	const cookies = new Cookies();
+	const { logout } = useAuth0();
 	const [drawerOpen, setDrawerOpen] = useState(Boolean(cookies.get("drawerOpen")));
-	const { loginWithPopup, logout } = useAuth0();
 	const [toggleEditor, setToggleEditor] = useState(false);
 	const [userGroups, setUserGroups] = useState(null);
 	const [menuAnchor, setMenuAnchor] = useState(null);
@@ -181,7 +177,7 @@ export default function Drawer(props) {
 	const [inputDialog, setInputDialog] = useState(false);
 	const inputRef = useRef(null);
 	const openMenu = Boolean(menuAnchor);
-	const { header, headerOptions, editor, loggedOut, loading, userId } = props;
+	const { header, headerOptions, editor, userId } = props;
 	const nav = useNavigate();
 
 	const createGroupConfig = {
@@ -277,7 +273,7 @@ export default function Drawer(props) {
 
 	const toggleDrawerStatus = () => {
 		setDrawerOpen(!drawerOpen);
-		cookies.set("drawerOpen", true, { maxAge: !drawerOpen ? 7200 : 0 });
+		cookies.set("drawerOpen", true, { maxAge: !drawerOpen ? 7200 : 0, secure: true, sameSite: "strict" });
 	};
 
 	const toggleAccountMenu = (event) => {
@@ -320,113 +316,108 @@ export default function Drawer(props) {
 	};
 
 	useEffect(() => {
-		if (!loggedOut && !loading) {
-			fetchGroups();
-		}
-	}, [loggedOut, loading, userId]); //eslint-disable-line
+		fetchGroups();
+	}, [userId]); //eslint-disable-line
 
 	return (
 		<DrawerContainer container>
 			<NavBar container item xs={12} sx={{ alignItems: "center" }}>
 				<HamburgerContainer container item xs="auto">
-					<IconButton onClick={toggleDrawerStatus} disabled={loggedOut}>
+					<IconButton onClick={toggleDrawerStatus}>
 						<FontAwesomeIcon size="xs" icon={faBars} />
 					</IconButton>
 				</HamburgerContainer>
-				<AccountContainer container item xs="auto" onClick={loggedOut ? loginWithPopup : toggleAccountMenu}>
-					<Tooltip disableInteractive={true} title={loggedOut ? "Zaloguj się" : "Opcje użytkownika"} arrow placement="bottom">
+				<AccountContainer container item xs="auto" onClick={toggleAccountMenu}>
+					<Tooltip disableInteractive={true} title={"Opcje użytkownika"} arrow placement="bottom">
 						<AccountStyling container item xs="auto">
-							<FontAwesomeIcon size="sm" icon={loggedOut ? faSignInAlt : faUser} />
+							<FontAwesomeIcon size="sm" icon={faUser} />
 						</AccountStyling>
 					</Tooltip>
 				</AccountContainer>
 			</NavBar>
 			<Grid container item xs={12}>
-				<SideDrawer open={loggedOut ? false : drawerOpen} container item>
+				<SideDrawer open={drawerOpen} container item>
 					<MenuContainer container item>
-						<MenuItem loggedOut={loggedOut} icon={faTachometerAlt} label="Pulpit" open={drawerOpen} href="/" />
-						<MenuItem loggedOut={loggedOut} icon={faGamepad} label="Gry" open={drawerOpen} href="/games" />
-						<MenuItem loggedOut={loggedOut} icon={faClipboardList} label="Pytania" correction="3px" open={drawerOpen} href="/questions" />
+						<MenuItem icon={faTachometerAlt} label="Pulpit" open={drawerOpen} href="/" />
+						<MenuItem icon={faGamepad} label="Gry" open={drawerOpen} href="/games" />
+						<MenuItem icon={faClipboardList} label="Pytania" correction="3px" open={drawerOpen} href="/questions" />
 					</MenuContainer>
 				</SideDrawer>
-				<ContentContainer container item sx={{ height: loading ? "100%" : "fit-content" }}>
-					{!loggedOut && (
-						<React.Fragment>
-							<HeaderContainer container item xs={12}>
-								<OptionHeader removeMargin={editor} variant={editor ? "h5" : "h4"}>
-									{header}
-								</OptionHeader>
-								{headerOptions && (
-									<Grid item sx={{ marginLeft: "auto", display: "flex", gap: "15px" }}>
-										{headerOptions}
-									</Grid>
-								)}
-								{editor && (
-									<Grid container item xs={12} sx={{ alignItems: "center", marginTop: "16px" }}>
-										{typeof editor.name !== undefined ? (
-											!toggleEditor ? (
-												<Grid
-													container
-													item
-													xs="auto"
-													sx={{ alignItems: "center", height: "42px", cursor: "pointer" }}
-													onClick={changeToggleEditor}
-												>
-													<OptionHeader variant="h4" sx={{ lineHeight: 0 }}>
-														{editor.name}
-													</OptionHeader>
-													<Grid item pl={2} pr={1}>
-														<FontAwesomeIcon
-															style={{ color: "#e1e1e1", filter: "drop-shadow(0px 0px 10px #000000)" }}
-															icon={faPencilAlt}
-														/>
-													</Grid>
+				<ContentContainer container item sx={{ height: "fit-content" }}>
+					<React.Fragment>
+						<HeaderContainer container item xs={12}>
+							<OptionHeader removeMargin={editor} variant={editor ? "h5" : "h4"}>
+								{header}
+							</OptionHeader>
+							{headerOptions && (
+								<Grid item sx={{ marginLeft: "auto", display: "flex", gap: "15px" }}>
+									{headerOptions}
+								</Grid>
+							)}
+							{editor && (
+								<Grid container item xs={12} sx={{ alignItems: "center", marginTop: "16px" }}>
+									{typeof editor.name !== undefined ? (
+										!toggleEditor ? (
+											<Grid
+												container
+												item
+												xs="auto"
+												sx={{ alignItems: "center", height: "42px", cursor: "pointer" }}
+												onClick={changeToggleEditor}
+											>
+												<OptionHeader variant="h4" sx={{ lineHeight: 0 }}>
+													{editor.name}
+												</OptionHeader>
+												<Grid item pl={2} pr={1}>
+													<FontAwesomeIcon
+														style={{ color: "#e1e1e1", filter: "drop-shadow(0px 0px 10px #000000)" }}
+														icon={faPencilAlt}
+													/>
 												</Grid>
-											) : (
-												<TextField
-													hiddenLabel
-													autoFocus
-													variant="standard"
-													sx={{
-														marginLeft: "8px",
-														boxSizing: "border-box",
-														"&>.Mui-focused:after": {
-															borderColor: "#7A7A7A",
-														},
-														"&>*>*:last-child": { border: "none", height: "42px", top: 0 },
-													}}
-													defaultValue={editor.name}
-													inputProps={{
-														style: {
-															margin: 0,
-															fontFamily: "`Roboto`,`Helvetica`,`Arial`,sans-serif",
-															fontSize: "2.125rem",
-															lineHeight: 1.235,
-															marginLeft: "8px",
-															letterSpacing: "0.00735em",
-															fontWeight: 700,
-															height: "42px",
-															width: "50vw",
-															padding: 0,
-															color: "#ffffff",
-															textShadow: "0px 0px 10px #000000",
-														},
-													}}
-													onKeyDown={checkForEnter}
-													onChange={(e) => saveName(e, true)}
-													onBlur={saveName}
-												/>
-											)
+											</Grid>
 										) : (
-											<NameSkeleton variant="rectangular" animation="wave" />
-										)}
-									</Grid>
-								)}
-							</HeaderContainer>
-							{props.children}
-						</React.Fragment>
-					)}
-					{loading && <Loading />}
+											<TextField
+												hiddenLabel
+												autoFocus
+												variant="standard"
+												sx={{
+													marginLeft: "8px",
+													boxSizing: "border-box",
+													"&>.Mui-focused:after": {
+														borderColor: "#7A7A7A",
+													},
+													"&>*>*:last-child": { border: "none", height: "42px", top: 0 },
+												}}
+												defaultValue={editor.name}
+												inputProps={{
+													style: {
+														margin: 0,
+														fontFamily: "`Roboto`,`Helvetica`,`Arial`,sans-serif",
+														fontSize: "2.125rem",
+														lineHeight: 1.235,
+														marginLeft: "8px",
+														letterSpacing: "0.00735em",
+														fontWeight: 700,
+														height: "42px",
+														width: "50vw",
+														padding: 0,
+														color: "#ffffff",
+														textShadow: "0px 0px 10px #000000",
+													},
+												}}
+												onKeyDown={checkForEnter}
+												onChange={(e) => saveName(e, true)}
+												onBlur={saveName}
+											/>
+										)
+									) : (
+										<NameSkeleton variant="rectangular" animation="wave" />
+									)}
+								</Grid>
+							)}
+						</HeaderContainer>
+						{props.children}
+					</React.Fragment>
 				</ContentContainer>
 			</Grid>
 			<StyledMenu
@@ -482,9 +473,9 @@ export default function Drawer(props) {
 				>
 					{userGroups && userGroups?.length > 0 ? (
 						userGroups.map((group, index) => (
-							<Grid container sx={{ borderBottom: "1px solid #292929", padding: "16px" }}>
+							<Grid key={group.id} container sx={{ borderBottom: "1px solid #292929", padding: "16px" }}>
 								<Grid item xs="auto" sx={{ display: "flex", alignItems: "center" }}>
-									<Typography key={group.id} variant="h6" sx={{ color: "#ffffff", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
+									<Typography variant="h6" sx={{ color: "#ffffff", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
 										{group.name}
 									</Typography>
 								</Grid>
@@ -570,7 +561,7 @@ export default function Drawer(props) {
 					<HeaderButton onClick={() => setInputDialog(createGroupConfig)} tooltip="Stwórz nową grupę" placement="bottom" size="1x" icon={faPlus} />
 				</DialogActions>
 			</Dialog>
-			<Dialog open={inputDialog} PaperComponent={Paper} scroll="paper" PaperProps={{ style: { minWidth: "450px" } }}>
+			<Dialog open={inputDialog ? true : false} PaperComponent={Paper} scroll="paper" PaperProps={{ style: { minWidth: "450px" } }}>
 				<DialogTitle>
 					{inputDialog?.title}
 					<HeaderButton
@@ -583,25 +574,23 @@ export default function Drawer(props) {
 					/>
 				</DialogTitle>
 				<DialogContent sx={{ padding: "16px 0 !important", margin: "0 16px" }}>
-					<DialogContentText>
-						<TextField
-							autoFocus
-							sx={{
-								color: "#ffffff",
-								"&>*>fieldset": {
-									borderColor: "#7A7A7A !important",
-								},
-							}}
-							inputProps={{ style: { color: "#ffffff" } }}
-							InputLabelProps={{ style: { color: "#e1e1e1" } }}
-							size="small"
-							hiddenLabel
-							variant="outlined"
-							defaultValue={inputDialog?.defaultValue}
-							fullWidth
-							inputRef={inputRef}
-						/>
-					</DialogContentText>
+					<TextField
+						autoFocus
+						sx={{
+							color: "#ffffff",
+							"&>*>fieldset": {
+								borderColor: "#7A7A7A !important",
+							},
+						}}
+						inputProps={{ style: { color: "#ffffff" } }}
+						InputLabelProps={{ style: { color: "#e1e1e1" } }}
+						size="small"
+						hiddenLabel
+						variant="outlined"
+						defaultValue={inputDialog?.defaultValue}
+						fullWidth
+						inputRef={inputRef}
+					/>
 				</DialogContent>
 				<DialogActions>
 					<HeaderButton

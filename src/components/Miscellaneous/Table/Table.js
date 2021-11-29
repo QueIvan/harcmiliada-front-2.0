@@ -20,7 +20,7 @@ import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
 import { styled } from "@mui/material/styles";
 import { faCheckSquare, faSquare, faMinusSquare } from "@fortawesome/free-regular-svg-icons";
-import EmptyPlaceholder from "./EmptyPlaceholder";
+import EmptyPlaceholder from "../Placeholders/EmptyPlaceholder";
 
 const HeaderSkeleton = styled(MuiSkeleton, { shouldForwardProp: (props) => props !== "headerPlacement" })(({ theme, headerPlacement }) => ({
 	width: "35%",
@@ -171,21 +171,23 @@ export default function Table(props) {
 	};
 
 	const correction = () => {
-		let loop = [...loopOn];
-		let other, moving;
+		if (loopOn) {
+			let loop = [...loopOn];
+			let other, moving;
 
-		if (selectedRows.length > 0) {
-			other = move.direction === "active" ? [...move.variable.active] : [...move.variable.lib];
+			if (selectedRows?.length > 0) {
+				other = move.direction === "active" ? [...move.variable.active] : [...move.variable.lib];
 
-			moving = loop.filter((item) => selectedRows.includes(item.id));
+				moving = loop.filter((item) => selectedRows?.includes(item.id));
 
-			loop = loop.filter((item) => !selectedRows.includes(item.id));
-			other = other.concat(moving);
+				loop = loop.filter((item) => !selectedRows?.includes(item.id));
+				other = other.concat(moving);
 
-			move.handler.active(move.direction === "active" ? other : loop);
-			move.handler.lib(move.direction === "active" ? loop : other);
+				move.handler.active(move.direction === "active" ? other : loop);
+				move.handler.lib(move.direction === "active" ? loop : other);
 
-			setSelectedRows([]);
+				setSelectedRows([]);
+			}
 		}
 	};
 
@@ -216,9 +218,9 @@ export default function Table(props) {
 										<TableCell padding="checkbox" align="center">
 											<Checkbox
 												onClick={handleSelectAllRows}
-												checked={selectedRows.length === loopOn.length && loopOn.length > 0}
-												indeterminate={selectedRows.length > 0 && selectedRows.length < loopOn.length}
-												icon={loopOn.length > 0 ? <ColoredIcon whiten="true" icon={faSquare} /> : <div />}
+												checked={selectedRows?.length === loopOn?.length && loopOn?.length > 0}
+												indeterminate={selectedRows?.length > 0 && selectedRows?.length < loopOn?.length}
+												icon={loopOn?.length > 0 ? <ColoredIcon whiten="true" icon={faSquare} /> : <div />}
 												checkedIcon={<ColoredIcon icon={faCheckSquare} />}
 												indeterminateIcon={<ColoredIcon icon={faMinusSquare} />}
 											/>
@@ -236,13 +238,13 @@ export default function Table(props) {
 								</TableHead>
 
 								<TableBody sx={{ position: "relative" }}>
-									{loopOn.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-										return !(row.type && row.type === "empty") ? (
+									{loopOn?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+										return !(row?.type && row?.type === "empty") ? (
 											<Row
-												selected={selectedRows.includes(row.id)}
+												selected={selectedRows?.includes(row.id)}
 												onSelect={handleSelectedRows}
 												onRowClick={handleRowClick}
-												key={row.id}
+												key={row?.id}
 												data={row}
 												navigation={nav}
 												config={tableCells}
@@ -254,8 +256,7 @@ export default function Table(props) {
 												valueHandler={(e, target) => {
 													tableValueHandler(e, target);
 												}}
-												key={row.id}
-												visible={row.id}
+												key="empty"
 												onSave={onSave}
 												onDiscard={onDiscard}
 												config={tableCells}
@@ -270,7 +271,7 @@ export default function Table(props) {
 											}}
 										>
 											<TableCell emptyrow="true" colSpan={tableCells.length + 1}>
-												{loopOn.length === 0 && !emptyPlaceholder && <EmptyPlaceholder small={small} header={header} />}
+												{loopOn?.length === 0 && !emptyPlaceholder && <EmptyPlaceholder small={small} header={header} />}
 											</TableCell>
 										</TableRow>
 									)}
@@ -280,8 +281,8 @@ export default function Table(props) {
 						<TablePagination
 							rowsPerPageOptions={[]}
 							component="div"
-							count={loopOn.length}
-							labelDisplayedRows={({ from, to, count }) => (loopOn.length <= rowsPerPage ? "" : `${from}-${to} z ${count}`)}
+							count={loopOn?.length}
+							labelDisplayedRows={({ from, to, count }) => (loopOn?.length <= rowsPerPage ? "" : `${from}-${to} z ${count}`)}
 							rowsPerPage={rowsPerPage}
 							page={page}
 							onPageChange={handleChangePage}
@@ -295,8 +296,8 @@ export default function Table(props) {
 									deleteHandler={handleRowRemoval ? removeSelectedRows : deleteHandler}
 									apiPath={apiPath}
 									nav={nav}
-									deleteCondition={selectedRows.length > 0}
-									creatorName={creatorName}
+									deleteCondition={selectedRows?.length > 0}
+									creatorName={creatorName ? creatorName : null}
 									creatorPrompt={creatorPrompt}
 									removeDelete={removeDelete}
 									removeCreate={removeCreate}
