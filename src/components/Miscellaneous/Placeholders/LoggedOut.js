@@ -7,6 +7,7 @@ import Logo from "./Logo";
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
 	height: "100vh",
+	alignItems: "center",
 	backgroundImage: theme.background.image,
 }));
 
@@ -16,7 +17,7 @@ export default function LoggedOut() {
 	return (
 		<BackContainer container>
 			<Fade in={true} timeout={1000}>
-				<Grid container>
+				<Grid container sx={{ height: "fit-content" }}>
 					<Logo />
 					<Grid
 						container
