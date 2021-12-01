@@ -3,14 +3,12 @@ import { useSnackbar } from "notistack";
 import {
 	Grid,
 	Tooltip,
-	Grid as MuiGrid,
 	IconButton,
 	Menu,
 	MenuItem as MuiMenuItem,
 	ListItemIcon,
 	Typography,
-	Typography as MuiTypography,
-	Skeleton as MuiSkeleton,
+	Skeleton,
 	Paper as MuiPaper,
 	TextField,
 	Dialog,
@@ -47,7 +45,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
 import HeaderButton from "./HeaderButton";
 
-const ContentContainer = styled(MuiGrid)(({ theme }) => ({
+const ContentContainer = styled(Grid)(({ theme }) => ({
 	padding: theme.spacing(3),
 	paddingRight: theme.spacing(2),
 	margin: theme.spacing(1),
@@ -61,20 +59,20 @@ const ContentContainer = styled(MuiGrid)(({ theme }) => ({
 	...theme.scroll,
 }));
 
-const DrawerContainer = styled(MuiGrid)(({ theme }) => ({
+const DrawerContainer = styled(Grid)(({ theme }) => ({
 	height: "100vh",
 	width: "100vw",
 	backgroundImage: theme.background.image,
 }));
 
-const NavBar = styled(MuiGrid)(({ theme }) => ({
+const NavBar = styled(Grid)(({ theme }) => ({
 	height: "55px",
 	backgroundColor: "#3C4338",
 	boxShadow: "0px 1px 10px #000",
 	zIndex: 2,
 }));
 
-const SideDrawer = styled(MuiGrid, { shouldForwardProp: (props) => props !== "open" })(({ theme, open }) => ({
+const SideDrawer = styled(Grid, { shouldForwardProp: (props) => props !== "open" })(({ theme, open }) => ({
 	backgroundColor: "#231F1A",
 	padding: theme.spacing(1),
 	boxShadow: "1px 0px 10px #000",
@@ -83,24 +81,24 @@ const SideDrawer = styled(MuiGrid, { shouldForwardProp: (props) => props !== "op
 	...(!open && { ...theme.drawer.closed }),
 }));
 
-const MenuContainer = styled(MuiGrid)(({ theme }) => ({
+const MenuContainer = styled(Grid)(({ theme }) => ({
 	flexDirection: "column",
 	alignItems: "center",
 }));
 
-const HamburgerContainer = styled(MuiGrid)(({ theme }) => ({
+const HamburgerContainer = styled(Grid)(({ theme }) => ({
 	width: "70px",
 	justifyContent: "center",
 	"&>*": { color: "#fff !important" },
 }));
 
-const AccountContainer = styled(MuiGrid)(({ theme }) => ({
+const AccountContainer = styled(Grid)(({ theme }) => ({
 	marginLeft: "auto",
 	width: "43px",
 	height: "32px",
 }));
 
-const AccountStyling = styled(MuiGrid)(({ theme }) => ({
+const AccountStyling = styled(Grid)(({ theme }) => ({
 	height: "100%",
 	width: "32px",
 	backgroundColor: "#0D4440",
@@ -121,25 +119,25 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
 	...theme.menu,
 }));
 
-const OptionHeader = styled(MuiTypography, { shouldForwardProp: (props) => props !== "removeMargin" })(({ theme, removeMargin }) => ({
+const OptionHeader = styled(Typography, { shouldForwardProp: (props) => props !== "removeMargin" })(({ theme, removeMargin }) => ({
 	fontWeight: "bold",
 	color: "#ffffff",
 	marginLeft: removeMargin ? 0 : theme.spacing(2),
 	textShadow: "0px 0px 10px #000000",
 }));
 
-const HeaderContainer = styled(MuiGrid)(({ theme }) => ({
+const HeaderContainer = styled(Grid)(({ theme }) => ({
 	paddingBottom: theme.spacing(2),
 	alignItems: "center",
 	borderBottom: "3px solid #7A7A7A",
 }));
 
-const NameSkeleton = styled(MuiSkeleton)(({ theme }) => ({
+const NameSkeleton = styled(Skeleton)(({ theme }) => ({
 	height: "42px",
 	width: "275px",
 }));
 
-const GroupSkeleton = styled(MuiSkeleton)(({ theme }) => ({
+const GroupSkeleton = styled(Skeleton)(({ theme }) => ({
 	width: "700px",
 	height: "56px",
 	"&:first-of-type": {
