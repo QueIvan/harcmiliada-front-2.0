@@ -80,10 +80,6 @@ function App() {
 	});
 	const { user, isAuthenticated, isLoading } = useAuth0();
 
-	useEffect(() => {
-		console.log(isAuthenticated, isLoading);
-	}, []);
-
 	return (
 		<ThemeProvider theme={myTheme}>
 			<SnackbarProvider
