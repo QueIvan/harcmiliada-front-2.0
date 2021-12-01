@@ -4,7 +4,8 @@ import { faTree } from "@fortawesome/free-solid-svg-icons";
 import { Box } from "@mui/material";
 
 export default function LogoImage(props) {
-	const { addObject, objectPlacement, logoProps } = props;
+	const { addObject, logoProps, boxProps } = props;
+	const objectPlacement = props.objectPlacement || "after";
 
 	return (
 		<Box
@@ -12,19 +13,20 @@ export default function LogoImage(props) {
 				position: "relative",
 				minHeight: "80px",
 				minWidth: "100px",
-				"&>*": { position: "absolute", color: "#96A58D", filter: "drop-shadow(0px 0px 10px #000000)", ...logoProps },
+				...boxProps,
+				"&>*": { position: "absolute", filter: "drop-shadow(0px 0px 10px #000000)" },
 			}}
 		>
 			{objectPlacement === "before" && addObject}
-			<FontAwesomeIcon size="5x" icon={faTree} />
-			<FontAwesomeIcon size="5x" icon={faTree} style={{ right: 0 }} />
+			<FontAwesomeIcon icon={faTree} style={{ ...logoProps }} />
+			<FontAwesomeIcon icon={faTree} style={{ right: 0, ...logoProps }} />
 			<FontAwesomeIcon
-				size="5x"
 				icon={faTree}
 				style={{
 					left: "50%",
 					transform: "translateX(-50%)",
 					top: "8px",
+					...logoProps,
 				}}
 			/>
 			{objectPlacement === "after" && addObject}

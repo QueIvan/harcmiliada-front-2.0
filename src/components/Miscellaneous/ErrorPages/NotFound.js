@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Fade } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled } from "@mui/system";
-import LogoImage from "../Placeholders/LogoImage";
+import LogoImage from "../Placeholders/Logo/LogoImage";
 import { faFireAlt } from "@fortawesome/free-solid-svg-icons";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
@@ -12,7 +12,21 @@ const BackContainer = styled(Grid)(({ theme }) => ({
 	backgroundImage: theme.background.image,
 }));
 
+const FireIcon = styled(FontAwesomeIcon)(({ theme }) => ({
+	fontSize: "10rem",
+	position: "absolute",
+	bottom: 0,
+	left: "50%",
+	transform: "translateX(-50%)",
+	color: "#b76935",
+	filter: "drop-shadow(0px 0px 10px #bb3e03)",
+}));
+
 export default function NotFound() {
+	useEffect(() => {
+		document.title = "Harcmiliada | Błąd 404";
+	}, []);
+
 	return (
 		<BackContainer container>
 			<Fade in={true} timeout={850}>
@@ -30,21 +44,9 @@ export default function NotFound() {
 				>
 					<Grid item sx={{ flexDirection: "column", alignItems: "center", marginBottom: "15px" }}>
 						<LogoImage
-							logoProps={{ opacity: 0.95, color: "#31392D" }}
-							addObject={
-								<FontAwesomeIcon
-									icon={faFireAlt}
-									size="7x"
-									style={{
-										position: "absolute",
-										bottom: 0,
-										left: "50%",
-										transform: "translateX(-50%)",
-										color: "#b76935",
-										filter: "drop-shadow(0px 0px 10px #bb3e03)",
-									}}
-								/>
-							}
+							boxProps={{ minWidth: "148px", minHeight: "120px" }}
+							logoProps={{ fontSize: "7.5rem", color: "#31392D" }}
+							addObject={<FireIcon icon={faFireAlt} />}
 							objectPlacement="before"
 						/>
 					</Grid>

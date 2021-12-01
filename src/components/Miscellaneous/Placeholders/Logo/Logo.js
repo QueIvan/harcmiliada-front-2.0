@@ -17,7 +17,7 @@ export default function Logo() {
 			}}
 		>
 			<Grid item>
-				<LogoImage />
+				<LogoImage logoProps={{ fontSize: "5rem", color: "#96A58D" }} />
 			</Grid>
 			<Grid item sx={{ marginBottom: "15px" }}>
 				<Typography variant="h1">Harcmiliada</Typography>
