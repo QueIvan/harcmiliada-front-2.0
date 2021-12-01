@@ -1,13 +1,13 @@
 import React from "react";
-import { Grid, Typography, Box, Fade } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTree } from "@fortawesome/free-solid-svg-icons";
+import { Grid, Typography, Fade } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { styled } from "@mui/system";
+import Logo from "./Logo";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
 	height: "100vh",
+	alignItems: "center",
 	backgroundImage: theme.background.image,
 }));
 
@@ -17,7 +17,8 @@ export default function LoggedOut() {
 	return (
 		<BackContainer container>
 			<Fade in={true} timeout={1000}>
-				<Grid container>
+				<Grid container sx={{ height: "fit-content" }}>
+					<Logo />
 					<Grid
 						container
 						item
@@ -31,31 +32,11 @@ export default function LoggedOut() {
 						}}
 					>
 						<Grid item>
-							<Box sx={{ position: "relative", minHeight: "80px", minWidth: "100px", "&>*": { position: "absolute" } }}>
-								<FontAwesomeIcon size="5x" icon={faTree} style={{ color: "#96A58D", filter: "drop-shadow(0px 0px 10px #000000)" }} />
-								<FontAwesomeIcon size="5x" icon={faTree} style={{ right: 0, color: "#96A58D", filter: "drop-shadow(0px 0px 10px #000000)" }} />
-								<FontAwesomeIcon
-									size="5x"
-									icon={faTree}
-									style={{
-										left: "50%",
-										transform: "translateX(-50%)",
-										top: "8px",
-										color: "#96A58D",
-										filter: "drop-shadow(0px 0px 10px #000000)",
-									}}
-								/>
-							</Box>
-						</Grid>
-						<Grid item sx={{ marginBottom: "15px" }}>
-							<Typography variant="h1">Harcmiliada</Typography>
-						</Grid>
-						<Grid item>
 							<Typography
 								onClick={loginWithPopup}
 								variant="h5"
 								sx={{
-									color: "#cdcdcd",
+									color: "#a1a1a1",
 									cursor: "pointer",
 									transition: "color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 									"&:hover": {

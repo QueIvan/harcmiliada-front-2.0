@@ -15,6 +15,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LoggedOut from "./components/Miscellaneous/Placeholders/LoggedOut";
 import React from "react";
 import Loading from "./components/Miscellaneous/Placeholders/Loading";
+import Board from "./components/Board/Board";
 
 const SnackBarIcon = styled(FontAwesomeIcon)(({ theme }) => ({ marginRight: "16px" }));
 
@@ -119,6 +120,7 @@ function App() {
 								<Route exact path="/games" element={<Games userId={user?.sub} title="Gry" />} />
 								<Route path="/games/:id" element={<GameEditor userId={user?.sub} title="Edytor gier" />} />
 								<Route exact path="/games/:id/console" element={<Console userId={user?.sub} title="Konsola gry" />} />
+								<Route path="/board/:id" element={<Board userId={user?.sub} title="Tablica" />} />
 							</React.Fragment>
 						)}
 						{!isAuthenticated && !isLoading && <Route exact path="/" element={<LoggedOut />} />}

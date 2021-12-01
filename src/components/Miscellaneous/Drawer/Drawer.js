@@ -3,14 +3,12 @@ import { useSnackbar } from "notistack";
 import {
 	Grid,
 	Tooltip,
-	Grid as MuiGrid,
 	IconButton,
 	Menu,
 	MenuItem as MuiMenuItem,
 	ListItemIcon,
 	Typography,
-	Typography as MuiTypography,
-	Skeleton as MuiSkeleton,
+	Skeleton,
 	Paper as MuiPaper,
 	TextField,
 	Dialog,
@@ -47,7 +45,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
 import HeaderButton from "./HeaderButton";
 
-const ContentContainer = styled(MuiGrid)(({ theme }) => ({
+const ContentContainer = styled(Grid)(({ theme }) => ({
 	padding: theme.spacing(3),
 	paddingRight: theme.spacing(2),
 	margin: theme.spacing(1),
@@ -61,20 +59,20 @@ const ContentContainer = styled(MuiGrid)(({ theme }) => ({
 	...theme.scroll,
 }));
 
-const DrawerContainer = styled(MuiGrid)(({ theme }) => ({
+const DrawerContainer = styled(Grid)(({ theme }) => ({
 	height: "100vh",
 	width: "100vw",
 	backgroundImage: theme.background.image,
 }));
 
-const NavBar = styled(MuiGrid)(({ theme }) => ({
+const NavBar = styled(Grid)(({ theme }) => ({
 	height: "55px",
 	backgroundColor: "#3C4338",
 	boxShadow: "0px 1px 10px #000",
 	zIndex: 2,
 }));
 
-const SideDrawer = styled(MuiGrid, { shouldForwardProp: (props) => props !== "open" })(({ theme, open }) => ({
+const SideDrawer = styled(Grid, { shouldForwardProp: (props) => props !== "open" })(({ theme, open }) => ({
 	backgroundColor: "#231F1A",
 	padding: theme.spacing(1),
 	boxShadow: "1px 0px 10px #000",
@@ -83,24 +81,24 @@ const SideDrawer = styled(MuiGrid, { shouldForwardProp: (props) => props !== "op
 	...(!open && { ...theme.drawer.closed }),
 }));
 
-const MenuContainer = styled(MuiGrid)(({ theme }) => ({
+const MenuContainer = styled(Grid)(({ theme }) => ({
 	flexDirection: "column",
 	alignItems: "center",
 }));
 
-const HamburgerContainer = styled(MuiGrid)(({ theme }) => ({
+const HamburgerContainer = styled(Grid)(({ theme }) => ({
 	width: "70px",
 	justifyContent: "center",
 	"&>*": { color: "#fff !important" },
 }));
 
-const AccountContainer = styled(MuiGrid)(({ theme }) => ({
+const AccountContainer = styled(Grid)(({ theme }) => ({
 	marginLeft: "auto",
 	width: "43px",
 	height: "32px",
 }));
 
-const AccountStyling = styled(MuiGrid)(({ theme }) => ({
+const AccountStyling = styled(Grid)(({ theme }) => ({
 	height: "100%",
 	width: "32px",
 	backgroundColor: "#0D4440",
@@ -121,22 +119,33 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
 	...theme.menu,
 }));
 
-const OptionHeader = styled(MuiTypography, { shouldForwardProp: (props) => props !== "removeMargin" })(({ theme, removeMargin }) => ({
+const OptionHeader = styled(Typography, { shouldForwardProp: (props) => props !== "removeMargin" })(({ theme, removeMargin }) => ({
 	fontWeight: "bold",
 	color: "#ffffff",
 	marginLeft: removeMargin ? 0 : theme.spacing(2),
 	textShadow: "0px 0px 10px #000000",
 }));
 
-const HeaderContainer = styled(MuiGrid)(({ theme }) => ({
+const HeaderContainer = styled(Grid)(({ theme }) => ({
 	paddingBottom: theme.spacing(2),
 	alignItems: "center",
 	borderBottom: "3px solid #7A7A7A",
 }));
 
-const NameSkeleton = styled(MuiSkeleton)(({ theme }) => ({
+const NameSkeleton = styled(Skeleton)(({ theme }) => ({
 	height: "42px",
 	width: "275px",
+}));
+
+const GroupSkeleton = styled(Skeleton)(({ theme }) => ({
+	width: "700px",
+	height: "56px",
+	"&:first-of-type": {
+		marginTop: "6px",
+	},
+	"&:not(:last-of-type)": {
+		marginBottom: "6px",
+	},
 }));
 
 const Paper = styled(MuiPaper)(({ theme }) => ({
@@ -464,97 +473,117 @@ export default function Drawer(props) {
 				<DialogContent
 					tabIndex={-1}
 					sx={{
-						...(userGroups?.length === 0 && {
-							display: "flex",
-							alignItems: "center",
-						}),
+						...(userGroups?.length === 0
+							? {
+									display: "flex",
+									alignItems: "center",
+							  }
+							: null),
 						minHeight: "192px",
 					}}
 				>
-					{userGroups && userGroups?.length > 0 ? (
-						userGroups.map((group, index) => (
-							<Grid key={group.id} container sx={{ borderBottom: "1px solid #292929", padding: "16px" }}>
-								<Grid item xs="auto" sx={{ display: "flex", alignItems: "center" }}>
-									<Typography variant="h6" sx={{ color: "#ffffff", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
-										{group.name}
-									</Typography>
-								</Grid>
+					{userGroups ? (
+						<React.Fragment>
+							{userGroups?.length > 0 ? (
+								userGroups.map((group) => (
+									<Grid key={group.id} container sx={{ borderBottom: "1px solid #292929", padding: "16px" }}>
+										<Grid item xs="auto" sx={{ display: "flex", alignItems: "center" }}>
+											<Typography variant="h6" sx={{ color: "#ffffff", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
+												{group.name}
+											</Typography>
+										</Grid>
+										<Grid
+											item
+											xs="auto"
+											sx={{
+												display: "flex",
+												marginLeft: "auto",
+												gap: "8px",
+											}}
+										>
+											<HeaderButton
+												sx={{ padding: "8px", minWidth: "45px" }}
+												tooltip="Dodaj użytkownika"
+												onClick={() => setInputDialog({ ...addConfig, currentGroup: group })}
+												placement="top"
+												size="sm"
+												icon={faUserPlus}
+											/>
+											{group.creator === userId && (
+												<React.Fragment>
+													<HeaderButton
+														sx={{ padding: "8px", minWidth: "45px" }}
+														tooltip="Usuń użytkownika"
+														onClick={() => setInputDialog({ ...delConfig, currentGroup: group })}
+														placement="top"
+														size="sm"
+														icon={faUserMinus}
+													/>
+													<HeaderButton
+														sx={{ padding: "8px", minWidth: "45px" }}
+														tooltip="Edytuj nazwę"
+														onClick={() => setInputDialog({ ...editConfig, defaultValue: group.name, currentGroup: group })}
+														placement="top"
+														size="sm"
+														icon={faEdit}
+													/>
+												</React.Fragment>
+											)}
+											<HeaderButton
+												sx={{ padding: "8px", minWidth: "45px" }}
+												tooltip={group.creator === userId ? "Usuń grupę" : "Opuść grupę"}
+												placement="top"
+												onClick={
+													group.creator === userId ? () => handleGroupDelete(group.id) : (e) => handleRemoveUser(e, group, userId)
+												}
+												size="sm"
+												icon={group.creator === userId ? faTrashAlt : faUserSlash}
+											/>
+											{group.creator === userId && (
+												<HeaderButton
+													sx={{ padding: "8px", minWidth: "45px" }}
+													tooltip="Zmień właściciela"
+													onClick={() => setInputDialog({ ...adminConifg, currentGroup: group })}
+													placement="top"
+													size="sm"
+													icon={faUserShield}
+												/>
+											)}
+										</Grid>
+									</Grid>
+								))
+							) : (
 								<Grid
+									container
 									item
-									xs="auto"
+									xs={12}
 									sx={{
-										display: "flex",
-										marginLeft: "auto",
-										gap: "8px",
+										flexDirection: "column",
+										color: "#e1e1e1",
+										"&>*": { display: "flex", justifyContent: "center" },
 									}}
 								>
-									<HeaderButton
-										sx={{ padding: "8px", minWidth: "45px" }}
-										tooltip="Dodaj użytkownika"
-										onClick={() => setInputDialog({ ...addConfig, currentGroup: group })}
-										placement="top"
-										size="sm"
-										icon={faUserPlus}
-									/>
-									{group.creator === userId && (
-										<React.Fragment>
-											<HeaderButton
-												sx={{ padding: "8px", minWidth: "45px" }}
-												tooltip="Usuń użytkownika"
-												onClick={() => setInputDialog({ ...delConfig, currentGroup: group })}
-												placement="top"
-												size="sm"
-												icon={faUserMinus}
-											/>
-											<HeaderButton
-												sx={{ padding: "8px", minWidth: "45px" }}
-												tooltip="Edytuj nazwę"
-												onClick={() => setInputDialog({ ...editConfig, defaultValue: group.name, currentGroup: group })}
-												placement="top"
-												size="sm"
-												icon={faEdit}
-											/>
-										</React.Fragment>
-									)}
-									<HeaderButton
-										sx={{ padding: "8px", minWidth: "45px" }}
-										tooltip={group.creator === userId ? "Usuń grupę" : "Opuść grupę"}
-										placement="top"
-										onClick={group.creator === userId ? () => handleGroupDelete(group.id) : (e) => handleRemoveUser(e, group, userId)}
-										size="sm"
-										icon={group.creator === userId ? faTrashAlt : faUserSlash}
-									/>
-									{group.creator === userId && (
-										<HeaderButton
-											sx={{ padding: "8px", minWidth: "45px" }}
-											tooltip="Zmień właściciela"
-											onClick={() => setInputDialog({ ...adminConifg, currentGroup: group })}
-											placement="top"
-											size="sm"
-											icon={faUserShield}
+									<Grid item xs="auto">
+										<FontAwesomeIcon
+											size="2x"
+											style={{ filter: "drop-shadow(0px 0px 10px #000000)", marginBottom: "15px" }}
+											icon={faUsersSlash}
 										/>
-									)}
+									</Grid>
+									<Grid item xs="auto">
+										<Typography sx={{ fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
+											Nie należysz jeszcze do żadnej grupy...
+										</Typography>
+									</Grid>
 								</Grid>
-							</Grid>
-						))
+							)}
+						</React.Fragment>
 					) : (
-						<Grid
-							container
-							item
-							xs={12}
-							sx={{
-								flexDirection: "column",
-								color: "#e1e1e1",
-								"&>*": { display: "flex", justifyContent: "center" },
-							}}
-						>
-							<Grid item xs="auto">
-								<FontAwesomeIcon size="2x" style={{ filter: "drop-shadow(0px 0px 10px #000000)", marginBottom: "15px" }} icon={faUsersSlash} />
-							</Grid>
-							<Grid item xs="auto">
-								<Typography sx={{ fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>Nie należysz jeszcze do żadnej grupy...</Typography>
-							</Grid>
-						</Grid>
+						<React.Fragment>
+							<GroupSkeleton variant="rectangular" animation="wave" />
+							<GroupSkeleton variant="rectangular" animation="wave" />
+							<GroupSkeleton variant="rectangular" animation="wave" />
+						</React.Fragment>
 					)}
 				</DialogContent>
 				<DialogActions>
