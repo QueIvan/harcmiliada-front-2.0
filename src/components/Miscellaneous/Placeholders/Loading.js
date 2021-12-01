@@ -30,7 +30,7 @@ export default function Loading() {
 					>
 						<Grid item sx={{ marginBottom: "15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
 							<Grid item sx={{ marginBottom: "23px" }}>
-								<LogoImage />
+								<LogoImage logoProps={{ fontSize: "5rem", color: "#96A58D" }} />
 							</Grid>
 							<FontAwesomeIcon size="5x" icon={faCircleNotch} spin style={{ filter: "drop-shadow(0px 0px 10px #000000)" }} />
 						</Grid>

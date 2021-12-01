@@ -1,7 +1,18 @@
 import { Autocomplete, TextField } from "@mui/material";
+import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import Drawer from "../Miscellaneous/Drawer/Drawer";
+
+const QuestionSelector = styled(TextField)(({ theme }) => ({
+	width: "350px",
+	"&>*, &>*>*>*": {
+		color: "#e1e1e1 !important",
+	},
+	"&>*>fieldset": {
+		borderColor: "#7A7A7A !important",
+	},
+}));
 
 export default function Console(props) {
 	const { title, userId } = props;
@@ -23,21 +34,7 @@ export default function Console(props) {
 					]}
 					disablePortal
 					disableClearable
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							sx={{
-								width: "350px",
-								"&>*, &>*>*>*": {
-									color: "#e1e1e1 !important",
-								},
-								"&>*>fieldset": {
-									borderColor: "#7A7A7A !important",
-								},
-							}}
-							label="Aktualne pytanie"
-						/>
-					)}
+					renderInput={(params) => <QuestionSelector {...params} label="Aktualne pytanie" />}
 				/>
 			}
 		>
