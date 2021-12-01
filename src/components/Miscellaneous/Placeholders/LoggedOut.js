@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Typography, Fade } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { styled } from "@mui/system";
-import Logo from "./Logo";
+import Logo from "./Logo/Logo";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",

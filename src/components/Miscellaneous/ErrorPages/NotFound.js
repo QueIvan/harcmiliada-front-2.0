@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Typography, Fade } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled } from "@mui/system";
-import LogoImage from "../Placeholders/LogoImage";
+import LogoImage from "../Placeholders/Logo/LogoImage";
 import { faFireAlt } from "@fortawesome/free-solid-svg-icons";
 
 const BackContainer = styled(Grid)(({ theme }) => ({

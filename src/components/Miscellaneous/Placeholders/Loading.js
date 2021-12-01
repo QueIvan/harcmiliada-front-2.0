@@ -1,8 +1,9 @@
 import React from "react";
-import { Grid, Typography, Box, Fade } from "@mui/material";
+import { Grid, Typography, Fade } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch, faTree } from "@fortawesome/free-solid-svg-icons";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/system";
+import LogoImage from "./Logo/LogoImage";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
@@ -29,25 +30,7 @@ export default function Loading() {
 					>
 						<Grid item sx={{ marginBottom: "15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
 							<Grid item sx={{ marginBottom: "23px" }}>
-								<Box sx={{ position: "relative", minHeight: "80px", minWidth: "100px", "&>*": { position: "absolute" } }}>
-									<FontAwesomeIcon size="5x" icon={faTree} style={{ color: "#96A58D", filter: "drop-shadow(0px 0px 10px #000000)" }} />
-									<FontAwesomeIcon
-										size="5x"
-										icon={faTree}
-										style={{ right: 0, color: "#96A58D", filter: "drop-shadow(0px 0px 10px #000000)" }}
-									/>
-									<FontAwesomeIcon
-										size="5x"
-										icon={faTree}
-										style={{
-											left: "50%",
-											transform: "translateX(-50%)",
-											top: "8px",
-											color: "#96A58D",
-											filter: "drop-shadow(0px 0px 10px #000000)",
-										}}
-									/>
-								</Box>
+								<LogoImage />
 							</Grid>
 							<FontAwesomeIcon size="5x" icon={faCircleNotch} spin style={{ filter: "drop-shadow(0px 0px 10px #000000)" }} />
 						</Grid>
