@@ -43,6 +43,7 @@ import Cookies from "universal-cookie";
 import MenuItem from "./MenuItem";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
+import LogoImage from "../Placeholders/Logo/LogoImage";
 import HeaderButton from "./HeaderButton";
 
 const ContentContainer = styled(Grid)(({ theme }) => ({
@@ -336,6 +337,12 @@ export default function Drawer(props) {
 						<FontAwesomeIcon size="xs" icon={faBars} />
 					</IconButton>
 				</HamburgerContainer>
+				<Grid container item xs="auto" sx={{ display: "flex", alignItems: "center" }}>
+					<LogoImage boxProps={{ minHeight: "40px", minWidth: "50px" }} logoProps={{ fontSize: "2rem", color: "#96A58D" }} />
+					<Typography variant="h6" sx={{ fontWeight: "bold", marginLeft: "0.5rem", height: "fit-content", color: "#f1f1f1" }}>
+						Harcmiliada
+					</Typography>
+				</Grid>
 				<AccountContainer container item xs="auto" onClick={toggleAccountMenu}>
 					<Tooltip disableInteractive={true} title={"Opcje użytkownika"} arrow placement="bottom">
 						<AccountStyling container item xs="auto">
