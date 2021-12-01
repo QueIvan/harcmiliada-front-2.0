@@ -13,7 +13,7 @@ import QuestionEditor from "./components/Question/QuestionEditor";
 import Console from "./components/Console/Console";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoggedOut from "./components/Miscellaneous/Placeholders/LoggedOut";
-import React, { useEffect } from "react";
+import React from "react";
 import Loading from "./components/Miscellaneous/Placeholders/Loading";
 import Board from "./components/Board/Board";
 import NotFound from "./components/Miscellaneous/ErrorPages/NotFound";
