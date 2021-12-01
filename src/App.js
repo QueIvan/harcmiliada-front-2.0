@@ -16,6 +16,7 @@ import LoggedOut from "./components/Miscellaneous/Placeholders/LoggedOut";
 import React from "react";
 import Loading from "./components/Miscellaneous/Placeholders/Loading";
 import Board from "./components/Board/Board";
+import NotFound from "./components/Miscellaneous/ErrorPages/NotFound";
 
 const SnackBarIcon = styled(FontAwesomeIcon)(({ theme }) => ({ marginRight: "16px" }));
 
@@ -125,6 +126,7 @@ function App() {
 						)}
 						{!isAuthenticated && !isLoading && <Route exact path="/" element={<LoggedOut />} />}
 						{isLoading && <Route path="/" element={<Loading />} />}
+						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</Router>
 			</SnackbarProvider>
