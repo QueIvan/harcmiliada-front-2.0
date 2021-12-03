@@ -37,14 +37,15 @@ import {
 	faUserSlash,
 	faSave,
 	faUsersSlash,
+	faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/material/styles";
 import Cookies from "universal-cookie";
 import MenuItem from "./MenuItem";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
-import LogoImage from "../Placeholders/Logo/LogoImage";
 import HeaderButton from "./HeaderButton";
+import DrawerLogo from "./DrawerLogo";
 
 const ContentContainer = styled(Grid)(({ theme }) => ({
 	padding: theme.spacing(3),
@@ -94,7 +95,6 @@ const HamburgerContainer = styled(Grid)(({ theme }) => ({
 }));
 
 const AccountContainer = styled(Grid)(({ theme }) => ({
-	marginLeft: "auto",
 	width: "43px",
 	height: "32px",
 }));
@@ -337,11 +337,27 @@ export default function Drawer(props) {
 						<FontAwesomeIcon size="xs" icon={faBars} />
 					</IconButton>
 				</HamburgerContainer>
-				<Grid container item xs="auto" sx={{ display: "flex", alignItems: "center" }}>
-					<LogoImage boxProps={{ minHeight: "40px", minWidth: "50px" }} logoProps={{ fontSize: "2rem", color: "#96A58D" }} />
-					<Typography variant="h6" sx={{ fontWeight: "bold", marginLeft: "0.5rem", height: "fit-content", color: "#f1f1f1" }}>
-						Harcmiliada
-					</Typography>
+				<DrawerLogo onClick={() => nav("/")} />
+				<Grid item sx={{ marginLeft: "auto", marginRight: "0.75rem", visibility: "hidden" }}>
+					<Tooltip disableInteractive={true} title={"Dokumentacja"} arrow placement="bottom">
+						<IconButton
+							size="small"
+							sx={{
+								width: "24px",
+								height: "24px",
+								display: "flex",
+								justifyContent: "center",
+								border: "2px solid #c1c1c1",
+								transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+								"&:hover": {
+									backgroundColor: "#146761",
+									borderColor: "#727272",
+								},
+							}}
+						>
+							<FontAwesomeIcon size="xs" color="#e1e1e1" icon={faQuestion} style={{ paddingRight: "1px" }} />
+						</IconButton>
+					</Tooltip>
 				</Grid>
 				<AccountContainer container item xs="auto" onClick={toggleAccountMenu}>
 					<Tooltip disableInteractive={true} title={"Opcje użytkownika"} arrow placement="bottom">
@@ -624,6 +640,7 @@ export default function Drawer(props) {
 						hiddenLabel
 						variant="outlined"
 						defaultValue={inputDialog?.defaultValue}
+						onKeyDown={(e) => inputDialog?.handler?.save(e, inputDialog?.currentGroup)}
 						fullWidth
 						inputRef={inputRef}
 					/>

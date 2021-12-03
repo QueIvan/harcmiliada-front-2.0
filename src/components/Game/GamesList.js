@@ -53,8 +53,8 @@ export default function GamesList(props) {
 				disablePadding: false,
 				label: "Opcje",
 				options: [
-					{ id: "board", label: "Przejdź do tablicy", icon: faChalkboard },
-					{ id: "console", label: "Otwórz konsole", icon: faNetworkWired },
+					{ id: "board", label: "Przejdź do tablicy", disabled: true, icon: faChalkboard },
+					{ id: "console", label: "Otwórz konsole", disabled: true, icon: faNetworkWired },
 					{ id: "edit", label: "Edytuj", icon: faEdit, editorPath: "games" },
 					{ id: "delete", label: "Usuń", icon: faTrashAlt, handle: deleteGame },
 				],

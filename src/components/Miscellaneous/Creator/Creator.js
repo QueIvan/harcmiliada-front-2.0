@@ -1,19 +1,11 @@
 import React, { useEffect } from "react";
-import { Dialog, Grid, Typography, Button, Paper as MuiPaper, TextField, Select, MenuItem, OutlinedInput } from "@mui/material";
+import { Dialog, Grid, Typography, Button, Paper as MuiPaper, TextField } from "@mui/material";
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HeaderButton from "../Drawer/HeaderButton";
 import { useSnackbar } from "notistack";
 import { styled } from "@mui/material/styles";
-
-const MenuProps = {
-	PaperProps: {
-		style: {
-			backgroundColor: "#3C5344",
-			color: "#f1f1f1",
-		},
-	},
-};
+import SelectCreator from "./SelectCreator";
 
 const Paper = styled(MuiPaper)(({ theme }) => ({
 	backgroundColor: "#304236",
@@ -118,40 +110,7 @@ export default function Creator(props) {
 					/>
 				</Grid>
 				<Grid container item xs={12} p={1} sx={{ alignItems: "center", color: "#e1e1e1" }}>
-					{userGroups?.length > 0 && (
-						<Grid item xs="auto">
-							<Typography variant="span" sx={{ fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
-								Twórca:
-							</Typography>
-							<Select
-								displayEmpty
-								value={creator}
-								onChange={(e) => {
-									setCreator(e.target.value);
-								}}
-								sx={{
-									marginLeft: "16px",
-									minWidth: "150px",
-									"&>*": {
-										color: "#e1e1e1 !important",
-									},
-									"&>fieldset": {
-										borderColor: "#7A7A7A !important",
-									},
-								}}
-								inputProps={{ style: { color: "#e1e1e1" } }}
-								input={<OutlinedInput size="small" />}
-								MenuProps={MenuProps}
-							>
-								<MenuItem value={userId}>Użytkownik</MenuItem>
-								{userGroups.map((group) => (
-									<MenuItem key={group.id} value={group.id}>
-										{group.name}
-									</MenuItem>
-								))}
-							</Select>
-						</Grid>
-					)}
+					<SelectCreator groups={userGroups} creator={{ variable: creator, handler: setCreator }} userId={userId} />
 					<Grid item xs="auto" sx={{ marginLeft: "auto" }}>
 						<PaginationButton onClick={createNew} className={content === "" ? `Mui-disabled` : ``}>
 							<FontAwesomeIcon icon={faSave} />
