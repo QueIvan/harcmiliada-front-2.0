@@ -67,6 +67,7 @@ export default function Row(props) {
 									<Tooltip disableInteractive={true} arrow placement="top" key={option.id} title={option.label}>
 										<IconButton
 											size="small"
+											disabled={option.disabled}
 											onClick={
 												option.editorPath
 													? () => {
@@ -76,6 +77,7 @@ export default function Row(props) {
 													? () => option.handle(data.id)
 													: null
 											}
+											sx={{ "&.Mui-disabled>*": { color: "#c1c1c1 !important" } }}
 										>
 											<FontAwesomeIcon size="sm" style={{ color: "f1f1f1" }} icon={option.icon} />
 										</IconButton>
