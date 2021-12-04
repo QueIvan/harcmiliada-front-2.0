@@ -107,10 +107,12 @@ export default function Console(props) {
 					<VisbilityButton
 						active={visiblityStatus.question}
 						label="Wyświetl pytanie"
+						show={currentGame}
 						onClick={() => setVisiblityStatus({ ...visiblityStatus, question: !visiblityStatus.question })}
 					/>
 					<VisbilityButton
 						active={visiblityStatus.answers}
+						show={currentGame}
 						label="Wyświetl odpowiedź"
 						onClick={() => setVisiblityStatus({ ...visiblityStatus, answers: !visiblityStatus.answers })}
 					/>
@@ -124,11 +126,11 @@ export default function Console(props) {
 					<Grid item xs={12} sx={{ textAlign: "center" }}>
 						<CategoryHeader>Drużyna po lewej stronie</CategoryHeader>
 					</Grid>
-					<WrongAnswerBox quantity={wrongAnswers.left} onClick={(action) => changeWrongAnswersNumber("left", action)} />
+					<WrongAnswerBox show={currentGame} quantity={wrongAnswers.left} onClick={(action) => changeWrongAnswersNumber("left", action)} />
 					<Grid item xs={12} sx={{ textAlign: "center" }}>
 						<CategoryHeader>Drużyna po prawej stronie</CategoryHeader>
 					</Grid>
-					<WrongAnswerBox quantity={wrongAnswers.right} onClick={(action) => changeWrongAnswersNumber("right", action)} />
+					<WrongAnswerBox show={currentGame} quantity={wrongAnswers.right} onClick={(action) => changeWrongAnswersNumber("right", action)} />
 				</Grid>
 			</Grid>
 			<Grid container sx={{ minHeight: "50px" }} mt={2}>
@@ -139,15 +141,25 @@ export default function Console(props) {
 				</Grid>
 				<Grid container item xs={12} p={2} sx={{ justifyContent: "center" }}>
 					<Grid container item xs={10} sx={{ justifyContent: "center" }}>
-						{answersVisibility &&
-							currentGame?.currentQuestion?.answers.map((answer) => (
-								<AnswerBox
-									key={answer.id}
-									data={answer}
-									active={answersVisibility?.find((v) => v.id === answer.id).isVisible}
-									onClick={() => changeAnswerVisibility(answer.id)}
-								/>
-							))}
+						{currentGame ? (
+							<React.Fragment>
+								{answersVisibility &&
+									currentGame?.currentQuestion?.answers.map((answer) => (
+										<AnswerBox
+											key={answer.id}
+											data={answer}
+											active={answersVisibility?.find((v) => v.id === answer.id).isVisible}
+											onClick={() => changeAnswerVisibility(answer.id)}
+										/>
+									))}
+							</React.Fragment>
+						) : (
+							<React.Fragment>
+								{Array.from(Array(10).keys()).map((i) => (
+									<AnswerBox showSkeleton />
+								))}
+							</React.Fragment>
+						)}
 					</Grid>
 				</Grid>
 			</Grid>

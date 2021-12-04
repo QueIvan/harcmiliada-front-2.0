@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Skeleton } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
 
@@ -31,14 +31,23 @@ const ButtonText = styled(Typography)(({ theme }) => ({
 	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%), inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
 }));
 
+const ButtonSkeleton = styled(Skeleton)(({ theme }) => ({
+	width: "720px",
+	height: "106px",
+}));
+
 export default function VisbilityButton(props) {
-	const { label, active, onClick } = props;
+	const { label, active, onClick, show } = props;
 
 	return (
 		<BackgroundGrid container item xs={12}>
-			<ButtonGrid item active={active} xs={10} onClick={onClick}>
-				<ButtonText variant="h6">{label}</ButtonText>
-			</ButtonGrid>
+			{show ? (
+				<ButtonGrid item active={active} xs={10} onClick={onClick}>
+					<ButtonText variant="h6">{label}</ButtonText>
+				</ButtonGrid>
+			) : (
+				<ButtonSkeleton variant="rectangle" />
+			)}
 		</BackgroundGrid>
 	);
 }

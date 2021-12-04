@@ -1,4 +1,4 @@
-import { Grid, IconButton } from "@mui/material";
+import { Grid, IconButton, Skeleton } from "@mui/material";
 import { styled } from "@mui/system";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -66,36 +66,46 @@ const WrongBoxIcon = styled(FontAwesomeIcon)(({ theme }) => ({
 	filter: "drop-shadow(0px 0px 5px rgb(0 0 0 / 90%))",
 }));
 
+const BoxSkeleton = styled(Skeleton)(({ theme }) => ({
+	width: "575px",
+	height: "113px",
+	borderRadius: theme.spacing(2),
+}));
+
 export default function WrongAnswerBox(props) {
-	const { quantity, onClick } = props;
+	const { quantity, onClick, show } = props;
 
 	return (
 		<BackgroundGrid container item xs={12}>
-			<ButtonGrid container item xs={8}>
-				<InnerGrid container item xs={12}>
-					<Grid item xs={1.5}>
-						<Button size="small" onClick={() => onClick("minus")}>
-							<FontAwesomeIcon size="xs" icon={faMinus} />
-						</Button>
-					</Grid>
-					<Grid item xs={0.5}></Grid>
-					<Grid container item xs={8} py={1.5}>
-						{Array.from(Array(3).keys()).map((i, index, arr) => (
-							<WrongBoxGrid key={i} active={i < quantity} container item xs={12 / arr.length}>
-								<WrongBoxBackground container item>
-									<WrongBoxIcon icon={faTimes} />
-								</WrongBoxBackground>
-							</WrongBoxGrid>
-						))}
-					</Grid>
-					<Grid item xs={0.5}></Grid>
-					<Grid item xs={1.5}>
-						<Button size="small" onClick={() => onClick("plus")}>
-							<FontAwesomeIcon size="xs" icon={faPlus} />
-						</Button>
-					</Grid>
-				</InnerGrid>
-			</ButtonGrid>
+			{show ? (
+				<ButtonGrid container item xs={8}>
+					<InnerGrid container item xs={12}>
+						<Grid item xs={1.5}>
+							<Button size="small" onClick={() => onClick("minus")}>
+								<FontAwesomeIcon size="xs" icon={faMinus} />
+							</Button>
+						</Grid>
+						<Grid item xs={0.5}></Grid>
+						<Grid container item xs={8} py={1.5}>
+							{Array.from(Array(3).keys()).map((i, index, arr) => (
+								<WrongBoxGrid key={i} active={i < quantity} container item xs={12 / arr.length}>
+									<WrongBoxBackground container item>
+										<WrongBoxIcon icon={faTimes} />
+									</WrongBoxBackground>
+								</WrongBoxGrid>
+							))}
+						</Grid>
+						<Grid item xs={0.5}></Grid>
+						<Grid item xs={1.5}>
+							<Button size="small" onClick={() => onClick("plus")}>
+								<FontAwesomeIcon size="xs" icon={faPlus} />
+							</Button>
+						</Grid>
+					</InnerGrid>
+				</ButtonGrid>
+			) : (
+				<BoxSkeleton variant="rectangle" />
+			)}
 		</BackgroundGrid>
 	);
 }

@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Skeleton, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
 
@@ -31,14 +31,23 @@ const ButtonText = styled(Typography)(({ theme }) => ({
 	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%), inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
 }));
 
+const ButtonSkeleton = styled(Skeleton)(({ theme }) => ({
+	width: "407px",
+	height: "98px",
+}));
+
 export default function AnswerBox(props) {
-	const { data, active, onClick } = props;
+	const { data, active, onClick, showSkeleton } = props;
 
 	return (
 		<BackgroundGrid container item xs={4} onClick={onClick}>
-			<ButtonGrid item active={active} xs={10}>
-				<ButtonText sx={{ width: "100%" }}>{data.content}</ButtonText>
-			</ButtonGrid>
+			{showSkeleton ? (
+				<ButtonSkeleton variant="rectangle" />
+			) : (
+				<ButtonGrid item active={active} xs={10}>
+					<ButtonText sx={{ width: "100%" }}>{data.content}</ButtonText>
+				</ButtonGrid>
+			)}
 		</BackgroundGrid>
 	);
 }
