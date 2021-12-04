@@ -70,14 +70,21 @@ export default function Row(props) {
 												size="small"
 												disabled={option.disabled}
 												onClick={
-													option.editorPath
-														? () => {
-																moveToLink(`/${option.editorPath}/${data.id}`, navigation);
-														  }
-														: option.id === "delete"
+													option.id === "delete"
 														? () => option.handle(data.id)
 														: option.id === "console" || option.id === "board"
 														? () => option.handle(data.id)
+														: null
+												}
+												onMouseUp={
+													option.editorPath
+														? (e) => {
+																if (e.button === 1) {
+																	moveToLink(`/${option.editorPath}/${data.id}`, navigation, "_blank");
+																} else if (e.button === 0) {
+																	moveToLink(`/${option.editorPath}/${data.id}`, navigation);
+																}
+														  }
 														: null
 												}
 												sx={{ "&.Mui-disabled>*": { color: "#c1c1c1 !important" } }}

@@ -36,7 +36,18 @@ export default function MenuItem(props) {
 
 	return (
 		<Tooltip disableInteractive={true} title={!open ? label : ""} arrow placement="right">
-			<MenuItemGrid active={match} container item onClick={() => moveToLink(href, nav)}>
+			<MenuItemGrid
+				active={match}
+				container
+				item
+				onMouseUp={(e) => {
+					if (e.button === 1) {
+						moveToLink(href, nav, "_blank");
+					} else if (e.button === 0) {
+						moveToLink(href, nav);
+					}
+				}}
+			>
 				<Grid item p={2}>
 					<CorrectionIcon correction={correction} icon={icon} />
 				</Grid>
