@@ -69,13 +69,6 @@ export default function Row(props) {
 											<IconButton
 												size="small"
 												disabled={option.disabled}
-												onClick={
-													option.id === "delete"
-														? () => option.handle(data.id)
-														: option.id === "console" || option.id === "board"
-														? () => option.handle(data.id)
-														: null
-												}
 												onMouseUp={
 													option.editorPath
 														? (e) => {
@@ -85,6 +78,10 @@ export default function Row(props) {
 																	moveToLink(`/${option.editorPath}/${data.id}`, navigation);
 																}
 														  }
+														: option.id === "delete"
+														? (e) => option.handle(e, data.id)
+														: option.id === "console" || option.id === "board"
+														? (e) => option.handle(e, data.id)
 														: null
 												}
 												sx={{ "&.Mui-disabled>*": { color: "#c1c1c1 !important" } }}
