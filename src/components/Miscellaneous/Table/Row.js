@@ -76,7 +76,7 @@ export default function Row(props) {
 														  }
 														: option.id === "delete"
 														? () => option.handle(data.id)
-														: option.id === "console"
+														: option.id === "console" || option.id === "board"
 														? () => option.handle(data.id)
 														: null
 												}

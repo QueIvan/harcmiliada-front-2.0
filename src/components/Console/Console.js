@@ -72,8 +72,12 @@ export default function Console(props) {
 			headers: { "Content-Type": "application/json" },
 		})
 			.then((resp) => resp.json())
-			.then((data) => sortAndSave(data, setCurrentGame, "createdAt", "questions", true))
-			.then((data) => setAnswersVisibility(data.currentQuestion.answers.map((a) => ({ id: a.id, isVisible: false }))))
+			.then((data) => {
+				sortAndSave(data, setCurrentGame, "createdAt", "questions", true);
+				if (data.currentQuestion) {
+					setAnswersVisibility(data.currentQuestion.answers.map((a) => ({ id: a.id, isVisible: false })));
+				}
+			})
 			.then(() => {
 				setVisiblityStatus({ question: false, answers: false });
 				setWrongAnswers({ left: 0, right: 0 });
@@ -142,15 +146,34 @@ export default function Console(props) {
 					<Grid container item xs={10} sx={{ justifyContent: "center" }}>
 						{currentGame ? (
 							<React.Fragment>
-								{answersVisibility &&
-									currentGame?.currentQuestion?.answers.map((answer) => (
-										<AnswerBox
-											key={answer.id}
-											data={answer}
-											active={answersVisibility?.find((v) => v.id === answer.id).isVisible}
-											onClick={() => changeAnswerVisibility(answer.id)}
-										/>
-									))}
+								{currentGame?.currentQuestion ? (
+									<React.Fragment>
+										{answersVisibility && (
+											<React.Fragment>
+												{currentGame?.currentQuestion?.answers?.length > 0 ? (
+													<React.Fragment>
+														{currentGame?.currentQuestion?.answers.map((answer) => (
+															<AnswerBox
+																key={answer.id}
+																data={answer}
+																active={answersVisibility?.find((v) => v.id === answer.id).isVisible}
+																onClick={() => changeAnswerVisibility(answer.id)}
+															/>
+														))}
+													</React.Fragment>
+												) : (
+													<Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+														<AnswerBox removeHover data={{ content: "Brak odpowiedzi" }} />
+													</Grid>
+												)}
+											</React.Fragment>
+										)}
+									</React.Fragment>
+								) : (
+									<Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+										<AnswerBox removeHover data={{ content: "Wybierz aktywne pytanie" }} />
+									</Grid>
+								)}
 							</React.Fragment>
 						) : (
 							<React.Fragment>
