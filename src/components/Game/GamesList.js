@@ -13,6 +13,8 @@ export default function GamesList(props) {
 
 	const openConsole = (gameId) => nav(`/games/${gameId}/console`);
 
+	const openBoard = (gameId) => nav(`/games/${gameId}/board`);
+
 	const deleteGame = (gameId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/games/${gameId}/${userId}`, {
 			method: "DELETE",
@@ -55,7 +57,7 @@ export default function GamesList(props) {
 				disablePadding: false,
 				label: "Opcje",
 				options: [
-					{ id: "board", label: "Przejdź do tablicy", disabled: true, icon: faChalkboard },
+					{ id: "board", label: "Przejdź do tablicy", icon: faChalkboard, handle: openBoard },
 					{ id: "console", label: "Otwórz konsole", icon: faNetworkWired, handle: openConsole },
 					{ id: "edit", label: "Edytuj", icon: faEdit, editorPath: "games" },
 					{ id: "delete", label: "Usuń", icon: faTrashAlt, handle: deleteGame },
