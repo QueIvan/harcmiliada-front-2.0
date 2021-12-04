@@ -10,8 +10,8 @@ const LogoBackboard = styled(Grid)(({ theme }) => ({
 	"&>*, &>*>*": {
 		transition: "color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 	},
-	"&:hover>*:first-child>*": { color: "#96A58D !important" },
-	"&:hover>*:last-child": { color: "#ffffff" },
+	"&:hover>*:first-of-type>*": { color: "#96A58D !important" },
+	"&:hover>*:last-of-type": { color: "#ffffff" },
 }));
 
 const LogoText = styled(Typography)(({ theme }) => ({

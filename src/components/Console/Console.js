@@ -88,7 +88,7 @@ export default function Console(props) {
 			header={`Panel kontrolny`}
 			headerOptions={
 				<Autocomplete
-					options={currentGame?.questions.map((question) => ({ label: question.content, value: question.id }))}
+					options={currentGame ? currentGame?.questions?.map((question) => ({ label: question.content, value: question.id })) : []}
 					isOptionEqualToValue={(option, value) => option.label === value}
 					value={currentGame && currentGame.currentQuestion ? currentGame.currentQuestion.content : null}
 					onChange={(event, value) => changeCurrentQuestion(value.value)}
@@ -99,7 +99,7 @@ export default function Console(props) {
 				/>
 			}
 		>
-			<Grid container sx={{ minHeight: "50px" }}>
+			<Grid container>
 				<Grid container item xs={6} p={2}>
 					<Grid item xs="auto">
 						<CategoryHeader variant="h5">Zawartość strony</CategoryHeader>
@@ -133,7 +133,7 @@ export default function Console(props) {
 					<WrongAnswerBox show={currentGame} quantity={wrongAnswers.right} onClick={(action) => changeWrongAnswersNumber("right", action)} />
 				</Grid>
 			</Grid>
-			<Grid container sx={{ minHeight: "50px" }} mt={2}>
+			<Grid container mt={2}>
 				<Grid item xs={12}>
 					<CategoryHeader align="center" variant="h5">
 						Wyświetlenie odpowiedzi
@@ -156,7 +156,7 @@ export default function Console(props) {
 						) : (
 							<React.Fragment>
 								{Array.from(Array(10).keys()).map((i) => (
-									<AnswerBox showSkeleton />
+									<AnswerBox key={i} showSkeleton />
 								))}
 							</React.Fragment>
 						)}
