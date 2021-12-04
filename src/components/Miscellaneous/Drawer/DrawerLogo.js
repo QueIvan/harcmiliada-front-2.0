@@ -26,7 +26,7 @@ export default function DrawerLogo(props) {
 	const { onClick } = props;
 
 	return (
-		<LogoBackboard container item onClick={onClick} xs="auto">
+		<LogoBackboard container item onMouseUp={onClick} xs="auto">
 			<LogoImage boxProps={{ minHeight: "40px", minWidth: "50px" }} logoProps={{ fontSize: "2rem", color: "#707a69" }} />
 			<LogoText variant="h6">Harcmiliada</LogoText>
 		</LogoBackboard>

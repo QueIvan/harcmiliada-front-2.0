@@ -44,6 +44,7 @@ import Cookies from "universal-cookie";
 import MenuItem from "./MenuItem";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
+import { moveToLink } from "../../../utils/Anchors";
 import HeaderButton from "./HeaderButton";
 import DrawerLogo from "./DrawerLogo";
 
@@ -337,7 +338,15 @@ export default function Drawer(props) {
 						<FontAwesomeIcon size="xs" icon={faBars} />
 					</IconButton>
 				</HamburgerContainer>
-				<DrawerLogo onClick={() => nav("/")} />
+				<DrawerLogo
+					onClick={(e) => {
+						if (e.button === 1) {
+							moveToLink("/", nav, "_blank");
+						} else if (e.button === 0) {
+							moveToLink("/", nav);
+						}
+					}}
+				/>
 				<Grid item sx={{ marginLeft: "auto", marginRight: "0.75rem", visibility: "hidden" }}>
 					<Tooltip disableInteractive={true} title={"Dokumentacja"} arrow placement="bottom">
 						<IconButton
