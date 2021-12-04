@@ -121,7 +121,7 @@ function App() {
 								<Route exact path="/games" element={<Games userId={user?.sub} title="Gry" />} />
 								<Route path="/games/:id" element={<GameEditor userId={user?.sub} title="Edytor gier" />} />
 								<Route exact path="/games/:id/console" element={<Console userId={user?.sub} title="Konsola gry" />} />
-								<Route path="/board/:id" element={<Board userId={user?.sub} title="Tablica" />} />
+								<Route exact path="/games/:id/board" element={<Board userId={user?.sub} title="Tablica" />} />
 							</React.Fragment>
 						)}
 						{!isAuthenticated && !isLoading && <Route exact path="/" element={<LoggedOut />} />}

@@ -50,7 +50,6 @@ export default function Console(props) {
 
 	const changeWrongAnswersNumber = (side, action) => {
 		let wrong = { ...wrongAnswers };
-		console.log(action);
 		if (action === "plus" && wrong[side] < 3) {
 			wrong[side]++;
 		} else if (action === "minus" && wrong[side] > 0) {
