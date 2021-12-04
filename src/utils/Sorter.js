@@ -8,7 +8,7 @@ function compare(a, b, on) {
 	return 0;
 }
 
-export const sortAndSave = (data, callback, sort, loopOn) => {
+export const sortAndSave = (data, callback, sort, loopOn, shouldReturn) => {
 	let newData;
 	if (loopOn) {
 		newData = { ...data };
@@ -17,4 +17,7 @@ export const sortAndSave = (data, callback, sort, loopOn) => {
 		newData = [...data].sort((a, b) => compare(a, b, sort));
 	}
 	callback(data);
+	if (shouldReturn) {
+		return newData;
+	}
 };

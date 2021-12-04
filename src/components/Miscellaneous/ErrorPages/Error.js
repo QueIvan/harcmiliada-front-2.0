@@ -41,7 +41,7 @@ const ImageBackground = styled(Grid)(({ theme }) => ({
 	marginBottom: "15px",
 }));
 
-export default function NotFound() {
+export default function Error() {
 	const nav = useNavigate();
 	const boxProps = { minWidth: "148px", minHeight: "120px" };
 	const logoProps = { fontSize: "7.5rem", color: "#31392D" };

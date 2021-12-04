@@ -61,7 +61,7 @@ export default function QuestionEditor(props) {
 		let sum = 100;
 		let randomNumbers = [];
 		while (n > 0) {
-			let random = Math.floor(Math.random() * sum);
+			let random = Math.floor(Math.random() * (sum / n));
 			randomNumbers.push(n === 1 ? sum : random);
 			sum -= random;
 			n--;

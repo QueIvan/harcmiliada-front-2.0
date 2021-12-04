@@ -125,17 +125,19 @@ export default function Pagination(props) {
 			<React.Fragment>
 				{!removeDelete && (
 					<Tooltip disableInteractive={true} title={deleteTooltip ? deleteTooltip : "Usuń zaznaczone obiekty"} arrow placement="bottom">
-						<PaginationButton
-							onClick={() => {
-								setCurrentlyLoading("delete");
-							}}
-							loading={loading.delete}
-							loadingPosition="center"
-							variant="contained"
-							className={!deleteCondition ? `Mui-disabled` : ``}
-						>
-							{!loading.delete ? <FontAwesomeIcon icon={faTrashAlt} /> : null}
-						</PaginationButton>
+						<span>
+							<PaginationButton
+								onClick={() => {
+									setCurrentlyLoading("delete");
+								}}
+								loading={loading.delete}
+								loadingPosition="center"
+								variant="contained"
+								className={!deleteCondition ? `Mui-disabled` : ``}
+							>
+								{!loading.delete ? <FontAwesomeIcon icon={faTrashAlt} /> : null}
+							</PaginationButton>
+						</span>
 					</Tooltip>
 				)}
 

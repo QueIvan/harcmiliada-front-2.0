@@ -11,6 +11,8 @@ export default function GamesList(props) {
 	const [userGames, setUserGames] = React.useState(null);
 	const nav = useNavigate();
 
+	const openConsole = (gameId) => nav(`/games/${gameId}/console`);
+
 	const deleteGame = (gameId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/games/${gameId}/${userId}`, {
 			method: "DELETE",
@@ -54,7 +56,7 @@ export default function GamesList(props) {
 				label: "Opcje",
 				options: [
 					{ id: "board", label: "Przejdź do tablicy", disabled: true, icon: faChalkboard },
-					{ id: "console", label: "Otwórz konsole", disabled: true, icon: faNetworkWired },
+					{ id: "console", label: "Otwórz konsole", icon: faNetworkWired, handle: openConsole },
 					{ id: "edit", label: "Edytuj", icon: faEdit, editorPath: "games" },
 					{ id: "delete", label: "Usuń", icon: faTrashAlt, handle: deleteGame },
 				],
