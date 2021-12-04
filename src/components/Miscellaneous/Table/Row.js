@@ -75,6 +75,8 @@ export default function Row(props) {
 													  }
 													: option.id === "delete"
 													? () => option.handle(data.id)
+													: option.id === "console"
+													? () => option.handle(data.id)
 													: null
 											}
 											sx={{ "&.Mui-disabled>*": { color: "#c1c1c1 !important" } }}
