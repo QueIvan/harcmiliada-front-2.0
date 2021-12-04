@@ -42,9 +42,9 @@ const WrongBoxIcon = styled(FontAwesomeIcon)(({ theme }) => ({
 export default function Board(props) {
 	const [currentQuestion, setCurrentQuestion] = React.useState(null);
 	const [wrongBoxesStatus, setWrongBoxesStatus] = React.useState({ left: 0, right: 0 });
-	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: true, answers: true }); //eslint-disable-line
+	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false }); //eslint-disable-line
 	const [wrongAnswerIndicator, setWrongAnswerIndicator] = React.useState(false);
-	const [idLabelZoom, setIdLabelZoom] = React.useState(true);
+	const [idLabelZoom, setIdLabelZoom] = React.useState(false);
 	const [answersStatus, setAnswersStatus] = React.useState([]);
 	const [logoIn, setLogoIn] = React.useState(true);
 	const { enqueueSnackbar } = useSnackbar();
