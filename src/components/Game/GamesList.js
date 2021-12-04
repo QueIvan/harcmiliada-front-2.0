@@ -4,6 +4,7 @@ import { faChalkboard, faEdit, faNetworkWired, faTrashAlt } from "@fortawesome/f
 import { useNavigate } from "react-router";
 import { useSnackbar } from "notistack";
 import { sortAndSave } from "../../utils/Sorter";
+import { moveToLink } from "../../utils/Anchors";
 
 export default function GamesList(props) {
 	const { enqueueSnackbar } = useSnackbar();
@@ -11,9 +12,21 @@ export default function GamesList(props) {
 	const [userGames, setUserGames] = React.useState(null);
 	const nav = useNavigate();
 
-	const openConsole = (gameId) => nav(`/games/${gameId}/console`);
+	const openConsole = (e, gameId) => {
+		if (e.button === 1) {
+			moveToLink(`/games/${gameId}/console`, nav, "_blank");
+		} else if (e.button === 0) {
+			moveToLink(`/games/${gameId}/console`, nav);
+		}
+	};
 
-	const openBoard = (gameId) => nav(`/games/${gameId}/board`);
+	const openBoard = (e, gameId) => {
+		if (e.button === 1) {
+			moveToLink(`/games/${gameId}/board`, nav, "_blank");
+		} else if (e.button === 0) {
+			moveToLink(`/games/${gameId}/board`, nav);
+		}
+	};
 
 	const deleteGame = (gameId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/games/${gameId}/${userId}`, {
