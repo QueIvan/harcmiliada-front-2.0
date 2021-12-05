@@ -52,10 +52,15 @@ export default function Board(props) {
 	const id = useParams().id;
 	const { userId, title } = props;
 
-	const socket = io(`https://www.harcmiliada.pl`);
+	const socket = io(
+		`https://www.harcmiliada.pl:${
+			process.env.PORT >= 0 && process.env.PORT <= 65535 ? parseInt(process.env.PORT) + 1 : process.env.PORT > 1 ? parseInt(process.env.PORT) - 1 : 4001
+		}`
+	);
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
+		console.log(room, gameId);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
