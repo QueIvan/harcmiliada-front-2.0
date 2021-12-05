@@ -52,6 +52,15 @@ export default function Console(props) {
 					: 4001
 			}`
 		);
+		console.log(
+			`http://localhost:${
+				process.env.PORT >= 0 && process.env.PORT <= 65535
+					? parseInt(process.env.PORT) + 1
+					: process.env.PORT > 1
+					? parseInt(process.env.PORT) - 1
+					: 4001
+			}`
+		);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
