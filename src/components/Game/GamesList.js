@@ -28,7 +28,7 @@ export default function GamesList(props) {
 		}
 	};
 
-	const deleteGame = (gameId) => {
+	const deleteGame = (e, gameId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/games/${gameId}/${userId}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
