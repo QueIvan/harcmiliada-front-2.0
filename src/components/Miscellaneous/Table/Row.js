@@ -78,9 +78,10 @@ export default function Row(props) {
 																	moveToLink(`/${option.editorPath}/${data.id}`, navigation);
 																}
 														  }
-														: option.id === "delete"
-														? (e) => option.handle(e, data.id)
-														: option.id === "console" || option.id === "board"
+														: option.id === "console" ||
+														  option.id === "board" ||
+														  option.id === "delete" ||
+														  option.id === "presenter"
 														? (e) => option.handle(e, data.id)
 														: null
 												}

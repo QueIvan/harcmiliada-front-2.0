@@ -10,7 +10,7 @@ export default function QuestionsList(props) {
 	const [userQuestions, setUserQuestions] = React.useState(null);
 	const [reload, setReload] = React.useState(false);
 
-	const deleteQuestion = (questionId) => {
+	const deleteQuestion = (e, questionId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/questions/${questionId}/${userId}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },

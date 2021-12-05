@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Table from "../Miscellaneous/Table/Table";
-import { faChalkboard, faEdit, faNetworkWired, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faChalkboard, faChalkboardTeacher, faEdit, faNetworkWired, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { useSnackbar } from "notistack";
 import { sortAndSave } from "../../utils/Sorter";
@@ -28,7 +28,15 @@ export default function GamesList(props) {
 		}
 	};
 
-	const deleteGame = (gameId) => {
+	const openPresenter = (e, gameId) => {
+		if (e.button === 1) {
+			moveToLink(`/games/${gameId}/presenter`, nav, "_blank");
+		} else if (e.button === 0) {
+			moveToLink(`/games/${gameId}/presenter`, nav);
+		}
+	};
+
+	const deleteGame = (e, gameId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/games/${gameId}/${userId}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
@@ -71,6 +79,7 @@ export default function GamesList(props) {
 				label: "Opcje",
 				options: [
 					{ id: "board", label: "Przejdź do tablicy", icon: faChalkboard, handle: openBoard },
+					{ id: "presenter", label: "Otwórz panel prowadzącego", icon: faChalkboardTeacher, handle: openPresenter },
 					{ id: "console", label: "Otwórz konsole", icon: faNetworkWired, handle: openConsole },
 					{ id: "edit", label: "Edytuj", icon: faEdit, editorPath: "games" },
 					{ id: "delete", label: "Usuń", icon: faTrashAlt, handle: deleteGame },
