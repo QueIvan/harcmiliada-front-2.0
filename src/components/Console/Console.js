@@ -43,7 +43,15 @@ export default function Console(props) {
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
-		socket = io();
+		socket = io(
+			`http://localhost:${
+				process.env.PORT >= 0 && process.env.PORT <= 65535
+					? parseInt(process.env.PORT) + 1
+					: process.env.PORT > 1
+					? parseInt(process.env.PORT) - 1
+					: 4001
+			}`
+		);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
