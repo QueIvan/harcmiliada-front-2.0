@@ -78,7 +78,7 @@ export default function WrongAnswerBox(props) {
 	return (
 		<BackgroundGrid container item xs={12}>
 			{show ? (
-				<ButtonGrid container item xs={8}>
+				<ButtonGrid container item xs={10}>
 					<InnerGrid container item xs={12}>
 						<Grid item xs={1.5}>
 							<Button size="small" onClick={() => onClick("minus")}>

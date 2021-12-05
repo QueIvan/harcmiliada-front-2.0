@@ -391,7 +391,7 @@ export default function Drawer(props) {
 								{header}
 							</OptionHeader>
 							{headerOptions && (
-								<Grid item sx={{ marginLeft: "auto", display: "flex", gap: "15px" }}>
+								<Grid item sx={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "15px" }}>
 									{headerOptions}
 								</Grid>
 							)}

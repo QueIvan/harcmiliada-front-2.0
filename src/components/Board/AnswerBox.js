@@ -17,6 +17,9 @@ const ButtonGrid = styled(Grid, { shouldForwardProp: (props) => props !== "activ
 const ButtonTextGrid = styled(Grid)(({ theme }) => ({
 	border: "8px solid #415748",
 	boxShadow: "inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
 }));
 
 const ButtonInnerGrid = styled(Grid)(({ theme }) => ({
