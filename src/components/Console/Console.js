@@ -45,7 +45,11 @@ export default function Console(props) {
 	const nav = useNavigate();
 	const boardTarget = `board-&${id}`;
 
-	const socket = io(`http://localhost`);
+	const socket = io(
+		`http://localhost:${
+			process.env.PORT >= 0 && process.env.PORT <= 65535 ? parseInt(process.env.PORT) + 1 : process.env.PORT > 1 ? parseInt(process.env.PORT) - 1 : 4001
+		}`
+	);
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
@@ -102,6 +106,16 @@ export default function Console(props) {
 		document.title = `Harcmilliada | ${title}`;
 
 		initiateSocket("console", id);
+
+		console.log(
+			`http://localhost:${
+				process.env.PORT >= 0 && process.env.PORT <= 65535
+					? parseInt(process.env.PORT) + 1
+					: process.env.PORT > 1
+					? parseInt(process.env.PORT) - 1
+					: 4001
+			}`
+		);
 
 		fetch(`${process.env.REACT_APP_API_URL}/games/${id}/${userId}`, {
 			method: "GET",
