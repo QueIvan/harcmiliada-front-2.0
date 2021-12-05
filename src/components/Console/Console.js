@@ -45,7 +45,7 @@ export default function Console(props) {
 	const nav = useNavigate();
 	const boardTarget = `board-&${id}`;
 
-	const socket = io();
+	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);

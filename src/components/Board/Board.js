@@ -52,7 +52,7 @@ export default function Board(props) {
 	const id = useParams().id;
 	const { userId, title } = props;
 
-	const socket = io();
+	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
