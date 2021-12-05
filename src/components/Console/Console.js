@@ -8,6 +8,7 @@ import { useSnackbar } from "notistack";
 import VisbilityButton from "./VisbilityButton";
 import WrongAnswerBox from "./WrongAnswerBox";
 import AnswerBox from "./AnswerBox";
+import { io } from "socket.io-client";
 
 const QuestionSelector = styled(TextField)(({ theme }) => ({
 	width: "350px",
@@ -38,6 +39,19 @@ export default function Console(props) {
 	const [reload, setReload] = React.useState(false);
 	const id = useParams().id;
 
+	const socket = io(`http://localhost:${process.env.PORT || 4001}`);
+
+	const initiateSocket = (room, gameId) => {
+		console.log(`Connecting socket...`);
+		console.log(`${room}-&${gameId}`);
+		if (socket && room) socket.emit("join", room, gameId);
+	};
+
+	const disconnectSocket = () => {
+		console.log("Disconnecting socket...");
+		if (socket) socket.disconnect();
+	};
+
 	const changeCurrentQuestion = (v) => {
 		setAnswersVisibility(null);
 		fetch(`${process.env.REACT_APP_API_URL}/games/${id}/current/${v}/${userId}`, {
@@ -67,6 +81,10 @@ export default function Console(props) {
 
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
+
+		initiateSocket("console", id);
+		console.log(socket);
+
 		fetch(`${process.env.REACT_APP_API_URL}/games/${id}/${userId}`, {
 			method: "GET",
 			headers: { "Content-Type": "application/json" },
@@ -83,6 +101,8 @@ export default function Console(props) {
 				setWrongAnswers({ left: 0, right: 0 });
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+
+		return () => disconnectSocket();
 	}, [userId, reload]); //eslint-disable-line
 
 	return (
