@@ -8,6 +8,7 @@ import Logo from "../Miscellaneous/Placeholders/Logo/Logo";
 import { useParams } from "react-router";
 import AnswerBox from "./AnswerBox";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { io } from "socket.io-client";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
@@ -42,14 +43,53 @@ const WrongBoxIcon = styled(FontAwesomeIcon)(({ theme }) => ({
 export default function Board(props) {
 	const [currentQuestion, setCurrentQuestion] = React.useState(null);
 	const [wrongBoxesStatus, setWrongBoxesStatus] = React.useState({ left: 0, right: 0 });
-	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false }); //eslint-disable-line
-	const [wrongAnswerIndicator, setWrongAnswerIndicator] = React.useState(false);
+	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false });
 	const [idLabelZoom, setIdLabelZoom] = React.useState(false);
+	const [reload, setReload] = React.useState(false);
 	const [answersStatus, setAnswersStatus] = React.useState([]);
-	const [logoIn, setLogoIn] = React.useState(true);
+	const [logoIn, setLogoIn] = React.useState(false);
 	const { enqueueSnackbar } = useSnackbar();
 	const id = useParams().id;
-	const { userId } = props;
+	const { userId, title } = props;
+
+	let socket;
+
+	const initiateSocket = (room, gameId) => {
+		console.log(`Connecting socket...`);
+		socket = io(
+			`http://localhost:${
+				process.env.PORT >= 0 && process.env.PORT <= 65535
+					? parseInt(process.env.PORT) + 1
+					: process.env.PORT > 1
+					? parseInt(process.env.PORT) - 1
+					: 4001
+			}`
+		);
+		if (socket && room) socket.emit("join", room, gameId);
+	};
+
+	const disconnectSocket = () => {
+		console.log("Disconnecting socket...");
+		if (socket) socket.disconnect();
+	};
+
+	const listenForCommands = () => {
+		socket.on("setVisibilityStatus", (data) => {
+			setVisiblityStatus(data);
+			if (data.answers) {
+				setIdLabelZoom(true);
+			}
+		});
+		socket.on("setAnswerVisibility", (data) => {
+			setAnswersStatus(data);
+		});
+		socket.on("setWrongAnswersCount", (data) => {
+			setWrongBoxesStatus(data);
+		});
+		socket.on("reloadBoard", () => {
+			setReload(!reload);
+		});
+	};
 
 	const createAnswerStatus = (data) => {
 		setAnswersStatus(data.answers.map((answer) => ({ id: answer.id, status: false })));
@@ -59,45 +99,13 @@ export default function Board(props) {
 		return answersStatus.find((answer) => answer.id === id)?.status;
 	};
 
-	const changeWrongAnswersSide = (side, action) => {
-		let wrong = { ...wrongBoxesStatus };
-		if (wrong[side] < 3 && action === "plus") {
-			wrong[side]++;
-		} else if (action === "minus" && wrong[side] > 0) {
-			wrong[side]--;
-		}
-		setWrongBoxesStatus(wrong);
-	};
-
-	// eslint-disable-next-line
-	const changeWrongAnswersNumber = (side, action) => {
-		if (wrongBoxesStatus[side] < 3 && action === "plus") {
-			setWrongAnswerIndicator(true);
-			setTimeout(() => {
-				setWrongAnswerIndicator(false);
-				changeWrongAnswersSide(side, action);
-			}, 1000);
-		} else if (action === "minus" && wrongBoxesStatus[side] > 0) {
-			changeWrongAnswersSide(side, action);
-		}
-	};
-
-	// eslint-disable-next-line
-	const changeAnswersVisibility = () => {
-		setVisiblityStatus({ ...visiblityStatus, answers: !visiblityStatus.answers });
-		setTimeout(() => {
-			setIdLabelZoom(true);
-		}, 500);
-	};
-
-	// eslint-disable-next-line
-	const changeAnswerStatus = (id) => {
-		let status = [...answersStatus];
-		status.find((answer) => answer.id === id).status = !status.find((answer) => answer.id === id).status;
-		setAnswersStatus(status);
-	};
-
 	useEffect(() => {
+		document.title = `Harcmilliada | ${title}`;
+
+		initiateSocket("board", id);
+
+		setLogoIn(true);
+
 		fetch(`${process.env.REACT_APP_API_URL}/games/${id}/current/${userId}`, {
 			method: "GET",
 			headers: { "Content-Type": "application/json" },
@@ -106,12 +114,20 @@ export default function Board(props) {
 			.then((data) => sortAndSave(data, setCurrentQuestion, "score", "answers", true))
 			.then((data) => createAnswerStatus(data))
 			.then(() => {
+				setVisiblityStatus({ question: false, answers: false });
+				setWrongBoxesStatus({ left: 0, right: 0 });
+			})
+			.then(() => {
 				setTimeout(() => {
 					setLogoIn(false);
 				}, 1500);
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
-	}, []); //eslint-disable-line
+
+		listenForCommands();
+
+		return () => disconnectSocket();
+	}, [reload]); //eslint-disable-line
 
 	return (
 		<BackContainer container>
@@ -126,13 +142,15 @@ export default function Board(props) {
 						<Grid item xs={12}>
 							<Grid item xs={12} sx={{ height: "fit-content", ...(!visiblityStatus.question && { justifyContent: "center", display: "flex" }) }}>
 								{visiblityStatus.question ? (
-									<Typography
-										variant="h4"
-										align="center"
-										sx={{ fontWeight: "bold", color: "#ffffff", textShadow: "0px 0px 10px #000000", userSelect: "none" }}
-									>
-										{currentQuestion?.content}
-									</Typography>
+									<Fade in={true} timeout={750}>
+										<Typography
+											variant="h3"
+											align="center"
+											sx={{ fontWeight: "bold", color: "#ffffff", textShadow: "0px 0px 10px #000000", userSelect: "none" }}
+										>
+											{currentQuestion?.content}
+										</Typography>
+									</Fade>
 								) : (
 									<Skeleton variant="rectangle" width="85%" height="45px" />
 								)}
@@ -184,24 +202,6 @@ export default function Board(props) {
 								</WrongBoxGrid>
 							</Zoom>
 						))}
-					</Grid>
-					<Grid container item xs="auto" sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-						<Zoom in={wrongAnswerIndicator}>
-							<WrongBoxGrid active={true} container>
-								<WrongBoxBackground
-									sx={{
-										width: "clamp(250px, 250px, 250px) !important",
-										height: "clamp(250px, 250px, 250px)",
-										borderWidth: "1.5rem",
-										"&>*": { fontSize: "15rem" },
-									}}
-									container
-									item
-								>
-									<WrongBoxIcon icon={faTimes} />
-								</WrongBoxBackground>
-							</WrongBoxGrid>
-						</Zoom>
 					</Grid>
 				</Grid>
 			</Fade>

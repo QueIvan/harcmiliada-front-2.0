@@ -13,8 +13,23 @@ io.on("connect", (socket) => {
 
 	socket.on("join", (roomName, gameId) => {
 		socket.join(`${roomName}-&${gameId}`);
-		console.log(`${socket.id} dołączył do ${roomName}-#${gameId}`);
-		socket.emit("joined", `${roomName}-#${gameId}`);
+		console.log(`${socket.id} dołączył do pokoju ${roomName}-#${gameId}`);
+	});
+
+	socket.on("setVisibilityStatus", (roomName, data) => {
+		socket.to(roomName).emit("setVisibilityStatus", data);
+	});
+
+	socket.on("setAnswerVisibility", (roomName, data) => {
+		socket.to(roomName).emit("setAnswerVisibility", data);
+	});
+
+	socket.on("setWrongAnswersCount", (roomName, data) => {
+		socket.to(roomName).emit("setWrongAnswersCount", data);
+	});
+
+	socket.on("reloadBoard", (roomName) => {
+		socket.to(roomName).emit("reloadBoard");
 	});
 
 	socket.on("disconnect", () => console.log(`Rozłączono: ${socket.id}`));
