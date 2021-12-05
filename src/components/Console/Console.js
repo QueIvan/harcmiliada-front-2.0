@@ -39,10 +39,11 @@ export default function Console(props) {
 	const [reload, setReload] = React.useState(false);
 	const id = useParams().id;
 
-	const socket = io();
+	let socket;
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
+		socket = io();
 		console.log(`${room}-&${gameId}`);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
