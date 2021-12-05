@@ -39,11 +39,7 @@ export default function Console(props) {
 	const [reload, setReload] = React.useState(false);
 	const id = useParams().id;
 
-	const socket = io(
-		`http://localhost:${
-			process.env.PORT >= 0 && process.env.PORT <= 65535 ? parseInt(process.env.PORT) + 1 : process.env.PORT > 1 ? parseInt(process.env.PORT) - 1 : 4001
-		}`
-	);
+	const socket = io();
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
