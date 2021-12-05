@@ -48,13 +48,10 @@ export default function Console(props) {
 	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
 	const initiateSocket = (room, gameId) => {
-		console.log(`Connecting socket...`);
-		console.log(socket);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
 	const disconnectSocket = () => {
-		console.log("Disconnecting socket...");
 		if (socket) socket.disconnect();
 	};
 

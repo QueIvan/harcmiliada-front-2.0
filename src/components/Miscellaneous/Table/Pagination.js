@@ -69,8 +69,6 @@ export default function Pagination(props) {
 
 	const saveData = (data, creator) => {
 		let correctData;
-		console.log(data);
-		console.log(creator);
 		if (apiPath === "games") {
 			correctData = { name: data, ownerId: creator ? creator : userId };
 		} else {

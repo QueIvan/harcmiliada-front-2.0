@@ -55,13 +55,10 @@ export default function Board(props) {
 	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
 	const initiateSocket = (room, gameId) => {
-		console.log(`Connecting socket...`);
-		console.log(socket);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
 	const disconnectSocket = () => {
-		console.log("Disconnecting socket...");
 		if (socket) socket.disconnect();
 	};
 
@@ -80,9 +77,6 @@ export default function Board(props) {
 		});
 		socket.on("reloadBoard", () => {
 			setReload(!reload);
-		});
-		socket.on("joined", (data) => {
-			console.log(`Connected to socket, room: ${data}`);
 		});
 	};
 
@@ -147,7 +141,7 @@ export default function Board(props) {
 										</Typography>
 									</Fade>
 								) : (
-									<Skeleton variant="rectangle" width="85%" height="45px" />
+									<Skeleton variant="rectangle" width="85%" height="56px" />
 								)}
 							</Grid>
 							<Grid item xs={12} sx={{ display: "flex", minHeight: "750px" }}>
