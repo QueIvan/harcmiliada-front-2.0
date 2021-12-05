@@ -45,11 +45,7 @@ export default function Console(props) {
 	const nav = useNavigate();
 	const boardTarget = `board-&${id}`;
 
-	const socket = io(
-		`http://localhost:${
-			process.env.PORT >= 0 && process.env.PORT <= 65535 ? parseInt(process.env.PORT) + 1 : process.env.PORT > 1 ? parseInt(process.env.PORT) - 1 : 4001
-		}`
-	);
+	const socket = io(`https://www.harcmiliada.pl`);
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
