@@ -40,7 +40,9 @@ export default function Console(props) {
 	const id = useParams().id;
 
 	const socket = io(
-		`http://localhost:${process.env.PORT >= 0 && process.env.PORT <= 65535 ? process.env.PORT + 1 : process.env.PORT > 1 ? process.env.PORT - 1 : 4001}`
+		`http://localhost:${
+			process.env.PORT >= 0 && process.env.PORT <= 65535 ? parseInt(process.env.PORT) + 1 : process.env.PORT > 1 ? parseInt(process.env.PORT) - 1 : 4001
+		}`
 	);
 
 	const initiateSocket = (room, gameId) => {
