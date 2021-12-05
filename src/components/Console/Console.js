@@ -49,7 +49,6 @@ export default function Console(props) {
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
-		console.log(room, gameId);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 

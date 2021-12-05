@@ -56,7 +56,6 @@ export default function Board(props) {
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
-		console.log(room, gameId);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
@@ -80,6 +79,9 @@ export default function Board(props) {
 		});
 		socket.on("reloadBoard", () => {
 			setReload(!reload);
+		});
+		socket.on("joined", (data) => {
+			console.log(`Connected to socket, room: ${data}`);
 		});
 	};
 
