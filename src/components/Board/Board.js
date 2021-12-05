@@ -52,7 +52,7 @@ export default function Board(props) {
 	const id = useParams().id;
 	const { userId, title } = props;
 
-	const socket = io(`https://www.harcmiliada.pl`);
+	const socket = io(`http://localhost`);
 
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
