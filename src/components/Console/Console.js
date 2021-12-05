@@ -44,6 +44,7 @@ export default function Console(props) {
 	const id = useParams().id;
 	const nav = useNavigate();
 	const boardTarget = `board-&${id}`;
+	const presenterTarget = `presenter-&${id}`;
 
 	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
@@ -64,6 +65,7 @@ export default function Console(props) {
 			.then(() => setReload(!reload))
 			.then(() => {
 				socket.emit("reloadBoard", boardTarget);
+				socket.emit("reloadBoard", presenterTarget);
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 	};
