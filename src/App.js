@@ -16,6 +16,7 @@ import LoggedOut from "./components/Miscellaneous/Placeholders/LoggedOut";
 import React from "react";
 import Loading from "./components/Miscellaneous/Placeholders/Loading";
 import Board from "./components/Board/Board";
+import Presenter from "./components/Presenter/Presenter";
 import Error from "./components/Miscellaneous/ErrorPages/Error";
 
 const SnackBarIcon = styled(FontAwesomeIcon)(({ theme }) => ({ marginRight: "16px" }));
@@ -122,6 +123,7 @@ function App() {
 								<Route path="/games/:id" element={<GameEditor userId={user?.sub} title="Edytor gier" />} />
 								<Route exact path="/games/:id/console" element={<Console userId={user?.sub} title="Konsola gry" />} />
 								<Route exact path="/games/:id/board" element={<Board userId={user?.sub} title="Tablica" />} />
+								<Route exact path="/games/:id/presenter" element={<Presenter userId={user?.sub} title="Prezenter" />} />
 							</React.Fragment>
 						)}
 						{!isAuthenticated && !isLoading && <Route exact path="/" element={<LoggedOut />} />}
