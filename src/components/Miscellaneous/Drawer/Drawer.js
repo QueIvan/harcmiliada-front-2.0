@@ -195,7 +195,7 @@ export default function Drawer(props) {
 		title: "Podaj nazwę grupy",
 		tooltip: "Stwórz grupę",
 		handler: {
-			save: (value) => handleGroupCreation(value),
+			save: () => handleGroupCreation(),
 			close: () => setInputDialog(false),
 		},
 	};
@@ -649,7 +649,11 @@ export default function Drawer(props) {
 						hiddenLabel
 						variant="outlined"
 						defaultValue={inputDialog?.defaultValue}
-						onKeyDown={(e) => inputDialog?.handler?.save(e, inputDialog?.currentGroup)}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" && inputRef?.current?.value !== "") {
+								inputDialog?.handler?.save(e, inputDialog?.currentGroup);
+							}
+						}}
 						fullWidth
 						inputRef={inputRef}
 					/>
