@@ -14,6 +14,7 @@ io.on("connect", (socket) => {
 	socket.on("join", (roomName, gameId) => {
 		socket.join(`${roomName}-&${gameId}`);
 		console.log(`${socket.id} dołączył do ${roomName}-#${gameId}`);
+		socket.emit("joined", `${roomName}-#${gameId}`);
 	});
 
 	socket.on("disconnect", () => console.log(`Rozłączono: ${socket.id}`));

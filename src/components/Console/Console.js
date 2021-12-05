@@ -44,7 +44,6 @@ export default function Console(props) {
 	const initiateSocket = (room, gameId) => {
 		console.log(`Connecting socket...`);
 		socket = io();
-		console.log(`${room}-&${gameId}`);
 		if (socket && room) socket.emit("join", room, gameId);
 	};
 
@@ -80,11 +79,16 @@ export default function Console(props) {
 		setAnswersVisibility(visibility);
 	};
 
+	const listenForCommands = () => {
+		socket.on("joined", (data) => {
+			console.log(data);
+		});
+	};
+
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
 
 		initiateSocket("console", id);
-		console.log(socket);
 
 		fetch(`${process.env.REACT_APP_API_URL}/games/${id}/${userId}`, {
 			method: "GET",
@@ -102,6 +106,8 @@ export default function Console(props) {
 				setWrongAnswers({ left: 0, right: 0 });
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+
+		listenForCommands();
 
 		return () => disconnectSocket();
 	}, [userId, reload]); //eslint-disable-line
