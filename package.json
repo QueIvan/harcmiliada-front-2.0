@@ -18,7 +18,6 @@
 		"@testing-library/jest-dom": "^5.15.0",
 		"@testing-library/react": "^11.2.7",
 		"@testing-library/user-event": "^12.8.3",
-		"concurrently": "^6.4.0",
 		"express": "^4.17.1",
 		"http": "^0.0.1-security",
 		"notistack": "^2.0.3",
@@ -34,7 +33,7 @@
 		"web-vitals": "^1.1.2"
 	},
 	"scripts": {
-		"start": "concurrently -n SOCKET,#FRONT \"node src/socket-server/server.js\" \"react-scripts start\"",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
