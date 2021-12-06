@@ -20,12 +20,13 @@ const StyledButton = styled(MuiLoadingButton, { shouldForwardProp: (props) => pr
 }));
 
 export default function HeaderButton(props) {
-	const { onClick, size, icon, row, tooltip, placement, sx } = props;
+	const { onClick, size, icon, row, tooltip, placement, sx, context } = props;
 
 	return (
 		<Tooltip title={tooltip ? tooltip : ""} placement={placement ? placement : "right"} arrow disableInteractive={true}>
 			<StyledButton onClick={onClick} sx={{ ...sx }} row={row} loadingPosition="center" variant="contained">
 				<FontAwesomeIcon size={size ? size : "1x"} icon={icon} />
+				{context}
 			</StyledButton>
 		</Tooltip>
 	);

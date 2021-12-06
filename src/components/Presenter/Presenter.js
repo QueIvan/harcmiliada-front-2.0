@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
+import { LoadingButton as MuiLoadingButton } from "@mui/lab";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled } from "@mui/system";
 import { Grid, Typography } from "@mui/material";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import io from "socket.io-client";
+import { faChild } from "@fortawesome/free-solid-svg-icons";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
@@ -24,9 +27,22 @@ const ButtonText = styled(Typography, { shouldForwardProp: (props) => props !== 
 	textShadow: "0px 0px 10px #000000",
 }));
 
+const LoadingButton = styled(MuiLoadingButton)(({ theme, row }) => ({
+	height: "fit-content",
+	backgroundColor: "#455F4D",
+	color: "#f1f1f1",
+	padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+	border: "1px solid #292929",
+	pointerEvents: "none",
+	"&>*:first-of-type": {
+		marginRight: theme.spacing(2),
+	},
+}));
+
 export default function Presenter(props) {
 	const { userId, title } = props;
 	const [currentQuestion, setCurrentQuestion] = React.useState(null);
+	const [currentAnswerer, setCurrentAnswerer] = React.useState(null);
 	const [reload, setReload] = React.useState(false);
 	const { enqueueSnackbar } = useSnackbar();
 	const id = useParams().id;
@@ -44,6 +60,9 @@ export default function Presenter(props) {
 	const listenForCommands = () => {
 		socket.on("reloadBoard", () => {
 			setReload(!reload);
+		});
+		socket.on("setAnswerer", (side) => {
+			setCurrentAnswerer(side);
 		});
 	};
 
@@ -68,10 +87,13 @@ export default function Presenter(props) {
 	return (
 		<BackContainer container>
 			<Grid item xs="auto">
-				<ButtonText variant="h4" align="center">
+				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={faChild} />} loadingPosition="center" variant="contained">
+					{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer === "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
+				</LoadingButton>
+				<ButtonText variant="h1" align="center">
 					{currentQuestion?.content}
 				</ButtonText>
-				<ButtonText variant="span" align="center" smallHeader>
+				<ButtonText variant="h4" align="center" smallHeader>
 					Ilość odpowiedzi: {currentQuestion?.answers?.length}
 				</ButtonText>
 			</Grid>

@@ -188,7 +188,7 @@ export default function Drawer(props) {
 	const [inputDialog, setInputDialog] = useState(false);
 	const inputRef = useRef(null);
 	const openMenu = Boolean(menuAnchor);
-	const { header, headerOptions, editor, userId } = props;
+	const { header, headerOptions, editor, userId, inAMiddle } = props;
 	const nav = useNavigate();
 
 	const createGroupConfig = {
@@ -347,6 +347,7 @@ export default function Drawer(props) {
 						}
 					}}
 				/>
+
 				<Grid item sx={{ marginLeft: "auto", marginRight: "0.75rem", visibility: "hidden" }}>
 					<Tooltip disableInteractive={true} title={"Dokumentacja"} arrow placement="bottom">
 						<IconButton
@@ -390,6 +391,11 @@ export default function Drawer(props) {
 							<OptionHeader removeMargin={editor} variant={editor ? "h5" : "h4"}>
 								{header}
 							</OptionHeader>
+							{inAMiddle && (
+								<Grid item sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
+									{inAMiddle}
+								</Grid>
+							)}
 							{headerOptions && (
 								<Grid item sx={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "15px" }}>
 									{headerOptions}
