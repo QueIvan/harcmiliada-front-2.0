@@ -380,9 +380,9 @@ export default function Drawer(props) {
 			<Grid container item xs={12}>
 				<SideDrawer open={drawerOpen} container item>
 					<MenuContainer container item>
-						<MenuItem icon={faTachometerAlt} label="Pulpit" open={drawerOpen} href="/" />
+						<MenuItem icon={faTachometerAlt} label="Pulpit" correction="1px" open={drawerOpen} href="/" />
 						<MenuItem icon={faGamepad} label="Gry" open={drawerOpen} href="/games" />
-						<MenuItem icon={faClipboardList} label="Pytania" correction="3px" open={drawerOpen} href="/questions" />
+						<MenuItem icon={faClipboardList} label="Pytania" correction="4px" open={drawerOpen} href="/questions" />
 					</MenuContainer>
 				</SideDrawer>
 				<ContentContainer container item sx={{ height: "fit-content" }}>
