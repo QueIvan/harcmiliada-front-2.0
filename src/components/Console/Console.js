@@ -1,7 +1,7 @@
 import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
 import { LoadingButton as MuiLoadingButton } from "@mui/lab";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChalkboard, faChild } from "@fortawesome/free-solid-svg-icons";
+import { faChalkboard, faChild, faMale } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
@@ -155,7 +155,7 @@ export default function Console(props) {
 			userId={userId}
 			header={`Panel kontrolny`}
 			inAMiddle={
-				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={faChild} />} loadingPosition="center" variant="contained">
+				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />} loadingPosition="center" variant="contained">
 					{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer !== "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
 				</LoadingButton>
 			}
