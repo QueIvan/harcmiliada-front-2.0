@@ -1,5 +1,7 @@
 import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
-import { faChalkboard } from "@fortawesome/free-solid-svg-icons";
+import { LoadingButton as MuiLoadingButton } from "@mui/lab";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChalkboard, faChild } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
@@ -33,9 +35,22 @@ const CategoryHeader = styled(Typography, { shouldForwardProp: (props) => props 
 	}),
 }));
 
+const LoadingButton = styled(MuiLoadingButton)(({ theme, row }) => ({
+	height: "fit-content",
+	backgroundColor: "#455F4D",
+	color: "#f1f1f1",
+	padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
+	border: "1px solid #292929",
+	pointerEvents: "none",
+	"&>*:first-of-type": {
+		marginRight: theme.spacing(2),
+	},
+}));
+
 export default function Console(props) {
 	const { title, userId } = props;
 	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false });
+	const [currentAnswerer, setCurrentAnswerer] = React.useState(null);
 	const [answersVisibility, setAnswersVisibility] = React.useState(null);
 	const [wrongAnswers, setWrongAnswers] = React.useState({ left: 0, right: 0 });
 	const { enqueueSnackbar } = useSnackbar();
@@ -98,6 +113,12 @@ export default function Console(props) {
 		moveToLink(`/games/${id}/board`, nav, "_blank");
 	};
 
+	const listenForCommand = () => {
+		socket.on("setAnswerer", (side) => {
+			setCurrentAnswerer(side);
+		});
+	};
+
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
 
@@ -124,6 +145,8 @@ export default function Console(props) {
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 
+		listenForCommand();
+
 		return () => disconnectSocket();
 	}, [userId, reload]); //eslint-disable-line
 
@@ -131,6 +154,11 @@ export default function Console(props) {
 		<Drawer
 			userId={userId}
 			header={`Panel kontrolny`}
+			inAMiddle={
+				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={faChild} />} loadingPosition="center" variant="contained">
+					{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer !== "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
+				</LoadingButton>
+			}
 			headerOptions={
 				<React.Fragment>
 					<HeaderButton onClick={openBoard} tooltip="Otwórz tablicę" placement="bottom" size="lg" icon={faChalkboard} />
