@@ -41,16 +41,17 @@ const WrongBoxIcon = styled(FontAwesomeIcon)(({ theme }) => ({
 }));
 
 export default function Board(props) {
-	const [currentQuestion, setCurrentQuestion] = React.useState(null);
-	const [wrongBoxesStatus, setWrongBoxesStatus] = React.useState({ left: 0, right: 0 });
 	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false });
+	const [wrongBoxesStatus, setWrongBoxesStatus] = React.useState({ left: 3, right: 3 });
+	const [currentQuestion, setCurrentQuestion] = React.useState(null);
+	const [answersStatus, setAnswersStatus] = React.useState([]);
 	const [idLabelZoom, setIdLabelZoom] = React.useState(false);
 	const [reload, setReload] = React.useState(false);
-	const [answersStatus, setAnswersStatus] = React.useState([]);
 	const [logoIn, setLogoIn] = React.useState(false);
 	const { enqueueSnackbar } = useSnackbar();
-	const id = useParams().id;
 	const { userId, title } = props;
+	const wrongAnswersLimit = 3;
+	const id = useParams().id;
 
 	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
@@ -129,7 +130,16 @@ export default function Board(props) {
 				<Grid container item xs={12}>
 					<Grid container item p={5} sx={{ alignItems: "center" }}>
 						<Grid item xs={12}>
-							<Grid item xs={12} sx={{ height: "fit-content", ...(!visiblityStatus.question && { justifyContent: "center", display: "flex" }) }}>
+							<Grid
+								item
+								xs={6}
+								sx={{
+									marginLeft: "auto",
+									marginRight: "auto",
+									height: "fit-content",
+									...(!visiblityStatus.question && { justifyContent: "center", display: "flex" }),
+								}}
+							>
 								{visiblityStatus.question ? (
 									<Fade in={true} timeout={750}>
 										<Typography
@@ -146,12 +156,12 @@ export default function Board(props) {
 							</Grid>
 							<Grid item xs={12} sx={{ display: "flex", minHeight: "750px" }}>
 								{Array.from(Array(2).keys()).map((i) => (
-									<Grid container item xs={6} key={i}>
+									<Grid container item xs={6} key={i} sx={{ height: "fit-content" }}>
 										{currentQuestion?.content &&
 											Array.from([...Array(5).keys()].map((k) => k + 5 * i)).map((el) => {
 												return (
 													<React.Fragment key={el}>
-														{currentQuestion?.answers[el] ? (
+														{currentQuestion?.answers[el] && (
 															<AnswerBox
 																answer={currentQuestion?.answers[el]}
 																active={getAnswerStatus(currentQuestion?.answers[el]?.id)}
@@ -159,8 +169,6 @@ export default function Board(props) {
 																zoomStatus={idLabelZoom}
 																showId={el + 1}
 															/>
-														) : (
-															<AnswerBox empty shown={visiblityStatus.answers} />
 														)}
 													</React.Fragment>
 												);
@@ -170,26 +178,31 @@ export default function Board(props) {
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid container item xs={3} sx={{ position: "absolute", left: "25px", top: "25px" }}>
-						{Array.from(Array(3).keys()).map((i, index, arr) => (
-							<Zoom key={i} in={i < wrongBoxesStatus.left}>
-								<WrongBoxGrid key={i} active={i < wrongBoxesStatus.left} container item xs={12 / arr.length}>
-									<WrongBoxBackground sx={{}} container item>
-										<WrongBoxIcon icon={faTimes} />
-									</WrongBoxBackground>
-								</WrongBoxGrid>
-							</Zoom>
-						))}
-					</Grid>
-					<Grid container item xs={3} sx={{ position: "absolute", right: "25px", top: "25px", flexDirection: "row-reverse" }}>
-						{Array.from(Array(3).keys()).map((i, index, arr) => (
-							<Zoom key={i} in={i < wrongBoxesStatus.right}>
-								<WrongBoxGrid key={i} active={i < wrongBoxesStatus.right} container item xs={12 / arr.length}>
-									<WrongBoxBackground container item>
-										<WrongBoxIcon icon={faTimes} />
-									</WrongBoxBackground>
-								</WrongBoxGrid>
-							</Zoom>
+					<Grid
+						container
+						item
+						xs={12}
+						sx={{
+							position: "absolute",
+							left: "25px",
+							top: "25px",
+							width: "calc(100% - 50px)",
+							display: visiblityStatus.answers === true && visiblityStatus.question === true ? "flex" : "none",
+							"&>*:last-of-type": { marginLeft: "auto", flexDirection: "row-reverse" },
+						}}
+					>
+						{Object.keys(wrongBoxesStatus).map((el) => (
+							<Grid key={el} container item xs={3}>
+								{Array.from(Array(wrongAnswersLimit).keys()).map((i) => (
+									<Zoom key={i} in={i < wrongBoxesStatus[el]}>
+										<WrongBoxGrid key={i} active={i < wrongBoxesStatus[el]} container item xs={12 / wrongAnswersLimit}>
+											<WrongBoxBackground container item>
+												<WrongBoxIcon icon={faTimes} />
+											</WrongBoxBackground>
+										</WrongBoxGrid>
+									</Zoom>
+								))}
+							</Grid>
 						))}
 					</Grid>
 				</Grid>

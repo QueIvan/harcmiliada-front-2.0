@@ -7,12 +7,13 @@ import { sortAndSave } from "../../utils/Sorter";
 import { moveToLink } from "../../utils/Anchors";
 
 export default function GamesList(props) {
-	const { enqueueSnackbar } = useSnackbar();
-	const userId = props.userId;
 	const [userGames, setUserGames] = React.useState(null);
+	const { enqueueSnackbar } = useSnackbar();
+	const { hrefHeader, userId } = props;
 	const nav = useNavigate();
 
 	const openConsole = (e, gameId) => {
+		e.preventDefault();
 		if (e.button === 1) {
 			moveToLink(`/games/${gameId}/console`, nav, "_blank");
 		} else if (e.button === 0) {
@@ -21,6 +22,7 @@ export default function GamesList(props) {
 	};
 
 	const openBoard = (e, gameId) => {
+		e.preventDefault();
 		if (e.button === 1) {
 			moveToLink(`/games/${gameId}/board`, nav, "_blank");
 		} else if (e.button === 0) {
@@ -29,6 +31,7 @@ export default function GamesList(props) {
 	};
 
 	const openPresenter = (e, gameId) => {
+		e.preventDefault();
 		if (e.button === 1) {
 			moveToLink(`/games/${gameId}/presenter`, nav, "_blank");
 		} else if (e.button === 0) {
@@ -104,6 +107,7 @@ export default function GamesList(props) {
 			userId={userId}
 			emptySize="58.75"
 			apiPath="games"
+			hrefHeader={hrefHeader}
 			tableConfig={tableConfig}
 			loopOn={userGames}
 			creatorName="gry"

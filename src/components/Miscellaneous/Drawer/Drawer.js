@@ -340,6 +340,7 @@ export default function Drawer(props) {
 				</HamburgerContainer>
 				<DrawerLogo
 					onClick={(e) => {
+						e.preventDefault();
 						if (e.button === 1) {
 							moveToLink("/", nav, "_blank");
 						} else if (e.button === 0) {

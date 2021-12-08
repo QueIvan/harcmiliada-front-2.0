@@ -6,7 +6,7 @@ import Table from "../Miscellaneous/Table/Table";
 
 export default function QuestionsList(props) {
 	const { enqueueSnackbar } = useSnackbar();
-	const userId = props.userId;
+	const { userId, hrefHeader } = props;
 	const [userQuestions, setUserQuestions] = React.useState(null);
 	const [reload, setReload] = React.useState(false);
 
@@ -93,6 +93,7 @@ export default function QuestionsList(props) {
 		<Table
 			{...props}
 			userId={userId}
+			hrefHeader={hrefHeader}
 			emptySize="58.75"
 			tableHeader="Pytania"
 			apiPath="questions"

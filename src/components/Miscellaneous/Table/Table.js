@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 import { styled } from "@mui/material/styles";
 import { faCheckSquare, faSquare, faMinusSquare } from "@fortawesome/free-regular-svg-icons";
 import EmptyPlaceholder from "../Placeholders/EmptyPlaceholder";
+import { moveToLink } from "../../../utils/Anchors";
 
 const HeaderSkeleton = styled(MuiSkeleton, { shouldForwardProp: (props) => props !== "headerPlacement" })(({ theme, headerPlacement }) => ({
 	width: "35%",
@@ -42,21 +43,31 @@ const ComponentGrid = styled(MuiGrid)(({ theme }) => ({
 	padding: theme.spacing(1),
 }));
 
-const TableHeader = styled(MuiTypography, { shouldForwardProp: (props) => props !== "headerPlacement" })(({ theme, headerPlacement }) => ({
-	padding: `${theme.spacing(1)} ${theme.spacing(12)}`,
-	marginTop: theme.spacing(1),
-	...(headerPlacement === "right" ? { marginLeft: "auto", marginRight: theme.spacing(5) } : { marginLeft: theme.spacing(5) }),
-	height: "fit-content",
-	fontSize: "1.35rem",
-	fontWeight: "bold",
-	color: "#ffffff",
-	textShadow: "0px 0px 10px #000000",
-	backgroundColor: "#304236",
-	borderTopLeftRadius: "8px",
-	borderTopRightRadius: "8px",
-	border: "1px solid #292929",
-	borderBottom: "none",
-}));
+const TableHeader = styled(MuiTypography, { shouldForwardProp: (props) => props !== "headerPlacement" && props !== "hrefHeader" })(
+	({ theme, headerPlacement, hrefHeader }) => ({
+		padding: `${theme.spacing(1)} ${theme.spacing(12)}`,
+		marginTop: theme.spacing(1),
+		...(headerPlacement === "right" ? { marginLeft: "auto", marginRight: theme.spacing(5) } : { marginLeft: theme.spacing(5) }),
+		height: "fit-content",
+		fontSize: "1.35rem",
+		fontWeight: "bold",
+		color: hrefHeader ? "#e1e1e1" : "#ffffff",
+		textShadow: "0px 0px 10px #000000",
+		backgroundColor: "#304236",
+		borderTopLeftRadius: "8px",
+		borderTopRightRadius: "8px",
+		border: "1px solid #292929",
+		borderBottom: "none",
+		transition: "color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+		...(hrefHeader && {
+			cursor: "pointer",
+			"&:hover": {
+				color: "#ffffff",
+				backgroundColor: "#3c4338",
+			},
+		}),
+	})
+);
 
 const TablePaper = styled(Paper)(({ theme }) => ({
 	width: "100%",
@@ -106,6 +117,7 @@ const ColoredIcon = styled(FontAwesomeIcon, { shouldForwardProp: (props) => prop
 export default function Table(props) {
 	const { enqueueSnackbar } = useSnackbar();
 	const {
+		hrefHeader,
 		tableHeader,
 		loopOn,
 		small,
@@ -146,6 +158,15 @@ export default function Table(props) {
 		})
 			.then(() => nav(0))
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+	};
+
+	const moveToHref = (e) => {
+		e.preventDefault();
+		if (e.button === 1) {
+			moveToLink(`/${apiPath}`, nav, "_blank");
+		} else if (e.button === 0) {
+			moveToLink(`/${apiPath}`, nav);
+		}
 	};
 
 	const removeSelectedRows = () => {
@@ -209,7 +230,11 @@ export default function Table(props) {
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					{header ? <TableHeader headerPlacement={headerPlacement}>{tableHeader}</TableHeader> : null}
+					{header ? (
+						<TableHeader hrefHeader={hrefHeader} headerPlacement={headerPlacement} onMouseDown={hrefHeader ? (e) => moveToHref(e) : null}>
+							{tableHeader}
+						</TableHeader>
+					) : null}
 					<TablePaper>
 						<TableContainer>
 							<TableComponent aria-labelledby="tableTitle">

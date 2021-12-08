@@ -57,7 +57,11 @@ export default function Row(props) {
 							sx={{ boxSizing: "border-box", paddingLeft: typeof cell.align === "object" ? 1.5 : 0 }}
 						>
 							{cell.length ? (
-								<Typography>{data[cell.id].length}</Typography>
+								<Typography
+									sx={{ ...(data[cell.id].length === 0 && { fontWeight: "bold", color: "#ee0000", textShadow: "0px 0px 10px #000000" }) }}
+								>
+									{data[cell.id].length}
+								</Typography>
 							) : cell.id === "createdAt" ? (
 								<Typography>{convertDate(data[cell.id])}</Typography>
 							) : cell.id === "inPublicLib" ? (
@@ -72,6 +76,7 @@ export default function Row(props) {
 												onMouseUp={
 													option.editorPath
 														? (e) => {
+																e.preventDefault();
 																if (e.button === 1) {
 																	moveToLink(`/${option.editorPath}/${data.id}`, navigation, "_blank");
 																} else if (e.button === 0) {

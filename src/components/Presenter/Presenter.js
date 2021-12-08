@@ -6,7 +6,7 @@ import { Grid, Typography } from "@mui/material";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import io from "socket.io-client";
-import { faChild } from "@fortawesome/free-solid-svg-icons";
+import { faChild, faMale } from "@fortawesome/free-solid-svg-icons";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
@@ -86,16 +86,26 @@ export default function Presenter(props) {
 
 	return (
 		<BackContainer container>
-			<Grid item xs="auto">
-				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={faChild} />} loadingPosition="center" variant="contained">
-					{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer === "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
-				</LoadingButton>
-				<ButtonText variant="h1" align="center">
-					{currentQuestion?.content}
-				</ButtonText>
-				<ButtonText variant="h4" align="center" smallHeader>
-					Ilość odpowiedzi: {currentQuestion?.answers?.length}
-				</ButtonText>
+			<Grid container item xs={11}>
+				<Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+					<LoadingButton
+						startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />}
+						loadingPosition="center"
+						variant="contained"
+					>
+						{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer === "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
+					</LoadingButton>
+				</Grid>
+				<Grid item xs={12}>
+					<ButtonText variant="h1" align="center">
+						{currentQuestion?.content}
+					</ButtonText>
+				</Grid>
+				<Grid item xs={12}>
+					<ButtonText variant="h5" align="center" smallHeader>
+						Ilość odpowiedzi: {currentQuestion?.answers?.length}
+					</ButtonText>
+				</Grid>
 			</Grid>
 		</BackContainer>
 	);

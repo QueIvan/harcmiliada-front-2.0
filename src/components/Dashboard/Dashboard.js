@@ -12,8 +12,8 @@ export default function Dashboard(props) {
 
 	return (
 		<Drawer header="Pulpit" userId={userId}>
-			<GamesList header userId={userId} tableHeader="Gry" />
-			<QuestionsList header userId={userId} tableHeader="Pytania" />
+			<GamesList header userId={userId} tableHeader="Gry" hrefHeader />
+			<QuestionsList header userId={userId} tableHeader="Pytania" hrefHeader />
 		</Drawer>
 	);
 }
