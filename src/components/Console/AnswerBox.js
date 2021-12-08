@@ -8,7 +8,7 @@ const BackgroundGrid = styled(Grid)(({ theme }) => ({
 	justifyContent: "center",
 }));
 
-const ButtonGrid = styled(Grid, { shouldForwardProp: (props) => props !== "active" })(({ theme, active }) => ({
+const ButtonGrid = styled(Grid, { shouldForwardProp: (props) => props !== "active" && props !== "removeHover" })(({ theme, active, removeHover }) => ({
 	padding: theme.spacing(1.5),
 	backgroundColor: "#364b3d",
 	height: "fit-content",
@@ -16,10 +16,12 @@ const ButtonGrid = styled(Grid, { shouldForwardProp: (props) => props !== "activ
 	color: "#c1c1c1",
 	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%)",
 	transition: "color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-	cursor: "pointer",
-	"&:hover": { color: "#ffffff" },
-	"&:hover>.MuiGrid-root>.MuiGrid-root": { borderColor: "#3C4338" },
-	...(active && { backgroundColor: "#415748", color: "#e1e1e1", "&>.MuiGrid-root>.MuiGrid-root": { borderColor: "#364b3d" } }),
+	...(!removeHover && {
+		cursor: "pointer",
+		"&:hover": { color: "#ffffff" },
+		"&:hover>.MuiGrid-root>.MuiGrid-root": { borderColor: "#3C4338" },
+		...(active && { backgroundColor: "#415748", color: "#e1e1e1", "&>.MuiGrid-root>.MuiGrid-root": { borderColor: "#364b3d" } }),
+	}),
 }));
 
 const ButtonTextGrid = styled(Grid)(({ theme }) => ({
@@ -47,14 +49,14 @@ const ButtonSkeleton = styled(Skeleton)(({ theme }) => ({
 }));
 
 export default function AnswerBox(props) {
-	const { data, active, onClick, showSkeleton } = props;
+	const { data, active, onClick, showSkeleton, removeHover } = props;
 
 	return (
 		<BackgroundGrid container item xs={4} onClick={onClick}>
 			{showSkeleton ? (
 				<ButtonSkeleton variant="rectangle" />
 			) : (
-				<ButtonGrid container item active={active} xs={10}>
+				<ButtonGrid container item removeHover={removeHover} active={active} xs={10}>
 					<ButtonInnerGrid container item xs={12}>
 						<ButtonTextGrid item xs={10}>
 							<ButtonText variant="h6" align="center">

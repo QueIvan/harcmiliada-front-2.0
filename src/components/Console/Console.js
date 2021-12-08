@@ -15,6 +15,8 @@ import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
 import { moveToLink } from "../../utils/Anchors";
+import correct from "../../resources/Correct.mp3";
+import error from "../../resources/Error.mp3";
 
 const QuestionSelector = styled(TextField)(({ theme }) => ({
 	width: "350px",
@@ -35,7 +37,7 @@ const CategoryHeader = styled(Typography, { shouldForwardProp: (props) => props 
 	}),
 }));
 
-const LoadingButton = styled(MuiLoadingButton)(({ theme, row }) => ({
+const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
 	height: "fit-content",
 	backgroundColor: "#455F4D",
 	color: "#f1f1f1",
@@ -48,19 +50,20 @@ const LoadingButton = styled(MuiLoadingButton)(({ theme, row }) => ({
 }));
 
 export default function Console(props) {
-	const { title, userId } = props;
+	// eslint-disable-next-line no-unused-vars
+	const audios = { error: new Audio(error), correct: new Audio(correct) };
 	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false });
-	const [currentAnswerer, setCurrentAnswerer] = React.useState(null);
-	const [answersVisibility, setAnswersVisibility] = React.useState(null);
 	const [wrongAnswers, setWrongAnswers] = React.useState({ left: 0, right: 0 });
-	const { enqueueSnackbar } = useSnackbar();
+	const [answersVisibility, setAnswersVisibility] = React.useState(null);
+	const [currentAnswerer, setCurrentAnswerer] = React.useState(null);
 	const [currentGame, setCurrentGame] = React.useState(null);
 	const [reload, setReload] = React.useState(false);
-	const id = useParams().id;
+	const { enqueueSnackbar } = useSnackbar();
+	const { title, userId } = props;
 	const nav = useNavigate();
-	const boardTarget = `board-&${id}`;
-	const presenterTarget = `presenter-&${id}`;
+	const id = useParams().id;
 
+	const target = { presenter: `presenter-&${id}`, board: `board-&${id}` };
 	const socket = io("https://harcmiliada-socket.herokuapp.com");
 
 	const initiateSocket = (room, gameId) => {
@@ -79,8 +82,8 @@ export default function Console(props) {
 		})
 			.then(() => setReload(!reload))
 			.then(() => {
-				socket.emit("reloadBoard", boardTarget);
-				socket.emit("reloadBoard", presenterTarget);
+				socket.emit("reloadBoard", target.board);
+				socket.emit("reloadBoard", target.presenter);
 			})
 			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
 	};
@@ -89,24 +92,24 @@ export default function Console(props) {
 		let wrong = { ...wrongAnswers };
 		if (action === "plus" && wrong[side] < 3) {
 			wrong[side]++;
-		} else if (action === "minus" && wrong[side] > 0) {
-			wrong[side]--;
-		}
+			audios.error.play();
+		} else if (action === "minus" && wrong[side] > 0) wrong[side]--;
 		setWrongAnswers(wrong);
-		socket.emit("setWrongAnswersCount", boardTarget, wrong);
+		socket.emit("setWrongAnswersCount", target.board, wrong);
 	};
 
 	const changeAnswerVisibility = (id) => {
 		let visibility = [...answersVisibility];
 		let index = visibility.findIndex((v) => v.id === id);
 		visibility[index] = { ...visibility[index], status: !visibility[index].status };
+		if (visibility[index].status) audios.correct.play();
 		setAnswersVisibility(visibility);
-		socket.emit("setAnswerVisibility", boardTarget, visibility);
+		socket.emit("setAnswerVisibility", target.board, visibility);
 	};
 
 	const changeVisibilityStatus = (part) => {
 		setVisiblityStatus({ ...visiblityStatus, [part]: !visiblityStatus[part] });
-		socket.emit("setVisibilityStatus", boardTarget, { ...visiblityStatus, [part]: !visiblityStatus[part] });
+		socket.emit("setVisibilityStatus", target.board, { ...visiblityStatus, [part]: !visiblityStatus[part] });
 	};
 
 	const openBoard = () => {
@@ -114,9 +117,7 @@ export default function Console(props) {
 	};
 
 	const listenForCommand = () => {
-		socket.on("setAnswerer", (side) => {
-			setCurrentAnswerer(side);
-		});
+		socket.on("setAnswerer", (side) => setCurrentAnswerer(side));
 	};
 
 	useEffect(() => {
@@ -131,13 +132,8 @@ export default function Console(props) {
 			.then((resp) => resp.json())
 			.then((data) => {
 				sortAndSave(data, setCurrentGame, "createdAt", "questions");
-				setCurrentGame({
-					...data,
-					currentQuestion: { ...data.currentQuestion, answers: sorting(data.currentQuestion.answers, "score") },
-				});
-				if (data.currentQuestion) {
-					setAnswersVisibility(data.currentQuestion.answers.map((a) => ({ id: a.id, status: false })));
-				}
+				setCurrentGame({ ...data, currentQuestion: { ...data.currentQuestion, answers: sorting(data.currentQuestion.answers, "score") } });
+				if (data.currentQuestion) setAnswersVisibility(data.currentQuestion.answers.map((a) => ({ id: a.id, status: false })));
 			})
 			.then(() => {
 				setVisiblityStatus({ question: false, answers: false });
