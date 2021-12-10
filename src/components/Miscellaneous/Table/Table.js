@@ -40,6 +40,7 @@ const TableSkeleton = styled(MuiSkeleton, { shouldForwardProp: (props) => props 
 }));
 
 const ComponentGrid = styled(MuiGrid)(({ theme }) => ({
+	height: "fit-content",
 	padding: theme.spacing(1),
 }));
 

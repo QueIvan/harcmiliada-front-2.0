@@ -94,7 +94,7 @@ export default function QuestionsList(props) {
 			{...props}
 			userId={userId}
 			hrefHeader={hrefHeader}
-			emptySize="58.75"
+			emptySize="63.25"
 			tableHeader="Pytania"
 			apiPath="questions"
 			tableConfig={tableConfig}
