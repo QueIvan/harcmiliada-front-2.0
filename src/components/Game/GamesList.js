@@ -8,8 +8,9 @@ import { moveToLink } from "../../utils/Anchors";
 
 export default function GamesList(props) {
 	const [userGames, setUserGames] = React.useState(null);
+	const [filteredGames, setFilteredGames] = React.useState(null);
 	const { enqueueSnackbar } = useSnackbar();
-	const { hrefHeader, userId } = props;
+	const { hrefHeader, userId, searchQuery } = props;
 	const nav = useNavigate();
 
 	const openConsole = (e, gameId) => {
@@ -95,17 +96,23 @@ export default function GamesList(props) {
 	};
 
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/games/owner/${userId}/${userId}`, {
-			method: "GET",
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((resp) => resp.json())
-			.then((data) => sortAndSave(data, setUserGames, "createdAt"))
-			.catch((err) => {
-				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
-				console.error(err);
-			});
-	}, [userId]); //eslint-disable-line
+		if (userGames === null) {
+			fetch(`${process.env.REACT_APP_API_URL}/games/owner/${userId}/${userId}`, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			})
+				.then((resp) => resp.json())
+				.then((data) => sortAndSave(data, setUserGames, "createdAt"))
+				.catch((err) => {
+					enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+					console.error(err);
+				});
+		}
+		if (searchQuery) {
+			const filteredQuestions = userGames.filter((question) => question.name.toLowerCase().includes(searchQuery.toLowerCase()));
+			setFilteredGames(filteredQuestions);
+		}
+	}, [userId, searchQuery]); //eslint-disable-line
 
 	return (
 		<Table
@@ -115,7 +122,7 @@ export default function GamesList(props) {
 			apiPath="games"
 			hrefHeader={hrefHeader}
 			tableConfig={tableConfig}
-			loopOn={userGames}
+			loopOn={searchQuery ? filteredGames : userGames}
 			creatorName="gry"
 			creatorPrompt="Podaj nazwę gry"
 			addTooltip="Stwórz nową grę"

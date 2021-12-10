@@ -6,8 +6,9 @@ import Table from "../Miscellaneous/Table/Table";
 
 export default function QuestionsList(props) {
 	const { enqueueSnackbar } = useSnackbar();
-	const { userId, hrefHeader } = props;
+	const { userId, hrefHeader, searchQuery } = props;
 	const [userQuestions, setUserQuestions] = React.useState(null);
+	const [filteredQuestions, setFilteredQuestions] = React.useState(null);
 	const [reload, setReload] = React.useState(false);
 
 	const deleteQuestion = (e, questionId) => {
@@ -86,17 +87,23 @@ export default function QuestionsList(props) {
 	};
 
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/questions/creator/${userId}/${userId}`, {
-			method: "GET",
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((resp) => resp.json())
-			.then((data) => sortAndSave(data, setUserQuestions, "createdAt"))
-			.catch((err) => {
-				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
-				console.error(err);
-			});
-	}, [reload, userId]); //eslint-disable-line
+		if (reload || userQuestions === null) {
+			fetch(`${process.env.REACT_APP_API_URL}/questions/creator/${userId}/${userId}`, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			})
+				.then((resp) => resp.json())
+				.then((data) => sortAndSave(data, setUserQuestions, "createdAt"))
+				.catch((err) => {
+					enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+					console.error(err);
+				});
+		}
+		if (searchQuery) {
+			const filteredQuestions = userQuestions.filter((question) => question.content.toLowerCase().includes(searchQuery.toLowerCase()));
+			setFilteredQuestions(filteredQuestions);
+		}
+	}, [reload, userId, searchQuery]); //eslint-disable-line
 
 	return (
 		<Table
@@ -107,7 +114,7 @@ export default function QuestionsList(props) {
 			tableHeader="Pytania"
 			apiPath="questions"
 			tableConfig={tableConfig}
-			loopOn={userQuestions}
+			loopOn={searchQuery ? filteredQuestions : userQuestions}
 			creatorName="pytania"
 			creatorPrompt="Podaj treść pytania"
 			addTooltip="Stwórz nowe pytanie"
