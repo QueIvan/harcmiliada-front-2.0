@@ -128,7 +128,7 @@ export default function Board(props) {
 			</Fade>
 			<Fade in={!logoIn}>
 				<Grid container item xs={12}>
-					<Grid container item p={5} sx={{ alignItems: "center" }}>
+					<Grid container item sx={{ alignItems: "center" }}>
 						<Grid item xs={12}>
 							<Grid
 								item
