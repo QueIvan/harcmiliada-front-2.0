@@ -1,17 +1,66 @@
 import React, { useEffect } from "react";
+import { InputAdornment, TextField, IconButton } from "@mui/material";
+import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { styled } from "@mui/system";
 import Drawer from "../Miscellaneous/Drawer/Drawer";
 import QuestionsList from "./QuestionsList";
 
+const QuestionSelector = styled(TextField)(({ theme }) => ({
+	width: "350px",
+	"&>*, &>*>*>*": {
+		color: "#e1e1e1 !important",
+	},
+	"&>*>fieldset": {
+		borderColor: "#7A7A7A !important",
+	},
+}));
+
 export default function Questions(props) {
+	const [searchQuery, setSearchQuery] = React.useState("");
 	const { title, userId } = props;
+
+	const handleSearchChange = (e) => {
+		setSearchQuery(e.target.value);
+	};
 
 	useEffect(() => {
 		document.title = `Harcmilliada | ${title}`;
 	}, [userId]); //eslint-disable-line
 
 	return (
-		<Drawer header="Lista pytań" userId={userId}>
-			<QuestionsList userId={userId} />
+		<Drawer
+			header="Lista pytań"
+			userId={userId}
+			headerOptions={
+				<QuestionSelector
+					value={searchQuery}
+					onChange={(e) => handleSearchChange(e)}
+					label="Wyszukaj pytanie"
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								{searchQuery && (
+									<IconButton
+										onClick={() => setSearchQuery("")}
+										size="small"
+										sx={{ marginRight: "4px", "&:hover>*": { color: "#e1e1e1 !important" } }}
+									>
+										<FontAwesomeIcon
+											size="xs"
+											style={{ transition: "color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms", color: "#b1b1b1" }}
+											icon={faTimes}
+										/>
+									</IconButton>
+								)}
+								<FontAwesomeIcon icon={faSearch} />
+							</InputAdornment>
+						),
+					}}
+				/>
+			}
+		>
+			<QuestionsList userId={userId} searchQuery={searchQuery} />
 		</Drawer>
 	);
 }
