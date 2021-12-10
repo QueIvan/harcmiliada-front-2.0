@@ -1,4 +1,4 @@
-import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
+import { Autocomplete, Grid, Typography } from "@mui/material";
 import { LoadingButton as MuiLoadingButton } from "@mui/lab";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChalkboard, faChild, faMale } from "@fortawesome/free-solid-svg-icons";
@@ -17,16 +17,7 @@ import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
 import { moveToLink } from "../../utils/Anchors";
 import correct from "../../resources/Correct.mp3";
 import error from "../../resources/Error.mp3";
-
-const QuestionSelector = styled(TextField)(({ theme }) => ({
-	width: "350px",
-	"&>*, &>*>*>*": {
-		color: "#e1e1e1 !important",
-	},
-	"&>*>fieldset": {
-		borderColor: "#7A7A7A !important",
-	},
-}));
+import Selector from "../Miscellaneous/Drawer/Selector";
 
 const CategoryHeader = styled(Typography, { shouldForwardProp: (props) => props !== "align" })(({ theme, align }) => ({
 	fontWeight: "bold",
@@ -172,7 +163,7 @@ export default function Console(props) {
 						disablePortal
 						blurOnSelect
 						disableClearable
-						renderInput={(params) => <QuestionSelector {...params} label="Aktualne pytanie" />}
+						renderInput={(params) => <Selector {...params} label="Aktualne pytanie" />}
 					/>
 				</React.Fragment>
 			}

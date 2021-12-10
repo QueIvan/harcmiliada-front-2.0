@@ -1,20 +1,10 @@
 import React, { useEffect } from "react";
-import { InputAdornment, TextField, IconButton } from "@mui/material";
+import { InputAdornment, IconButton } from "@mui/material";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { styled } from "@mui/system";
+import Selector from "../Miscellaneous/Drawer/Selector";
 import Drawer from "../Miscellaneous/Drawer/Drawer";
 import QuestionsList from "./QuestionsList";
-
-const QuestionSelector = styled(TextField)(({ theme }) => ({
-	width: "350px",
-	"&>*, &>*>*>*": {
-		color: "#e1e1e1 !important",
-	},
-	"&>*>fieldset": {
-		borderColor: "#7A7A7A !important",
-	},
-}));
 
 export default function Questions(props) {
 	const [searchQuery, setSearchQuery] = React.useState("");
@@ -33,7 +23,7 @@ export default function Questions(props) {
 			header="Lista pytań"
 			userId={userId}
 			headerOptions={
-				<QuestionSelector
+				<Selector
 					value={searchQuery}
 					onChange={(e) => handleSearchChange(e)}
 					label="Wyszukaj pytanie"
