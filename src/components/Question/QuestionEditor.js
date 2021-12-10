@@ -131,7 +131,10 @@ export default function QuestionEditor(props) {
 		})
 			.then((resp) => resp.json())
 			.then(() => nav("/questions"))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	useEffect(() => {
@@ -142,7 +145,10 @@ export default function QuestionEditor(props) {
 		})
 			.then((resp) => resp.json())
 			.then((data) => sortAndSave(data, setCurrentQuestion, "score", "answers"))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	}, [userId]); // eslint-disable-line
 
 	return (

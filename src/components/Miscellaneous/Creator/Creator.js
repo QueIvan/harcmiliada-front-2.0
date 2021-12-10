@@ -35,7 +35,10 @@ export default function Creator(props) {
 		})
 			.then((resp) => resp.json())
 			.then((data) => setUserGroups(data))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const handleClose = () => {

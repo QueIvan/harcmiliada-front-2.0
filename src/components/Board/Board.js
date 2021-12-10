@@ -112,7 +112,10 @@ export default function Board(props) {
 					setLogoIn(false);
 				}, 1500);
 			})
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 
 		listenForCommands();
 
