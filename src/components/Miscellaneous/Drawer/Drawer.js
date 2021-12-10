@@ -245,7 +245,10 @@ export default function Drawer(props) {
 			.then(() => fetchGroups())
 			.then(() => setInputDialog(false))
 			.then(() => reload && nav(0))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const handleGroupDelete = (id) => {
@@ -323,7 +326,10 @@ export default function Drawer(props) {
 		})
 			.then((res) => res.json())
 			.then((data) => setUserGroups(data))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	useEffect(() => {

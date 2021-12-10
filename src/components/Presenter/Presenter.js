@@ -77,7 +77,10 @@ export default function Presenter(props) {
 		})
 			.then((res) => res.json())
 			.then((data) => setCurrentQuestion(data))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 
 		listenForCommands();
 

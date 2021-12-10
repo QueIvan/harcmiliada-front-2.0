@@ -85,7 +85,10 @@ export default function Console(props) {
 				socket.emit("reloadBoard", target.board);
 				socket.emit("reloadBoard", target.presenter);
 			})
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const changeWrongAnswersNumber = (side, action) => {
@@ -139,7 +142,10 @@ export default function Console(props) {
 				setVisiblityStatus({ question: false, answers: false });
 				setWrongAnswers({ left: 0, right: 0 });
 			})
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 
 		listenForCommand();
 

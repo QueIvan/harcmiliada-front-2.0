@@ -45,7 +45,10 @@ export default function GamesList(props) {
 			headers: { "Content-Type": "application/json" },
 		})
 			.then(() => nav(0))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const tableConfig = {
@@ -98,7 +101,10 @@ export default function GamesList(props) {
 		})
 			.then((resp) => resp.json())
 			.then((data) => sortAndSave(data, setUserGames, "createdAt"))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	}, [userId]); //eslint-disable-line
 
 	return (

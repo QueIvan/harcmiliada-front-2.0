@@ -78,7 +78,10 @@ export default function GameEditor(props) {
 		})
 			.then((resp) => resp.json())
 			.then(() => nav("/games"))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const changeActiveData = (data) => {
@@ -117,14 +120,20 @@ export default function GameEditor(props) {
 			})
 				.then((resp) => resp.json())
 				.then((data) => sortAndSave(data, setActiveData, "createdAt", "questions"))
-				.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+				.catch((err) => {
+					enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+					console.error(err);
+				});
 			fetch(`${process.env.REACT_APP_API_URL}/questions/notin/${gameId.id}/${userId}`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 			})
 				.then((resp) => resp.json())
 				.then((data) => sortAndSave(data, setLibData, "createdAt"))
-				.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+				.catch((err) => {
+					enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+					console.error(err);
+				});
 		}
 	}, [activeData, libData, userId]); // eslint-disable-line
 

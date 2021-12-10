@@ -16,7 +16,10 @@ export default function QuestionsList(props) {
 			headers: { "Content-Type": "application/json" },
 		})
 			.then(() => setReload(!reload))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const togglePublic = (questionId) => {
@@ -25,7 +28,10 @@ export default function QuestionsList(props) {
 			headers: { "Content-Type": "application/json" },
 		})
 			.then(() => setReload(!reload))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const tableConfig = {
@@ -86,7 +92,10 @@ export default function QuestionsList(props) {
 		})
 			.then((resp) => resp.json())
 			.then((data) => sortAndSave(data, setUserQuestions, "createdAt"))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	}, [reload, userId]); //eslint-disable-line
 
 	return (

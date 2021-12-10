@@ -158,7 +158,10 @@ export default function Table(props) {
 			body: JSON.stringify(selectedRows),
 		})
 			.then(() => nav(0))
-			.catch((err) => enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 }));
+			.catch((err) => {
+				enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
+				console.error(err);
+			});
 	};
 
 	const moveToHref = (e) => {
