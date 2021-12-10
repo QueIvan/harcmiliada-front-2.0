@@ -9,8 +9,10 @@ import io from "socket.io-client";
 import { faChild, faMale } from "@fortawesome/free-solid-svg-icons";
 
 const BackContainer = styled(Grid)(({ theme }) => ({
-	width: "100vw",
-	height: "100vh",
+	minWidth: "100vw",
+	minHeight: "100vh",
+	width: "100%",
+	height: "100%",
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
@@ -100,7 +102,7 @@ export default function Presenter(props) {
 					</LoadingButton>
 				</Grid>
 				<Grid item xs={12}>
-					<ButtonText variant="h1" align="center">
+					<ButtonText variant="h3" align="center">
 						{currentQuestion?.content}
 					</ButtonText>
 				</Grid>
