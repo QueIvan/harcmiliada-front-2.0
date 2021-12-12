@@ -44,6 +44,7 @@ const TablePagination = styled(MuiTablePagination)(({ theme }) => ({
 }));
 
 const TableComponent = styled(MuiTable)(({ theme }) => ({
+	minWidth: "750px",
 	maxWidth: "100vw",
 }));
 
