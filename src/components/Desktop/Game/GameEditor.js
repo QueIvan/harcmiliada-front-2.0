@@ -8,7 +8,7 @@ import Table from "../Miscellaneous/Table/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router";
-import { sortAndSave } from "../../utils/Sorter";
+import { sortAndSave } from "../../../utils/Sorter";
 import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
 
 const StyledButton = styled(MuiIconButton)(({ theme }) => ({

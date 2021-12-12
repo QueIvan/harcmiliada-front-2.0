@@ -6,7 +6,7 @@ import { faRandom, faSave } from "@fortawesome/free-solid-svg-icons";
 import { useSnackbar } from "notistack";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router";
-import { sortAndSave } from "../../utils/Sorter";
+import { sortAndSave } from "../../../utils/Sorter";
 import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
 
 const tableConfig = {

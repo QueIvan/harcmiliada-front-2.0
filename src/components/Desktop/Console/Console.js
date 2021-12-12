@@ -5,7 +5,7 @@ import { faChalkboard, faChild, faMale } from "@fortawesome/free-solid-svg-icons
 import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import { sortAndSave, sorting } from "../../utils/Sorter";
+import { sortAndSave, sorting } from "../../../utils/Sorter";
 import Drawer from "../Miscellaneous/Drawer/Drawer";
 import { useSnackbar } from "notistack";
 import VisbilityButton from "./VisbilityButton";
@@ -14,9 +14,9 @@ import AnswerBox from "./AnswerBox";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
-import { moveToLink } from "../../utils/Anchors";
-import correct from "../../resources/Correct.mp3";
-import error from "../../resources/Error.mp3";
+import { moveToLink } from "../../../utils/Anchors";
+import correct from "../../../resources/Correct.mp3";
+import error from "../../../resources/Error.mp3";
 import Selector from "../Miscellaneous/Drawer/Selector";
 
 const CategoryHeader = styled(Typography, { shouldForwardProp: (props) => props !== "align" })(({ theme, align }) => ({

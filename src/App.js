@@ -2,22 +2,25 @@ import { CssBaseline, Slide } from "@mui/material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Games from "./components/Game/Games";
-import GameEditor from "./components/Game/GameEditor";
-import Questions from "./components/Question/Questions";
+import Dashboard from "./components/Desktop/Dashboard/Dashboard";
+import Games from "./components/Desktop/Game/Games";
+import GameEditor from "./components/Desktop/Game/GameEditor";
+import Questions from "./components/Desktop/Question/Questions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faExclamation, faExclamationTriangle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/system";
-import QuestionEditor from "./components/Question/QuestionEditor";
-import Console from "./components/Console/Console";
+import QuestionEditor from "./components/Desktop/Question/QuestionEditor";
+import MoDashboard from "./components/Mobile/MoDashboard";
+import Console from "./components/Desktop/Console/Console";
 import { useAuth0 } from "@auth0/auth0-react";
-import LoggedOut from "./components/Miscellaneous/Placeholders/LoggedOut";
+import LoggedOut from "./components/Desktop/Miscellaneous/Placeholders/LoggedOut";
 import React from "react";
-import Loading from "./components/Miscellaneous/Placeholders/Loading";
-import Board from "./components/Board/Board";
-import Presenter from "./components/Presenter/Presenter";
-import Error from "./components/Miscellaneous/ErrorPages/Error";
+import Loading from "./components/Desktop/Miscellaneous/Placeholders/Loading";
+import Board from "./components/Desktop/Board/Board";
+import Presenter from "./components/Desktop/Presenter/Presenter";
+import Error from "./components/Desktop/Miscellaneous/ErrorPages/Error";
+import Support from "./components/Desktop/Support/Support";
+import { BrowserView, MobileView } from "react-device-detect";
 
 const SnackBarIcon = styled(FontAwesomeIcon)(({ theme }) => ({ marginRight: "16px" }));
 
@@ -112,24 +115,34 @@ function App() {
 				TransitionComponent={Slide}
 			>
 				<CssBaseline />
-				<Router>
-					<Routes>
-						{isAuthenticated && (
-							<React.Fragment>
-								<Route exact path="/" element={<Dashboard userId={user?.sub} title="Pulpit" />} />
-								<Route exact path="/questions" element={<Questions userId={user?.sub} title="Pytania" />} />
-								<Route path="/questions/:id" element={<QuestionEditor userId={user?.sub} title="Edytor pytań" />} />
-								<Route exact path="/games" element={<Games userId={user?.sub} title="Gry" />} />
-								<Route path="/games/:id" element={<GameEditor userId={user?.sub} title="Edytor gier" />} />
-								<Route exact path="/games/:id/console" element={<Console userId={user?.sub} title="Konsola gry" />} />
-								<Route exact path="/games/:id/board" element={<Board userId={user?.sub} title="Tablica" />} />
-								<Route exact path="/games/:id/presenter" element={<Presenter userId={user?.sub} title="Prezenter" />} />
-							</React.Fragment>
-						)}
-						{!isAuthenticated && !isLoading && <Route exact path="/" element={<LoggedOut />} />}
-						{isLoading ? <Route path="*" element={<Loading />} /> : <Route path="*" element={<Error />} />}
-					</Routes>
-				</Router>
+				<BrowserView>
+					<Router>
+						<Routes>
+							{isAuthenticated && (
+								<React.Fragment>
+									<Route exact path="/support" element={<Support userId={user?.sub} title="Support" />} />
+									<Route exact path="/" element={<Dashboard userId={user?.sub} title="Pulpit" />} />
+									<Route exact path="/questions" element={<Questions userId={user?.sub} title="Pytania" />} />
+									<Route path="/questions/:id" element={<QuestionEditor userId={user?.sub} title="Edytor pytań" />} />
+									<Route exact path="/games" element={<Games userId={user?.sub} title="Gry" />} />
+									<Route path="/games/:id" element={<GameEditor userId={user?.sub} title="Edytor gier" />} />
+									<Route exact path="/games/:id/console" element={<Console userId={user?.sub} title="Konsola gry" />} />
+									<Route exact path="/games/:id/board" element={<Board userId={user?.sub} title="Tablica" />} />
+									<Route exact path="/games/:id/presenter" element={<Presenter userId={user?.sub} title="Prezenter" />} />
+								</React.Fragment>
+							)}
+							{!isAuthenticated && !isLoading && <Route exact path="/" element={<LoggedOut />} />}
+							{isLoading ? <Route path="*" element={<Loading />} /> : <Route path="*" element={<Error />} />}
+						</Routes>
+					</Router>
+				</BrowserView>
+				<MobileView>
+					<Router>
+						<Routes>
+							<Route exact path="/" element={<MoDashboard userId={user?.sub} title="Pulpit" />} />
+						</Routes>
+					</Router>
+				</MobileView>
 			</SnackbarProvider>
 		</ThemeProvider>
 	);

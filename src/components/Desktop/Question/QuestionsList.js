@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { sortAndSave } from "../../utils/Sorter";
+import { sortAndSave } from "../../../utils/Sorter";
 import { useSnackbar } from "notistack";
 import Table from "../Miscellaneous/Table/Table";
 
