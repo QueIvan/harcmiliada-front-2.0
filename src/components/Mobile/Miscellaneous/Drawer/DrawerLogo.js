@@ -16,7 +16,7 @@ const LogoBackboard = styled(Grid)(({ theme }) => ({
 
 const LogoText = styled(Typography)(({ theme }) => ({
 	fontWeight: "bold",
-	marginLeft: "0.75rem",
+	marginLeft: "0.5rem",
 	height: "fit-content",
 	color: "#e9e9e9",
 	userSelect: "none",

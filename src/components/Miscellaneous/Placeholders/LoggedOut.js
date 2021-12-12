@@ -7,18 +7,19 @@ import Logo from "./Logo/Logo";
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
 	height: "100vh",
-	alignItems: "center",
+	overflow: "hidden",
 	backgroundImage: theme.background.image,
 }));
 
-export default function LoggedOut() {
+export default function LoggedOut(props) {
+	const { mobileMode } = props;
 	const { loginWithPopup } = useAuth0();
 
 	return (
-		<BackContainer container>
+		<BackContainer container sx={{ ...(!mobileMode && { alignItems: "center" }) }}>
 			<Fade in={true} timeout={1000}>
-				<Grid container sx={{ height: "fit-content" }}>
-					<Logo />
+				<Grid container sx={{ height: "fit-content", ...(mobileMode && { position: "fixed", top: "50%", transform: "translateY(-50%)" }) }}>
+					<Logo mobileMode={mobileMode} />
 					<Grid
 						container
 						item
@@ -34,7 +35,7 @@ export default function LoggedOut() {
 						<Grid item>
 							<Typography
 								onClick={loginWithPopup}
-								variant="h5"
+								variant={mobileMode ? "span" : "h5"}
 								sx={{
 									color: "#a1a1a1",
 									cursor: "pointer",

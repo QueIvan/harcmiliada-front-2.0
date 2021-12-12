@@ -4,7 +4,7 @@ import { Fade, Grid, Skeleton, Typography, Zoom } from "@mui/material";
 import { sortAndSave } from "../../../utils/Sorter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSnackbar } from "notistack";
-import Logo from "../Miscellaneous/Placeholders/Logo/Logo";
+import Logo from "../../Miscellaneous/Placeholders/Logo/Logo";
 import { useParams } from "react-router";
 import AnswerBox from "./AnswerBox";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";

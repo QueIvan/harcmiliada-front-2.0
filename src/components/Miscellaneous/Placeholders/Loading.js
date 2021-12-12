@@ -8,14 +8,16 @@ import LogoImage from "./Logo/LogoImage";
 const BackContainer = styled(Grid)(({ theme }) => ({
 	width: "100vw",
 	height: "100vh",
+	overflow: "hidden",
 	backgroundImage: theme.background.image,
 }));
 
-export default function Loading() {
+export default function Loading(props) {
+	const { mobileMode } = props;
 	return (
-		<BackContainer container>
+		<BackContainer container sx={{ ...(!mobileMode && { alignItems: "center" }) }}>
 			<Fade in={true} timeout={1000}>
-				<Grid container>
+				<Grid container sx={{ ...(mobileMode && { position: "fixed", top: "50%", transform: "translateY(-50%)" }) }}>
 					<Grid
 						container
 						item
@@ -32,13 +34,21 @@ export default function Loading() {
 							<Grid item sx={{ marginBottom: "23px" }}>
 								<LogoImage logoProps={{ fontSize: "5rem", color: "#96A58D" }} />
 							</Grid>
-							<FontAwesomeIcon size="5x" icon={faCircleNotch} spin style={{ filter: "drop-shadow(0px 0px 10px #000000)" }} />
+							<FontAwesomeIcon
+								icon={faCircleNotch}
+								spin
+								style={{ fontSize: mobileMode ? "4rem" : "5rem", filter: "drop-shadow(0px 0px 10px #000000)" }}
+							/>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ fontSize: "1.45rem", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>Poczekaj chwilę</Typography>
+							<Typography sx={{ fontSize: mobileMode ? "1rem" : "1.45rem", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
+								Poczekaj chwilę
+							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ fontSize: "1.45rem", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>Sprawdzamy twój status</Typography>
+							<Typography sx={{ fontSize: mobileMode ? "1rem" : "1.45rem", fontWeight: "bold", textShadow: "0px 0px 10px #000000" }}>
+								Sprawdzamy twój status
+							</Typography>
 						</Grid>
 					</Grid>
 				</Grid>
