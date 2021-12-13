@@ -17,6 +17,7 @@ const HeaderContainer = styled(Grid)(({ theme }) => ({
 	marginLeft: theme.spacing(1),
 	marginRight: theme.spacing(1),
 	paddingBottom: theme.spacing(1),
+	marginBottom: theme.spacing(1),
 	alignItems: "center",
 	borderBottom: "3px solid #7A7A7A",
 }));
@@ -91,6 +92,7 @@ const NavBar = styled(Grid)(({ theme }) => ({
 	alignItems: "center",
 	backgroundColor: "#3C4338",
 	boxShadow: "0px 1px 10px #000",
+	zIndex: "2",
 }));
 
 const AccountStyling = styled(Grid)(({ theme }) => ({
@@ -120,7 +122,7 @@ const ContentGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export default function Drawer(props) {
-	const { href, header } = props;
+	const { href, header, replaceHeader } = props;
 	const targets = [
 		{ href: "/", icon: faTachometerAlt },
 		{ href: "/games", icon: faGamepad },
@@ -149,7 +151,7 @@ export default function Drawer(props) {
 			</NavBar>
 			<ContentGrid container item xs={12}>
 				<HeaderContainer container item xs={12}>
-					<OptionHeader variant="h5">{header}</OptionHeader>
+					{!replaceHeader ? <OptionHeader variant="h4">{header}</OptionHeader> : replaceHeader}
 				</HeaderContainer>
 				{props.children}
 			</ContentGrid>
@@ -159,7 +161,7 @@ export default function Drawer(props) {
 						<React.Fragment key={index}>
 							{target.href === href ? (
 								<CurrentTab container item>
-									<IconContainer item p={1}>
+									<IconContainer item p={1} onClick={() => nav(target.href)}>
 										<FontAwesomeIcon size="lg" icon={target.icon} />
 									</IconContainer>
 								</CurrentTab>

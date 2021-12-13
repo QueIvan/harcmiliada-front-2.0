@@ -10,7 +10,7 @@ const StyledButton = styled(MuiLoadingButton)(({ theme }) => ({
 	height: "fit-content",
 	backgroundColor: "#455F4D",
 	color: "#f1f1f1",
-	padding: `${theme.spacing(1)} ${theme.spacing(4)}`,
+	padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
 	border: "1px solid #292929",
 	"&>.MuiLoadingButton-loadingIndicator": { color: "#666666" },
 }));
@@ -34,7 +34,9 @@ export default function Row(props) {
 					sx={{
 						...((cell.id === "name" || cell.id === "content") && { maxWidth: "35vw" }),
 						boxSizing: "border-box",
-						paddingLeft: typeof cell.align === "object" ? 1.5 : 0,
+						paddingLeft: 1.5,
+						whiteSpace: "nowrap",
+						overflow: "auto",
 					}}
 				>
 					{cell.length ? (
@@ -48,6 +50,7 @@ export default function Row(props) {
 					) : cell.options ? (
 						cell.options.map((option) => (
 							<IconButton
+								key={option.id}
 								size="small"
 								disabled={option.disabled}
 								onMouseUp={

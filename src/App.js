@@ -23,6 +23,7 @@ import Support from "./components/Desktop/Support/Support";
 import { isBrowser, isTablet } from "react-device-detect";
 import MoGames from "./components/Mobile/Game/MoGames";
 import MoQuestions from "./components/Mobile/Question/MoQuestions";
+import MoQuestionEditor from "./components/Mobile/Question/MoQuestionEditor";
 
 const SnackBarIcon = styled(FontAwesomeIcon)(({ theme }) => ({ marginRight: "16px" }));
 
@@ -145,6 +146,7 @@ function App() {
 								<React.Fragment>
 									<Route exact path="/" element={<MoDashboard userId={user?.sub} title="Pulpit" />} />
 									<Route exact path="/questions" element={<MoQuestions userId={user?.sub} title="Pytania" />} />
+									<Route path="/questions/:id" element={<MoQuestionEditor userId={user?.sub} title="Edytor pytań" />} />
 									<Route exact path="/games" element={<MoGames userId={user?.sub} title="Gry" />} />
 								</React.Fragment>
 							)}

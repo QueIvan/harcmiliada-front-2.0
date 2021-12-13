@@ -12,8 +12,8 @@ export default function MoDashboard(props) {
 
 	return (
 		<Drawer href="/" header="Pulpit">
-			<MoGameList userId={userId} dashboard />
-			<MoQuestionsList userId={userId} dashboard />
+			<MoGameList header removeButtons inList tableHeader="Gry" userId={userId} dashboard />
+			<MoQuestionsList header removeButtons inList tableHeader="Pytania" userId={userId} dashboard />
 		</Drawer>
 	);
 }

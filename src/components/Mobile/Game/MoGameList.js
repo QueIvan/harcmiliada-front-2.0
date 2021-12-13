@@ -59,5 +59,5 @@ export default function MoGameList(props) {
 		}
 	}, [userId]); // eslint-disable-line
 
-	return <MoTable {...props} emptySize="57" apiPath="games" dashboard={dashboard} tableConfig={tableConfig} loopOn={userGames} />;
+	return <MoTable {...props} removeDeleteButton emptySize="57" apiPath="games" dashboard={dashboard} tableConfig={tableConfig} loopOn={userGames} />;
 }

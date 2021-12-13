@@ -71,8 +71,21 @@ export default function MoQuestionsList(props) {
 					enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
 					console.error(err);
 				});
+			setReload(false);
 		}
 	}, [reload, userId]); // eslint-disable-line
 
-	return <MoTable {...props} apiPath="questions" dashboard={dashboard} emptySize="63.25" tableConfig={tableConfig} loopOn={userQuestions} />;
+	return (
+		<MoTable
+			{...props}
+			creatorName="pytania"
+			creatorPrompt="Podaj treść pytania"
+			removeDeleteButton
+			apiPath="questions"
+			dashboard={dashboard}
+			emptySize="63.25"
+			tableConfig={tableConfig}
+			loopOn={userQuestions}
+		/>
+	);
 }

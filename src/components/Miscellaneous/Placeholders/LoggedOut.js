@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Fade } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { styled } from "@mui/system";
@@ -12,8 +12,17 @@ const BackContainer = styled(Grid)(({ theme }) => ({
 }));
 
 export default function LoggedOut(props) {
+	const [popOut, setPopOut] = React.useState(true);
 	const { mobileMode } = props;
 	const { loginWithPopup } = useAuth0();
+
+	useEffect(() => {
+		if (mobileMode) {
+			setTimeout(() => {
+				setPopOut(false);
+			}, 3500);
+		}
+	}, []); // eslint-disable-line
 
 	return (
 		<BackContainer container sx={{ ...(!mobileMode && { alignItems: "center" }) }}>
@@ -51,6 +60,45 @@ export default function LoggedOut(props) {
 					</Grid>
 				</Grid>
 			</Fade>
+			{mobileMode && (
+				<Fade in={popOut} timeout={1500} appear={false}>
+					<Grid container p={1} sx={{ position: "absolute", bottom: "16px" }}>
+						<Grid
+							container
+							item
+							p={1}
+							xs={12}
+							sx={{
+								background: "#96a58d60",
+								flexDirection: "column",
+								display: "flex",
+								borderRadius: "8px",
+								border: "1px solid #292929",
+								boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 90%)",
+								alignItems: "center",
+								justifyContent: "center",
+								"&>*>*": { fontWeight: "bold", color: "#f1f1f1", textShadow: "0px 0px 10px #000000" },
+							}}
+						>
+							<Grid item>
+								<Typography
+									variant="span"
+									sx={{
+										textAlign: "center",
+										width: "100%",
+										display: "block",
+										fontSize: "0.75rem",
+										cursor: "pointer",
+										transition: "color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+									}}
+								>
+									Wersja mobilna Harcmiliady jest obecnie we wczesnej wersji alfa. Posimy o cierpliwość i dziękujemy za wyrozumiałość
+								</Typography>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Fade>
+			)}
 		</BackContainer>
 	);
 }
