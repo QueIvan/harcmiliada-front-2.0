@@ -3,8 +3,8 @@ import Table from "../Miscellaneous/Table/Table";
 import { faChalkboard, faChalkboardTeacher, faEdit, faNetworkWired, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { useSnackbar } from "notistack";
-import { sortAndSave } from "../../utils/Sorter";
-import { moveToLink } from "../../utils/Anchors";
+import { sortAndSave } from "../../../utils/Sorter";
+import { moveToLink } from "../../../utils/Anchors";
 
 export default function GamesList(props) {
 	const [userGames, setUserGames] = React.useState(null);

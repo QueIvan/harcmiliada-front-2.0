@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { sortAndSave } from "../../utils/Sorter";
 import { useSnackbar } from "notistack";
-import Table from "../Miscellaneous/Table/Table";
+import { sortAndSave } from "../../../utils/Sorter";
+import MoTable from "../Miscellaneous/Table/MoTable";
 
-export default function QuestionsList(props) {
-	const { enqueueSnackbar } = useSnackbar();
-	const { userId, hrefHeader, searchQuery } = props;
+export default function MoQuestionsList(props) {
 	const [userQuestions, setUserQuestions] = React.useState(null);
-	const [filteredQuestions, setFilteredQuestions] = React.useState(null);
 	const [reload, setReload] = React.useState(false);
+	const { enqueueSnackbar } = useSnackbar();
+	const { userId, dashboard } = props;
 
-	const deleteQuestion = (e, questionId) => {
+	const deleteQuestion = (questionId) => {
 		fetch(`${process.env.REACT_APP_API_URL}/questions/${questionId}/${userId}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
@@ -37,36 +36,10 @@ export default function QuestionsList(props) {
 
 	const tableConfig = {
 		cells: [
-			{
-				id: "content",
-				align: {
-					header: "center",
-					content: "left",
-				},
-				length: false,
-				disablePadding: true,
-				label: "Treść pytania",
-			},
-			{
-				id: "answers",
-				align: "right",
-				length: true,
-				disablePadding: false,
-				label: "Ilość odpowiedzi",
-			},
-			{
-				id: "createdAt",
-				align: "right",
-				length: false,
-				disablePadding: false,
-				label: "Data stworzenia",
-			},
+			{ id: "content", align: { header: "center", content: "left" }, length: false, disablePadding: true, label: "Treść pytania" },
 			{
 				id: "inPublicLib",
-				align: {
-					header: "right",
-					content: "right",
-				},
+				align: { header: "right", content: "right" },
 				length: false,
 				disablePadding: false,
 				label: "Udostępnione publicznie",
@@ -98,27 +71,21 @@ export default function QuestionsList(props) {
 					enqueueSnackbar("Wystąpił błąd podczas pobierania danych z bazy", { variant: "error", autoHideDuration: 1500 });
 					console.error(err);
 				});
+			setReload(false);
 		}
-		if (searchQuery) {
-			const filteredQuestions = userQuestions.filter((question) => question.content.toLowerCase().includes(searchQuery.toLowerCase()));
-			setFilteredQuestions(filteredQuestions);
-		}
-	}, [reload, userId, searchQuery]); //eslint-disable-line
+	}, [reload, userId]); // eslint-disable-line
 
 	return (
-		<Table
+		<MoTable
 			{...props}
-			userId={userId}
-			hrefHeader={hrefHeader}
-			emptySize="63.25"
-			tableHeader="Pytania"
-			apiPath="questions"
-			tableConfig={tableConfig}
-			loopOn={searchQuery ? filteredQuestions : userQuestions}
 			creatorName="pytania"
 			creatorPrompt="Podaj treść pytania"
-			addTooltip="Stwórz nowe pytanie"
-			deleteTooltip="Usuń zaznaczone pytania"
+			removeDeleteButton
+			apiPath="questions"
+			dashboard={dashboard}
+			emptySize="63.25"
+			tableConfig={tableConfig}
+			loopOn={userQuestions}
 		/>
 	);
 }

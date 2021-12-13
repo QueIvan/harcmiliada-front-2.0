@@ -1,11 +1,18 @@
 import { TableRow, Checkbox, TableCell, IconButton, Tooltip, TextField, Typography, Collapse, Grid } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
-import { convertDate } from "../../../utils/Date";
+import { convertDate } from "../../../../utils/Date";
 import React, { useEffect } from "react";
 import { faCheck, faSave, faStarOfLife, faTimes, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { moveToLink } from "../../../utils/Anchors";
+import { moveToLink } from "../../../../utils/Anchors";
+import { styled } from "@mui/system";
 import HeaderButton from "../Drawer/HeaderButton";
+
+const TextCell = styled(Typography)(({ theme }) => ({
+	whiteSpace: "nowrap",
+	overflow: "auto",
+	...theme.scroll,
+}));
 
 export default function Row(props) {
 	const { type, visible, config, name, defaultValue, valueHandler, selected, onSelect, data, navigation, onDiscard, onSave, onRowClick } = props;
@@ -54,7 +61,11 @@ export default function Row(props) {
 							key={cell.id}
 							align={typeof cell.align === "object" ? cell.align.content : cell.align}
 							padding={cell.disablePadding ? "none" : "normal"}
-							sx={{ boxSizing: "border-box", paddingLeft: typeof cell.align === "object" ? 1.5 : 0 }}
+							sx={{
+								...((cell.id === "name" || cell.id === "content") && { maxWidth: "25vw" }),
+								boxSizing: "border-box",
+								paddingLeft: typeof cell.align === "object" ? 1.5 : 0,
+							}}
 						>
 							{cell.length ? (
 								<Typography
@@ -98,7 +109,7 @@ export default function Row(props) {
 									</Tooltip>
 								))
 							) : (
-								<Typography>{data[cell.id]}</Typography>
+								<TextCell>{data[cell.id]}</TextCell>
 							)}
 						</TableCell>
 					))}
