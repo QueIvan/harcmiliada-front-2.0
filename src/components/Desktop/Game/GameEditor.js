@@ -3,13 +3,13 @@ import React, { useEffect } from "react";
 import { Grid, Grid as MuiGrid, IconButton as MuiIconButton, Tooltip } from "@mui/material";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
-import Drawer from "../Miscellaneous/Drawer/Drawer";
-import Table from "../Miscellaneous/Table/Table";
+import Drawer from "../../Miscellaneous/Drawer/Drawer";
+import Table from "../../Miscellaneous/Table/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 import { sortAndSave } from "../../../utils/Sorter";
-import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
+import HeaderButton from "../../Miscellaneous/Drawer/HeaderButton";
 
 const StyledButton = styled(MuiIconButton)(({ theme }) => ({
 	borderRadius: theme.spacing(2),

@@ -44,7 +44,7 @@ import Cookies from "universal-cookie";
 import MenuItem from "./MenuItem";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
-import { moveToLink } from "../../../../utils/Anchors";
+import { moveToLink } from "../../../utils/Anchors";
 import HeaderButton from "./HeaderButton";
 import DrawerLogo from "./DrawerLogo";
 

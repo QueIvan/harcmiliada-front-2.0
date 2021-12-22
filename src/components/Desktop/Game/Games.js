@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { InputAdornment, IconButton } from "@mui/material";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Selector from "../Miscellaneous/Drawer/Selector";
-import Drawer from "../Miscellaneous/Drawer/Drawer";
+import Selector from "../../Miscellaneous/Drawer/Selector";
+import Drawer from "../../Miscellaneous/Drawer/Drawer";
 import GamesList from "./GamesList";
 
 export default function Games(props) {

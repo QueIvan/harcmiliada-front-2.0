@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
-import LogoImage from "../../../Miscellaneous/Placeholders/Logo/LogoImage";
+import LogoImage from "../Placeholders/Logo/LogoImage";
 import { styled } from "@mui/material/styles";
 
 const LogoBackboard = styled(Grid)(({ theme }) => ({

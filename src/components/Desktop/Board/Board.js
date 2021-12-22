@@ -1,47 +1,17 @@
 import React, { useEffect } from "react";
-import { styled } from "@mui/system";
 import { Fade, Grid, Skeleton, Typography, Zoom } from "@mui/material";
 import { sortAndSave } from "../../../utils/Sorter";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSnackbar } from "notistack";
 import Logo from "../../Miscellaneous/Placeholders/Logo/Logo";
 import { useParams } from "react-router";
 import AnswerBox from "./AnswerBox";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
-
-const BackContainer = styled(Grid)(({ theme }) => ({
-	width: "100vw",
-	height: "100vh",
-	position: "relative",
-	backgroundImage: theme.background.image,
-}));
-
-const WrongBoxGrid = styled(Grid, { shouldForwardProp: (props) => props !== "active" })(({ theme, active }) => ({
-	justifyContent: "center",
-	transition: "border-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-	visibility: active ? "visible" : "hidden",
-}));
-
-const WrongBoxBackground = styled(Grid)(({ theme }) => ({
-	border: "6px solid #d90429",
-	borderRadius: theme.spacing(2),
-	color: "#d90429",
-	width: "clamp(90px, 90px, 90px) !important",
-	height: "clamp(90px, 90px, 90px)",
-	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%), inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
-	justifyContent: "center",
-	alignItems: "center",
-}));
-
-const WrongBoxIcon = styled(FontAwesomeIcon)(({ theme }) => ({
-	fontSize: "7rem",
-	height: "fill-available",
-	filter: "drop-shadow(0px 0px 5px rgb(0 0 0 / 90%))",
-}));
+import { BackContainer, WrongBoxBackground, WrongBoxGrid } from "../../Miscellaneous/Styled/Grid";
+import {WrongBoxIcon} from "../../Miscellaneous/Styled/FontAwesomeIcon";
 
 export default function Board(props) {
-	const [visiblityStatus, setVisiblityStatus] = React.useState({ question: false, answers: false });
+	const [visibilityStatus, setVisibilityStatus] = React.useState({ question: false, answers: false });
 	const [wrongBoxesStatus, setWrongBoxesStatus] = React.useState({ left: 3, right: 3 });
 	const [currentQuestion, setCurrentQuestion] = React.useState(null);
 	const [answersStatus, setAnswersStatus] = React.useState([]);
@@ -65,7 +35,7 @@ export default function Board(props) {
 
 	const listenForCommands = () => {
 		socket.on("setVisibilityStatus", (data) => {
-			setVisiblityStatus(data);
+			setVisibilityStatus(data);
 			if (data.answers) {
 				setIdLabelZoom(true);
 			}
@@ -104,7 +74,7 @@ export default function Board(props) {
 			.then((data) => sortAndSave(data, setCurrentQuestion, "score", "answers", true))
 			.then((data) => createAnswerStatus(data))
 			.then(() => {
-				setVisiblityStatus({ question: false, answers: false });
+				setVisibilityStatus({ question: false, answers: false });
 				setWrongBoxesStatus({ left: 0, right: 0 });
 			})
 			.then(() => {
@@ -140,10 +110,10 @@ export default function Board(props) {
 									marginLeft: "auto",
 									marginRight: "auto",
 									height: "fit-content",
-									...(!visiblityStatus.question && { justifyContent: "center", display: "flex" }),
+									...(!visibilityStatus.question && { justifyContent: "center", display: "flex" }),
 								}}
 							>
-								{visiblityStatus.question ? (
+								{visibilityStatus.question ? (
 									<Fade in={true} timeout={750}>
 										<Typography
 											variant="h3"
@@ -168,7 +138,7 @@ export default function Board(props) {
 															<AnswerBox
 																answer={currentQuestion?.answers[el]}
 																active={getAnswerStatus(currentQuestion?.answers[el]?.id)}
-																shown={visiblityStatus.answers}
+																shown={visibilityStatus.answers}
 																zoomStatus={idLabelZoom}
 																showId={el + 1}
 															/>
@@ -190,7 +160,7 @@ export default function Board(props) {
 							left: "25px",
 							top: "25px",
 							width: "calc(100% - 50px)",
-							display: visiblityStatus.answers === true && visiblityStatus.question === true ? "flex" : "none",
+							display: visibilityStatus.answers === true && visibilityStatus.question === true ? "flex" : "none",
 							"&>*:last-of-type": { marginLeft: "auto", flexDirection: "row-reverse" },
 						}}
 					>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { sortAndSave } from "../../../utils/Sorter";
 import { useSnackbar } from "notistack";
-import Table from "../Miscellaneous/Table/Table";
+import Table from "../../Miscellaneous/Table/Table";
 
 export default function QuestionsList(props) {
 	const { enqueueSnackbar } = useSnackbar();

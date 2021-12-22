@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Table from "../Miscellaneous/Table/Table";
+import Table from "../../Miscellaneous/Table/Table";
 import { faChalkboard, faChalkboardTeacher, faEdit, faNetworkWired, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { useSnackbar } from "notistack";

@@ -1,44 +1,23 @@
-import { Autocomplete, Grid, Typography } from "@mui/material";
-import { LoadingButton as MuiLoadingButton } from "@mui/lab";
+import { Autocomplete, Grid } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChalkboard, faChild, faMale } from "@fortawesome/free-solid-svg-icons";
-import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { sortAndSave, sorting } from "../../../utils/Sorter";
-import Drawer from "../Miscellaneous/Drawer/Drawer";
+import Drawer from "../../Miscellaneous/Drawer/Drawer";
 import { useSnackbar } from "notistack";
-import VisbilityButton from "./VisbilityButton";
+import VisibilityButton from "./VisibilityButton";
 import WrongAnswerBox from "./WrongAnswerBox";
 import AnswerBox from "./AnswerBox";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
-import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
+import HeaderButton from "../../Miscellaneous/Drawer/HeaderButton";
 import { moveToLink } from "../../../utils/Anchors";
 import correct from "../../../resources/Correct.mp3";
 import error from "../../../resources/Error.mp3";
-import Selector from "../Miscellaneous/Drawer/Selector";
-
-const CategoryHeader = styled(Typography, { shouldForwardProp: (props) => props !== "align" })(({ theme, align }) => ({
-	fontWeight: "bold",
-	color: "#ffffff",
-	textShadow: "0px 0px 10px #000000",
-	...(align && {
-		textAlign: align,
-	}),
-}));
-
-const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
-	height: "fit-content",
-	backgroundColor: "#455F4D",
-	color: "#f1f1f1",
-	padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
-	border: "1px solid #292929",
-	pointerEvents: "none",
-	"&>*:first-of-type": {
-		marginRight: theme.spacing(2),
-	},
-}));
+import Selector from "../../Miscellaneous/Drawer/Selector";
+import {CategoryHeader} from "../../Miscellaneous/Styled/Typography";
+import {ButtonLoading} from "../../Miscellaneous/Styled/LoadingButton";
 
 export default function Console(props) {
 	// eslint-disable-next-line no-unused-vars
@@ -148,9 +127,9 @@ export default function Console(props) {
 			userId={userId}
 			header={`Panel kontrolny`}
 			inAMiddle={
-				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />} loadingPosition="center" variant="contained">
+				<ButtonLoading startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />} loadingPosition="center" variant="contained">
 					{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer !== "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
-				</LoadingButton>
+				</ButtonLoading>
 			}
 			headerOptions={
 				<React.Fragment>
@@ -173,13 +152,13 @@ export default function Console(props) {
 					<Grid item xs="auto">
 						<CategoryHeader variant="h5">Zawartość strony</CategoryHeader>
 					</Grid>
-					<VisbilityButton
+					<VisibilityButton
 						active={visiblityStatus.question}
 						label="Wyświetl pytanie"
 						show={currentGame}
 						onClick={() => changeVisibilityStatus("question")}
 					/>
-					<VisbilityButton
+					<VisibilityButton
 						active={visiblityStatus.answers}
 						show={currentGame}
 						label="Wyświetl odpowiedź"

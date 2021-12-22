@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import GamesList from "../Game/GamesList";
-import Drawer from "../Miscellaneous/Drawer/Drawer";
+import Drawer from "../../Miscellaneous/Drawer/Drawer";
 import QuestionsList from "../Question/QuestionsList";
 
 export default function Dashboard(props) {

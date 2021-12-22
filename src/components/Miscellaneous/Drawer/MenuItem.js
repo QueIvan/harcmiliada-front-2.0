@@ -2,7 +2,7 @@ import React from "react";
 import { Collapse as MuiCollapse, Grid, Grid as MuiGrid, Typography, Tooltip } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled } from "@mui/material/styles";
-import { moveToLink } from "../../../../utils/Anchors";
+import { moveToLink } from "../../../utils/Anchors";
 import { useMatch, useNavigate, useResolvedPath } from "react-router";
 
 const MenuItemGrid = styled(MuiGrid, { shouldForwardProp: (props) => props !== "active" })(({ theme, active }) => ({

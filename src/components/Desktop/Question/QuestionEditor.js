@@ -1,13 +1,13 @@
-import Table from "../Miscellaneous/Table/Table";
+import Table from "../../Miscellaneous/Table/Table";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import Drawer from "../Miscellaneous/Drawer/Drawer";
+import Drawer from "../../Miscellaneous/Drawer/Drawer";
 import { faRandom, faSave } from "@fortawesome/free-solid-svg-icons";
 import { useSnackbar } from "notistack";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router";
 import { sortAndSave } from "../../../utils/Sorter";
-import HeaderButton from "../Miscellaneous/Drawer/HeaderButton";
+import HeaderButton from "../../Miscellaneous/Drawer/HeaderButton";
 
 const tableConfig = {
 	cells: [

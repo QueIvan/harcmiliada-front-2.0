@@ -1,10 +1,10 @@
 import { TableRow, Checkbox, TableCell, IconButton, Tooltip, TextField, Typography, Collapse, Grid } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
-import { convertDate } from "../../../../utils/Date";
+import { convertDate } from "../../../utils/Date";
 import React, { useEffect } from "react";
 import { faCheck, faSave, faStarOfLife, faTimes, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { moveToLink } from "../../../../utils/Anchors";
+import { moveToLink } from "../../../utils/Anchors";
 import { styled } from "@mui/system";
 import HeaderButton from "../Drawer/HeaderButton";
 

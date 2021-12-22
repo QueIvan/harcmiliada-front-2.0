@@ -20,8 +20,8 @@ import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router";
 import { styled } from "@mui/material/styles";
 import { faCheckSquare, faSquare, faMinusSquare } from "@fortawesome/free-regular-svg-icons";
-import EmptyPlaceholder from "../../../Miscellaneous/Placeholders/EmptyPlaceholder";
-import { moveToLink } from "../../../../utils/Anchors";
+import EmptyPlaceholder from "../Placeholders/EmptyPlaceholder";
+import { moveToLink } from "../../../utils/Anchors";
 
 const HeaderSkeleton = styled(MuiSkeleton, { shouldForwardProp: (props) => props !== "headerPlacement" })(({ theme, headerPlacement }) => ({
 	width: "35%",
