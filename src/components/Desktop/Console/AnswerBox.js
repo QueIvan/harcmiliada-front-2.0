@@ -24,7 +24,7 @@ const ButtonGrid = styled(Grid, { shouldForwardProp: (props) => props !== "activ
 	}),
 }));
 
-const ButtonTextGrid = styled(Grid)(({ theme }) => ({
+const ButtonTextGrid = styled(Grid)(( ) => ({
 	border: "8px solid #415748",
 	transition: "border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 	boxShadow: "inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
@@ -33,17 +33,17 @@ const ButtonTextGrid = styled(Grid)(({ theme }) => ({
 	justifyContent: "center",
 }));
 
-const ButtonInnerGrid = styled(Grid)(({ theme }) => ({
+const ButtonInnerGrid = styled(Grid)(( ) => ({
 	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%)",
 }));
 
-const ButtonText = styled(Typography, { shouldForwardProp: (props) => props !== "hiddenLabel" })(({ theme, hiddenLabel }) => ({
+const ButtonText = styled(Typography)(({ theme }) => ({
 	padding: theme.spacing(2),
 	textAlign: "center",
 	textShadow: "0px 0px 10px #000000",
 }));
 
-const ButtonSkeleton = styled(Skeleton)(({ theme }) => ({
+const ButtonSkeleton = styled(Skeleton)(( ) => ({
 	width: "407px",
 	height: "98px",
 }));
@@ -52,7 +52,7 @@ export default function AnswerBox(props) {
 	const { data, active, onClick, showSkeleton, removeHover } = props;
 
 	return (
-		<BackgroundGrid container item xs={4} onClick={onClick}>
+		<BackgroundGrid container item xs={6} onClick={onClick}>
 			{showSkeleton ? (
 				<ButtonSkeleton variant="rectangle" />
 			) : (

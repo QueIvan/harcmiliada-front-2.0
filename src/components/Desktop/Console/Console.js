@@ -147,14 +147,12 @@ export default function Console(props) {
 		<Drawer
 			userId={userId}
 			header={`Panel kontrolny`}
-			inAMiddle={
-				<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />} loadingPosition="center" variant="contained">
-					{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer !== "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
-				</LoadingButton>
-			}
 			headerOptions={
 				<React.Fragment>
 					<HeaderButton onClick={openBoard} tooltip="Otwórz tablicę" placement="bottom" size="lg" icon={faChalkboard} />
+					<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />} loadingPosition="center" variant="contained">
+						{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer === "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}
+					</LoadingButton>
 					<Autocomplete
 						options={currentGame ? currentGame?.questions?.map((question) => ({ label: question.content, value: question.id })) : []}
 						isOptionEqualToValue={(option, value) => option.label === value}

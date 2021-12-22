@@ -18,7 +18,7 @@ const ButtonGrid = styled(Grid)(({ theme }) => ({
 	boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
 }));
 
-const InnerGrid = styled(Grid)(({ theme }) => ({
+const InnerGrid = styled(Grid)(() => ({
 	borderRadius: "16px",
 	border: "8px solid #415748",
 	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%), inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
@@ -60,7 +60,7 @@ const WrongBoxBackground = styled(Grid)(({ theme }) => ({
 	alignItems: "center",
 }));
 
-const WrongBoxIcon = styled(FontAwesomeIcon)(({ theme }) => ({
+const WrongBoxIcon = styled(FontAwesomeIcon)(( ) => ({
 	fontSize: "3rem",
 	height: "fill-available",
 	filter: "drop-shadow(0px 0px 5px rgb(0 0 0 / 90%))",
@@ -78,14 +78,13 @@ export default function WrongAnswerBox(props) {
 	return (
 		<BackgroundGrid container item xs={12}>
 			{show ? (
-				<ButtonGrid container item xs={10}>
+				<ButtonGrid container item xs={12}>
 					<InnerGrid container item xs={12}>
-						<Grid item xs={1.5}>
+						<Grid item xs={2}>
 							<Button size="small" onClick={() => onClick("minus")}>
 								<FontAwesomeIcon size="xs" icon={faMinus} />
 							</Button>
 						</Grid>
-						<Grid item xs={0.5}></Grid>
 						<Grid container item xs={8} py={1.5}>
 							{Array.from(Array(3).keys()).map((i, index, arr) => (
 								<WrongBoxGrid key={i} active={i < quantity} container item xs={12 / arr.length}>
@@ -95,8 +94,7 @@ export default function WrongAnswerBox(props) {
 								</WrongBoxGrid>
 							))}
 						</Grid>
-						<Grid item xs={0.5}></Grid>
-						<Grid item xs={1.5}>
+						<Grid item xs={2}>
 							<Button size="small" onClick={() => onClick("plus")}>
 								<FontAwesomeIcon size="xs" icon={faPlus} />
 							</Button>
