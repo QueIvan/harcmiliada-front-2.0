@@ -14,7 +14,7 @@ const ButtonGrid = styled(Grid, { shouldForwardProp: (props) => props !== "activ
 	...(active && { backgroundColor: "#415748", color: "#e1e1e1", "&>.MuiGrid-root>.MuiGrid-root": { borderColor: "#364b3d" } }),
 }));
 
-const ButtonTextGrid = styled(Grid)(({ theme }) => ({
+const ButtonTextGrid = styled(Grid)(() => ({
 	border: "8px solid #415748",
 	boxShadow: "inset 0px 0px 5px 0px rgb(0 0 0 / 90%)",
 	display: "flex",
@@ -22,7 +22,7 @@ const ButtonTextGrid = styled(Grid)(({ theme }) => ({
 	justifyContent: "center",
 }));
 
-const ButtonInnerGrid = styled(Grid)(({ theme }) => ({
+const ButtonInnerGrid = styled(Grid)(() => ({
 	boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 90%)",
 }));
 
@@ -58,7 +58,7 @@ export default function AnswerBox(props) {
 							<React.Fragment>
 								<ButtonTextGrid item xs={10}>
 									<ButtonText variant="h6" align="center">
-										{answer.content}
+										{answer.content.charAt(0).toUpperCase() + answer.content.slice(1)}
 									</ButtonText>
 								</ButtonTextGrid>
 								<ButtonTextGrid item xs={2} sx={{ borderLeft: "none" }}>
