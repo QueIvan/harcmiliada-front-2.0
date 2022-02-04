@@ -102,7 +102,7 @@ const AccountContainer = styled(Grid)(({ theme }) => ({
 
 const AccountStyling = styled(Grid)(({ theme }) => ({
 	height: "100%",
-	width: "32px",
+	width: "32px !important",
 	backgroundColor: "#0D4440",
 	border: "2px solid #c1c1c1",
 	borderRadius: "50%",
@@ -272,7 +272,7 @@ export default function Drawer(props) {
 
 	const handleRemoveUser = (e, old, removeValue) => {
 		let group = { ...old, users: old?.users.filter((user) => user !== (removeValue ? removeValue : inputRef.current.value)) };
-		handleDatabaseCall(`${process.env.REACT_APP_API_URL}/groups/${userId}`, "PUT", group, removeValue || inputRef.current.value === userId ? true : false);
+		handleDatabaseCall(`${process.env.REACT_APP_API_URL}/groups/${userId}`, "PUT", group, removeValue || inputRef.current.value === userId);
 	};
 
 	const handleAdminChange = (e, old) => {
@@ -635,7 +635,7 @@ export default function Drawer(props) {
 					<HeaderButton onClick={() => setInputDialog(createGroupConfig)} tooltip="Stwórz nową grupę" placement="bottom" size="1x" icon={faPlus} />
 				</DialogActions>
 			</Dialog>
-			<Dialog open={inputDialog ? true : false} PaperComponent={Paper} scroll="paper" PaperProps={{ style: { minWidth: "450px" } }}>
+			<Dialog open={inputDialog} PaperComponent={Paper} scroll="paper" PaperProps={{ style: { minWidth: "450px" } }}>
 				<DialogTitle>
 					{inputDialog?.title}
 					<HeaderButton
