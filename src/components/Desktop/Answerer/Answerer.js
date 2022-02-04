@@ -90,7 +90,7 @@ export default function Answerer(props) {
                 </Grid>
                 <Grid item xs={12}>
                     <ButtonText variant="h3" align="center">
-                        Aby zgłosić chęć odpowidzi wciśnij spację
+                        Aby zgłosić chęć odpowidzi wciśnij przycisk poniżej
                     </ButtonText>
                 </Grid>
                 <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
