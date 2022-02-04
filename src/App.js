@@ -24,6 +24,7 @@ import { isBrowser, isTablet } from "react-device-detect";
 import MoGames from "./components/Mobile/Game/MoGames";
 import MoQuestions from "./components/Mobile/Question/MoQuestions";
 import MoQuestionEditor from "./components/Mobile/Question/MoQuestionEditor";
+import Answerer from "./components/Desktop/Answerer/Answerer";
 
 const SnackBarIcon = styled(FontAwesomeIcon)(({ theme }) => ({ marginRight: "16px" }));
 
@@ -122,6 +123,7 @@ function App() {
 				{isTablet || isBrowser ? (
 					<Router>
 						<Routes>
+							<Route exact path="/games/:id/answerer/:side" element={<Answerer title="Odpowiadający" />} />
 							{isAuthenticated && (
 								<React.Fragment>
 									<Route exact path="/" element={<Dashboard userId={user?.sub} title="Pulpit" />} />

@@ -1,7 +1,7 @@
 import { Autocomplete, Grid, Typography } from "@mui/material";
 import { LoadingButton as MuiLoadingButton } from "@mui/lab";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChalkboard, faChild, faMale } from "@fortawesome/free-solid-svg-icons";
+import {faChalkboard, faChild, faMale} from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
@@ -18,6 +18,7 @@ import { moveToLink } from "../../../utils/Anchors";
 import correct from "../../../resources/Correct.mp3";
 import error from "../../../resources/Error.mp3";
 import Selector from "../Miscellaneous/Drawer/Selector";
+import {faArrowAltCircleRight, faArrowAltCircleLeft} from "@fortawesome/free-regular-svg-icons";
 
 const CategoryHeader = styled(Typography, { shouldForwardProp: (props) => props !== "align" })(({ theme, align }) => ({
 	fontWeight: "bold",
@@ -110,8 +111,18 @@ export default function Console(props) {
 		moveToLink(`/games/${id}/board`, nav, "_blank");
 	};
 
+	const copyURL = (side) => {
+		navigator.clipboard.writeText(`https://harcmiliada.pl/games/${id}/answerer/${side}`)
+		enqueueSnackbar(`Skopiowano link dla strony: ${side}`, { variant: "info", autoHideDuration: 1500 });
+	}
+
 	const listenForCommand = () => {
-		socket.on("setAnswerer", (side) => setCurrentAnswerer(side));
+		socket.on("setAnswerer", (side) => {
+			setCurrentAnswerer(side);
+			setTimeout(() => {
+				setCurrentAnswerer(null);
+			}, 5000);
+		});
 	};
 
 	useEffect(() => {
@@ -149,6 +160,8 @@ export default function Console(props) {
 			header={`Panel kontrolny`}
 			headerOptions={
 				<React.Fragment>
+					<HeaderButton onClick={() => copyURL("left")} tooltip="Skopiuj link dla opowiadającego drużyny lewej" placement="bottom" size="lg" icon={faArrowAltCircleLeft} />
+					<HeaderButton onClick={() => copyURL("right")} tooltip="Skopiuj link dla opowiadającego drużyny prawej" placement="bottom" size="lg" icon={faArrowAltCircleRight} />
 					<HeaderButton onClick={openBoard} tooltip="Otwórz tablicę" placement="bottom" size="lg" icon={faChalkboard} />
 					<LoadingButton startIcon={<FontAwesomeIcon size="lg" icon={currentAnswerer ? faChild : faMale} />} loadingPosition="center" variant="contained">
 						{`Obecnie ${currentAnswerer ? `odpowiada ${currentAnswerer === "left" ? "lewa" : "prawa"} strona` : "nikt nie odpowiada"}`}

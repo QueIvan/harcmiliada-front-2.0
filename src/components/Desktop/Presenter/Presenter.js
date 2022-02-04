@@ -29,7 +29,7 @@ const ButtonText = styled(Typography, { shouldForwardProp: (props) => props !== 
 	textShadow: "0px 0px 10px #000000",
 }));
 
-const LoadingButton = styled(MuiLoadingButton)(({ theme, row }) => ({
+const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
 	height: "fit-content",
 	backgroundColor: "#455F4D",
 	color: "#f1f1f1",
@@ -65,6 +65,9 @@ export default function Presenter(props) {
 		});
 		socket.on("setAnswerer", (side) => {
 			setCurrentAnswerer(side);
+			setTimeout(() => {
+				setCurrentAnswerer(null);
+			}, 5000);
 		});
 	};
 
